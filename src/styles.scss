@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~normalize.css/normalize.css';
+.mat-drawer.mat-drawer-side{
+  z-index: 0 !important;
+}
+.mat-display-3{
+  margin: 0px;
+  font-weight: 100;
+}
+.mat-subheading-2{
+  color: #828282;
+}
