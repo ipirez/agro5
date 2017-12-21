@@ -5,7 +5,7 @@ export class AuthService {
   private userState;
   public username;
   constructor() {
-    this.userState = true;
+    this.userState = false;
   }
   toggleState(){
     this.userState = this.userState ? false : true;

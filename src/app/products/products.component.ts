@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit, ViewChild, ComponentFactoryResolver, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from "@angular/router"
+import {ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError} from "@angular/router"
 import {ProductsInterface} from './productsInterface.component'
 import {ProductsNewComponent} from './new/productsNew.component'
 import {ProductsNewFlowComponent} from './flow/productFlow.component'
@@ -17,9 +17,29 @@ export class ProductsComponent implements AfterViewInit{
   @ViewChild(ProductsDirective) productHost: ProductsDirective;
   public userName: string;
   private steep : string;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private route: ActivatedRoute) {
-    this.steep = route.snapshot.params['steep']
-    //this.loadComponent()
+  constructor(
+    private routerChange : Router,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private route: ActivatedRoute
+    ) {
+    routerChange.events.subscribe( (event: Event) => {
+
+            if (event instanceof NavigationStart) {
+                // Show loading indicator
+            }
+
+            if (event instanceof NavigationEnd) {
+                // Hide loading indicator
+                this.steep = route.snapshot.params['steep']
+                this.loadComponent();
+            }
+
+            if (event instanceof NavigationError) {
+                // Hide loading indicator
+                // Present error to user
+                console.log(event.error);
+            }
+        });
   }
   ngAfterViewInit() {
     //NOTE: este time out se tiene que cambiar a una promesa esto es en un fix temporal
@@ -37,7 +57,6 @@ export class ProductsComponent implements AfterViewInit{
         componentContainer = ProductsNewComponent
       break;
       case 'flow':
-      console.log('heeeereeeeeee')
         componentContainer = ProductsNewFlowComponent
       break;
       default:

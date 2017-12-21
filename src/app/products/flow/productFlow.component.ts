@@ -1,12 +1,13 @@
 import { Component, Input  }  from '@angular/core';
 import { ProductsInterface } from './../productsInterface.component';
+import {Router} from '@angular/router';
 
 @Component({
   templateUrl:'./productFlow.component.html',
   styleUrls: ['./productFlow.component.scss']
 })
 export class ProductsNewFlowComponent implements ProductsInterface{
-
+  constructor(private router: Router){}
   @Input() data: any;
   visible: boolean = true;
 selectable: boolean = true;
