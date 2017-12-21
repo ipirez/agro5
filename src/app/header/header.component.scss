@@ -1,0 +1,46 @@
+.header{
+  overflow: hidden;
+}
+.mainRow{
+  margin-left: -16px;
+  width: 220px;
+  height: 100%;
+  background: rgba(183,28,28,1) url('../../assets/logo.png') no-repeat center center;
+}
+.buttonMenu p{
+  display: inline-block !important;
+  vertical-align: middle;
+}
+.rightMenu{
+  width: 100%;
+  text-align: right;
+}
+.rightMenu .left{
+  margin-right: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.rightMenu .right{
+  display: inline-block;
+  vertical-align: middle;
+}
+.rightMenu .left .notification{
+    background: red;
+    border-radius: 100%;
+    color: #fff;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+.notification span{
+  transform: translate(-50%, -20%);
+  position: absolute;
+}
+.accountImage{
+  font-size: 40px;
+  margin-right: 5px;
+  margin-top: -15px;
+}

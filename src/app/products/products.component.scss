@@ -1,0 +1,49 @@
+//test
+.product{
+  margin: 2%;
+}
+
+.product .header{
+  text-align: center;
+}
+  .product .row{
+      height: 50px;
+      margin-bottom: 25px;
+  }
+    .row p{
+      width: calc(100% - 50px);
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .row .help{
+      display: inline-block;
+    }
+    .row button{
+      float: right;
+    }
+//lista de productos
+.cardFull{
+  margin-bottom: 30px;
+}
+.cardFull .image{
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.cardFull .options{
+  position: absolute;
+  right: 10px;
+  top: 20px;
+  color: rgba(117,117,117,1);
+}
+
+.border{
+  border-top: 1px solid rgba(221,221,221,1);
+  width: 200px !important;
+  padding-top: 5px;
+}
+.mat-card>:last-child:not(.mat-card-footer){
+  margin-top: 10px;
+}
+.mat-card{
+  padding: 10px 24px !important;
+}
