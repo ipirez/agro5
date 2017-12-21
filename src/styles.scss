@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 @import '~normalize.css/normalize.css';
 .mat-drawer.mat-drawer-side{
   z-index: 0 !important;
@@ -9,4 +10,15 @@
 }
 .mat-subheading-2{
   color: #828282;
+}
+.inputPicker{
+  width: 100px;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.inputPicker input{
+  background: transparent !important;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid grey;
 }

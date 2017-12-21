@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 //Routing
 import { AppRoutingModule } from './app-routing.module';
+//extra modules
+import { ColorPickerModule } from 'ngx-color-picker';
+import { DateTimePickerModule } from 'ng-pick-datetime';
+
 //Pages
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -20,7 +24,7 @@ import { ProductsComponent } from './products/products.component';
 import {ProductsNewComponent} from './products/new/productsNew.component'
 import {ProductsDirective} from './products/products.directive'
 import {ProductsListComponent} from './products/list/productsList.component'
-import { ColorPickerModule } from 'ngx-color-picker';
+import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
 
 @NgModule({
   declarations: [
@@ -36,17 +40,19 @@ import { ColorPickerModule } from 'ngx-color-picker';
     ContactsComponent,
     ProductsNewComponent,
     ProductsDirective,
-    ProductsListComponent
+    ProductsListComponent,
+    ProductsNewFlowComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
-    ColorPickerModule
+    ColorPickerModule,
+    DateTimePickerModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ProductsNewComponent,ProductsListComponent],
+  entryComponents: [ProductsNewComponent,ProductsListComponent,ProductsNewFlowComponent],
 })
 export class AppModule { }
