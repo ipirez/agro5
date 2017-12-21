@@ -27,13 +27,11 @@ export class ProductsComponent implements AfterViewInit{
             if (event instanceof NavigationStart) {
                 // Show loading indicator
             }
-
             if (event instanceof NavigationEnd) {
                 // Hide loading indicator
                 this.steep = route.snapshot.params['steep']
                 this.loadComponent();
             }
-
             if (event instanceof NavigationError) {
                 // Hide loading indicator
                 // Present error to user
