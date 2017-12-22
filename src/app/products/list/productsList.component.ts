@@ -1,4 +1,4 @@
-import { Component, Input }  from '@angular/core';
+import { Component, Input, OnInit }  from '@angular/core';
 import { ProductsInterface } from './../productsInterface.component';
 
 @Component({
@@ -6,7 +6,7 @@ import { ProductsInterface } from './../productsInterface.component';
   <div class="product">
     <div class="header">
       <div class="row">
-        <p>Hola, {{userName}} </p>
+        <p class="mat-title">Hola, {{userName}} </p>
         <button mat-icon-button class="help">
           <mat-icon>help</mat-icon>
         </button>
@@ -35,6 +35,11 @@ import { ProductsInterface } from './../productsInterface.component';
   `,
   styleUrls: ['./../products.component.scss']
 })
-export class ProductsListComponent implements ProductsInterface {
+export class ProductsListComponent implements ProductsInterface,OnInit {
   @Input() data: any;
+  public userName: string;
+
+  ngOnInit() {
+    this.userName = "ADMIN"
+  }
 }
