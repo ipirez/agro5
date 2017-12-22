@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 //Routing
 import { AppRoutingModule } from './app-routing.module';
+//HttpClient
+import {HttpClientModule} from '@angular/common/http';
 //extra modules
 import { ColorPickerModule } from 'ngx-color-picker';
 import { DateTimePickerModule } from 'ng-pick-datetime';
@@ -47,6 +49,7 @@ import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ColorPickerModule,
     DateTimePickerModule

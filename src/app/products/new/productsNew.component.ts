@@ -1,6 +1,8 @@
 import { Component, Input }  from '@angular/core';
+import {Router} from '@angular/router';
 import { ProductsInterface } from './../productsInterface.component';
-
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 @Component({
   template:`
   <div class="product">
@@ -71,7 +73,7 @@ import { ProductsInterface } from './../productsInterface.component';
         </div>
         <div class="actionButtons">
           <button mat-button matStepperPrevious>Cancelar</button>
-          <button mat-raised-button color="primary" routerLink="/products/flow">Continuar</button>
+          <button mat-raised-button color="primary" (click)="addProduct()">Continuar</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>
@@ -81,4 +83,21 @@ import { ProductsInterface } from './../productsInterface.component';
 })
 export class ProductsNewComponent implements ProductsInterface {
   @Input() data: any;
+  constructor(public http: HttpClient, private router: Router){}
+  /*addProduct(product: <any>): Observable<any>{
+    this.http.post('http://10.175.107.191:8080/product',
+      {
+        "id": "que pedo",
+        "name": "como estas"
+      })
+          .subscribe(
+            res => {
+              console.log(res);
+              this.router.navigate(['/product/flow'])
+            },
+            err => {
+              console.log("Error occured");
+            }
+          );
+  }*/
 }
