@@ -84,8 +84,9 @@ import { Observable } from 'rxjs/Observable';
 export class ProductsNewComponent implements ProductsInterface {
   @Input() data: any;
   constructor(public http: HttpClient, private router: Router){}
-  /*addProduct(product: <any>): Observable<any>{
-    this.http.post('http://10.175.107.191:8080/product',
+  addProduct(){
+    this.router.navigate(['/products/flow'])
+    /*this.http.post('http://10.175.107.191:8080/product',
       {
         "id": "que pedo",
         "name": "como estas"
