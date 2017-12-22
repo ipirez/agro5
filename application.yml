@@ -1,0 +1,7 @@
+FRONT:
+DESCRIPTION: workflowPyme  Front
+DOCKER_REGISTRY_PROJECT: workflowPyme
+IMAGE_VERSION: 0.0.61-SNAPSHOT
+DOCKER_REGISTRY_HOSTNAME: registry.lvtc.gsnet.corp
+IMAGE_NAME: workflowPyme-front
+SOURCE_IMAGE_NAME: registry.lvtc.gsnet.corp/produban/nginx:0.0.1.RELEASE

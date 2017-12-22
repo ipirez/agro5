@@ -1,0 +1,73 @@
+<div class="product">
+  <div class="header">
+      <div class="row">
+        <div class="left">
+          <button mat-icon-button class="backTitle" routerLink="/products/new">
+            <mat-icon>arrow_back</mat-icon> PRODUCT NAME
+          </button>
+        </div>
+        <div class="right">
+          <button mat-icon-button class="iconButton">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <button mat-raised-button color="primary">
+            PREVISUALIZAR
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <mat-chip-list #chipList class="inlineChipSet">
+          <mat-chip color="primary" *ngFor="let fruit of fruits" class="mat-subheading-2">
+            <span class="type">E</span>
+            {{fruit.name}}
+            <mat-icon matChipRemove *ngIf="removable" color="red">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <mat-icon class="inlineChipSet">arrow_forward</mat-icon>
+        <button mat-button color="accent" class="inlineChipSet" style="margin-top: -5px;">Agregar flujo</button>
+      </div>
+  </div>
+  <div class="steepContainer">
+    <mat-form-field class="flowName">
+      <input type="text" matInput placeholder="Nombre del flujo" id="flowName-1">
+    </mat-form-field>
+  <div class="left">
+    <mat-form-field>
+      <mat-select placeholder="Tipo de usuario">
+        <mat-option *ngFor="let food of foods" [value]="food.value">
+          {{ food.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="right">
+    <mat-icon style="margin-top: 5px; color: rgba(117,117,117,1); vertical-align:top;">access_time</mat-icon>
+    <mat-slide-toggle class="clockIcon" id="flowToggleSLA-1">SLA</mat-slide-toggle>
+    <div class="timerHolder">
+      <owl-date-time styleClass="inputPicker" [type]="'timer'" [dateFormat]="'hh:mm'" [placeHolder]="'hrs.'" id="flowTimePicker-1"></owl-date-time>
+    </div>
+  </div>
+    <mat-card class="cardFull">
+      <mat-card-header>
+          <mat-form-field class="SteepName">
+            <input type="text" matInput placeholder="Nombre del paso" id="flowSteep-1">
+          </mat-form-field>
+          <mat-menu #options="matMenu">
+            <button mat-menu-item> <mat-icon >edit</mat-icon> Editar </button>
+            <button mat-menu-item> <mat-icon >content_copy</mat-icon> Duplicar </button>
+            <button mat-menu-item class="border"> <mat-icon >delete</mat-icon> Eliminar </button>
+          </mat-menu>
+
+          <button mat-icon-button [matMenuTriggerFor]="options" class="options">
+          <mat-icon >more_vert</mat-icon>
+          </button>
+      </mat-card-header>
+      <div class="dragableBox">
+
+      </div>
+    </mat-card>
+    <div class="add">
+      <p>+ Agregar paso</p>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,11 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<ul>
-  <li><a routerLink="">Home</a></li>
-  <li><a routerLink="">Login</a></li>
-</ul>
-<app-home></app-home>
-<router-outlet></router-outlet>
+<div class="wrapper">
+  <app-header></app-header>
+  <mat-sidenav-container class="container">
+    <mat-sidenav mode="side" opened="true" class="sideNav">
+    <app-menu></app-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

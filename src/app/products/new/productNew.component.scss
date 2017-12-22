@@ -1,0 +1,112 @@
+.product{
+  margin: 2%;
+}
+.mat-horizontal-stepper-header-container{
+  display: none;
+  width: 200px !important;
+  margin: 0 auto;
+}
+.mat-card-actions{
+  text-align: center;
+}
+.product .header{
+  text-align: center;
+}
+.header h1{
+  font-weight: 100;
+  margin-bottom: 5px;
+}
+  //nuevo producto
+  .cardFull{
+    margin-bottom: 30px;
+  }
+  .cardFull .inner{
+    width: 50%;
+    margin-left: 25%;
+  }
+  .inner.full{
+    width: 90% !important;
+    margin-left: 5% !important;
+  }
+  .cardFull .inner .imageUploader{
+    width: 110px;
+    height: 110px;
+    border-radius: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    animation: all .5s linear;
+    overflow: hidden;
+    background: rgb(238,238,238) url('/assets/download.png') no-repeat center center / 25px 25px;
+    margin-right: 20px;
+  }
+    .imageUploader:hover{
+      background-color:rgba(192,192,192,.7);
+    }
+  .inner .imageUploader input{
+    width: 110px;
+    height: 110px;
+    overflow: hidden;
+    opacity: 0;
+  }
+  .inner .textInput{
+    width: calc(100% - 160px);
+  }
+
+  .fullInput{
+    width: 98%;
+  }
+  .table{
+    width: calc(100% - 140px);
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .formRow{
+    width: 100%;
+  }
+  .formRow .inputHalf{
+    width: 49.5%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .formRow .input-2Special{
+    width: 30%;
+    display: inline-block;
+  }
+.options{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.color{
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 15px;
+  border-radius: 5px;
+  background:rgb(238,238,238);
+}
+.add{
+  margin-top: 30px;
+  border-top: 3px solid rgb(238,238,238);
+}
+.add p{
+  margin: 0px;
+  text-align: center;
+  margin-top: -10px;
+  background: rgba(255, 255, 255, 0);
+  width: 210px;
+  margin-left: calc(50% - 105px);
+  text-transform: uppercase;
+  color:rgb(238,238,238);
+  cursor: pointer;
+}
+.actionButtons{
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  margin-top: 50px;
+}
+.mat-stepper-horizontal, .mat-stepper-vertical{
+  background: transparent;
+}
