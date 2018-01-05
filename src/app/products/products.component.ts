@@ -49,7 +49,6 @@ export class ProductsComponent implements AfterViewInit{
   }
   loadComponent() {
     let componentContainer = null
-    console.log(this.steep)
     switch(this.steep){
       case 'new':
         componentContainer = ProductsNewComponent
