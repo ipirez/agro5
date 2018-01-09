@@ -1,11 +1,16 @@
 //Core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 //Routing
 import { AppRoutingModule } from './app-routing.module';
+//HttpClient
+import {HttpClientModule} from '@angular/common/http';
 //extra modules
 import { ColorPickerModule } from 'ngx-color-picker';
 import { DateTimePickerModule } from 'ng-pick-datetime';
+//form errors & validations
+import { ShowErrorsComponent } from './tools/errors.validators';
 
 //Pages
 import { AppComponent } from './app.component';
@@ -41,15 +46,19 @@ import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
     ProductsNewComponent,
     ProductsDirective,
     ProductsListComponent,
-    ProductsNewFlowComponent
+    ProductsNewFlowComponent,
+    ShowErrorsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ColorPickerModule,
-    DateTimePickerModule
+    DateTimePickerModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

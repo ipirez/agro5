@@ -36,7 +36,11 @@
     vertical-align: middle;
     animation: all .5s linear;
     overflow: hidden;
-    background: rgb(238,238,238) url('/assets/download.png') no-repeat center center / 25px 25px;
+    background-color: rgb(238,238,238);
+    background-repeat:  no-repeat ;
+    background-position: center center;
+    //background-size: cover;
+    background-image: url('/assets/upload.png');
     margin-right: 20px;
   }
     .imageUploader:hover{
@@ -50,8 +54,15 @@
   }
   .inner .textInput{
     width: calc(100% - 160px);
+    display: inline-block;
+    vertical-align: middle;
   }
-
+  .inner .textInput .mat-input-container{
+    width: 100% !important;
+  }
+.formHolder .mat-input-container{
+  width: 100% !important;
+}
   .fullInput{
     width: 98%;
   }
@@ -71,6 +82,11 @@
   .formRow .input-2Special{
     width: 30%;
     display: inline-block;
+    vertical-align: middle;
+  }
+  .input-2Special .mat-input-container{
+    display: inline-block;
+    width: calc(100% - 50px) !important;
   }
 .options{
   position: absolute;

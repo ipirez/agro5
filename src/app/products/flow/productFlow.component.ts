@@ -19,7 +19,7 @@ public input3Moment: any;
   ];
   foods = [
     {value: 'steak-0', viewValue: 'Ejecutivo'},
-    {value: 'pizza-1', viewValue: 'Externo'},
+    {value: 'pizza-1', viewValue: 'Aseguradora'},
   ];
 
       public moment: Date = new Date();
