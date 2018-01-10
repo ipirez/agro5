@@ -150,7 +150,7 @@ export class ProductsNewComponent implements ProductsInterface {
       }
       //aqui va el post
        let headers = new HttpHeaders().set('Content-Type','application/json')
-       return this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product', JSON.stringify(payload), {headers: headers})
+       return this.http.post('http://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product', JSON.stringify(payload), {headers: headers})
     }
     else{
       this.secondFormGroup.updateValueAndValidity()

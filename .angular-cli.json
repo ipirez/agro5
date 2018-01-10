@@ -22,10 +22,15 @@
         "styles.scss",
         "theming.scss",
          "../node_modules/material-design-icons/iconfont/material-icons.css",
-         "assets/font/stylesheet.css"
+         "assets/font/stylesheet.css",
+        "assets/sass/form-builder.scss",
+        "assets/sass/form-render.scss"
       ],
       "scripts": [
-        "../node_modules/hammerjs/hammer.min.js"
+        "../node_modules/hammerjs/hammer.min.js",
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/jquery-ui-sortable/jquery-ui.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

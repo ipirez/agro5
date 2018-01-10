@@ -34,3 +34,15 @@
   padding: 0px;
   margin: 0px;
 }
+.stage-wrap.empty{
+  background: url('/assets/flow001.png') no-repeat center center;
+}
+.form-wrap.form-builder .stage-wrap{
+  float: right !important;
+  width: 100% !important;
+}
+.form-wrap.form-builder .cb-wrap{
+  position: absolute !important;
+  left: -25% !important;
+  width: 250px !important;
+}
