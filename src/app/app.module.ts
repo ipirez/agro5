@@ -11,7 +11,6 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { DateTimePickerModule } from 'ng-pick-datetime';
 //form errors & validations
 import { ShowErrorsComponent } from './tools/errors.validators';
-
 //Pages
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -30,7 +29,6 @@ import {ProductsNewComponent} from './products/new/productsNew.component'
 import {ProductsDirective} from './products/products.directive'
 import {ProductsListComponent} from './products/list/productsList.component'
 import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
-
 @NgModule({
   declarations: [
     AppComponent,
