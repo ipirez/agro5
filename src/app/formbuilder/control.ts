@@ -39,6 +39,7 @@ export class control {
         // make a copy of config so we don't change the object reference
         config = $.extend({}, config);
         this.preview = preview;
+
         delete config.isPreview;
         if (this.preview) {
             delete config.required;

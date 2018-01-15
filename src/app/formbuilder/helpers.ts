@@ -55,6 +55,7 @@ export default class Helpers {
      * @param  {Object} ui
      */
     stopMoving(event, ui) {
+
         let _this = this;
         ui.item.removeClass('moving');
         if (_this.doCancel) {
@@ -78,6 +79,7 @@ export default class Helpers {
         let _this = this;
         const opts = (<any>config).opts;
         const form = _this.d.stage;
+
         let lastIndex = form.childNodes.length - 1;
         let cancelArray = [];
         _this.stopIndex = ui.placeholder.index() - 1;
@@ -196,13 +198,12 @@ export default class Helpers {
             // build data object
             utils.forEach(form.childNodes, function (index, field) {
                 let $field = $(field);
-
                 if (!($field.hasClass('disabled-field'))) {
+
                     let fieldData: any = _this.getTypes($field);
                     let $roleInputs: any = $('.roles-field:checked', field);
                     let roleVals = $roleInputs
                         .map(index => $roleInputs[index].value).get();
-
                     _this.setAttrVals(field, fieldData);
 
                     if (fieldData.subtype) {
@@ -247,7 +248,6 @@ export default class Helpers {
                 }
             });
         }
-
         return formData;
     }
 
@@ -1063,7 +1063,7 @@ export default class Helpers {
      * @param  {Object} attrs [description]
      * @return {Object} DOM element
      */
-    input(attrs = {}) {
+    input(attrs = {className:'mdl-textfield__input'}) {
         return m('input', null, attrs);
     }
 
@@ -1088,7 +1088,6 @@ export default class Helpers {
                 return formData;
             }
         };
-
         return data[type](formatted);
     }
 

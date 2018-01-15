@@ -43,6 +43,12 @@
 }
 .form-wrap.form-builder .cb-wrap{
   position: absolute !important;
-  left: -25% !important;
-  width: 250px !important;
+  left: -50% !important;
+  background: #fff;
+  box-shadow: 2px 2px 2px black;
+  width: 300px !important;
+  top: -100px !important;
+}
+.prev-holder{
+  display: none !important;
 }

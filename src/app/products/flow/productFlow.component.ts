@@ -8,7 +8,7 @@ import I18N from "./../../formbuilder/mi18n";
 const options = {
   controlPosition: 'left',
   dataType: 'json',
-  disableFields: ['autocomplete'],
+  disableFields: ['autocomplete','hidden','header','paragraph','button'],
   //disabledAttrs: ['label'],
   showActionButtons: false,
   stickyControls: {
@@ -65,10 +65,13 @@ function initJq() {
 }
 @Component({
   templateUrl:'./productFlow.component.html',
-  styleUrls: ['./productFlow.component.scss']
+  styleUrls: ['./productFlow.component.scss'],
+  providers: [
+    { provide: Window, useValue: window }
+  ]
 })
 export class ProductsNewFlowComponent implements ProductsInterface{
-  constructor(private router: Router){
+  constructor(private router: Router, private window: Window){
   }
   @Input() data: any;
   visible: boolean = true;
@@ -81,6 +84,12 @@ formBuilder: any;
 ngOnInit(): void {
   initJq();
   this.formBuilder = (<any>jQuery('.build-wrap')).formBuilder(options);
+  setTimeout(()=>{
+    this.fuckOff()
+  },300)
+}
+fuckOff(){
+  jQuery('.cb-wrap ul').addClass('mdl-list')
 }
   fruits = [
     { name: 'Flujo 1',color:'primary' },
