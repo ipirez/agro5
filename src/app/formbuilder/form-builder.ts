@@ -400,7 +400,7 @@ const FormBuilder =  (opts, element) =>{
         }
 
         stageWrap.classList.remove('empty');
-        //window.componentHandler.upgradeDom()
+        window.componentHandler.upgradeDom()
     };
 
     // Parse saved XML template data Dicarted
