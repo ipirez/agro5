@@ -66,12 +66,10 @@ function initJq() {
 @Component({
   templateUrl:'./productFlow.component.html',
   styleUrls: ['./productFlow.component.scss'],
-  providers: [
-    { provide: Window, useValue: window }
-  ]
+  providers: []
 })
 export class ProductsNewFlowComponent implements ProductsInterface{
-  constructor(private router: Router, private window: Window){
+  constructor(private router: Router){
   }
   @Input() data: any;
   visible: boolean = true;
@@ -86,7 +84,7 @@ ngOnInit(): void {
   this.formBuilder = (<any>jQuery('.build-wrap')).formBuilder(options);
   setTimeout(()=>{
     this.fuckOff()
-  },300)
+  },200)
 }
 fuckOff(){
   jQuery('.cb-wrap ul').addClass('mdl-list')
@@ -104,7 +102,7 @@ fuckOff(){
       public min = new Date(2017, 7, 9);
       public max = new Date(2017, 8, 10);
       public disabledDates = [new Date(2017, 7, 9),
-          new Date(2017, 7, 12), new Date(2017, 7, 15), new Date(2017, 7, 20)];
+      new Date(2017, 7, 12), new Date(2017, 7, 15), new Date(2017, 7, 20)];
 
       public pickerColor: string = '#0070ba';
 }

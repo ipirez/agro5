@@ -12,14 +12,9 @@ import { control } from './control';
 import "jquery";
 import controlCustom from "./controls/custom";
 import I18N from "./mi18n";
-
-
 let instanceTime = new Date().getTime();
 
-
-
 export class FormBuilderCreateor {
-
   getFormBuilder(opts: any, element: any) {
       return   FormBuilder(opts,element);
     }
@@ -35,7 +30,6 @@ const FormBuilder =  (opts, element) =>{
     const i18n = I18N.current;
     const formID = 'frmb-' + instanceTime++;
     const data: any = new Data(formID);
-
     const d: any = new Dom(formID);
      // prepare a new layout object with appropriate templates
     if (!opts.layout) {
@@ -400,7 +394,7 @@ const FormBuilder =  (opts, element) =>{
         }
 
         stageWrap.classList.remove('empty');
-        window.componentHandler.upgradeDom()
+        d.domWindow.componentHandler.upgradeDom()
     };
 
     // Parse saved XML template data Dicarted
@@ -1100,7 +1094,9 @@ const FormBuilder =  (opts, element) =>{
           </div>`)
         break;
         case 'date':
-          liContents.push(`<p>pendiente el date picker</p>`)
+          liContents.push(`<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored calendar-btn" onClick="dialog.toggle()">
+                            Calendario
+                          </button>`)
         break;
         case 'radio-group':
           liContents.push(`<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
@@ -1115,7 +1111,15 @@ const FormBuilder =  (opts, element) =>{
           </label>`)
         break;
         case 'select':
-        liContents.push(`<p>Select box</p>`)
+        liContents.push(`<div class="mdlext-selectfield mdlext-js-selectfield">
+            <select id="some-id" class="mdlext-selectfield__select">
+              <option value=""></option>
+              <option value="option1">option 1</option>
+              <option value="option2">option 2</option>
+              <option value="option3">option 3</option>
+            </select>
+            <label for="some-id" class="mdlext-selectfield__label">Options</label>
+          </div>`)
         break;
         case 'file':
           liContents.push(`<p>file upload</p>`)
