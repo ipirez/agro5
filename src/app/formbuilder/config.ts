@@ -188,7 +188,7 @@ export const defaultI18n = {
           'styles.btn.warning': 'Warning',
           subtype: 'Type',
           text: 'Text Field',
-          textArea: 'Text Area',
+          textArea: 'Campo de texto',
           toggle: 'Toggle',
           warning: 'Warning!',
           value: 'Value',

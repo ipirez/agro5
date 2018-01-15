@@ -22,6 +22,7 @@ class FormRender {
    * @param {Object} options - an object hash of supported options
    */
   constructor(options : any = {}) {
+    console.log('huevisimos! 2222222')
     // initialise defaults & options
     let defaults = {
       layout: layout, // by default use the layout class, but support a child class being defined & passed as an option
@@ -225,6 +226,7 @@ class FormRender {
    * @return {Object} the formRender object
    */
   renderControl(element = null) {
+    console.log('huevisimos!222')
     let opts : any = this.options;
     let fieldData : any = opts.formData;
     if (!fieldData || Array.isArray(fieldData)) {

@@ -92,6 +92,7 @@ export default class Dom {
     this.filter = filter;
 
     instanceDom[formID] = this;
+
     return instanceDom[formID];
   }
 }
