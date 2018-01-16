@@ -18,7 +18,6 @@ import { CustomValidators } from 'app/tools/custom.validators';
               <h1 class="mat-display-3">Nuevo Producto</h1>
               <p class="mat-subheading-2">Nombre e imagen de tu nuevo producto.</p>
           </div>
-          <div class="holderStuff">
           <mat-card class="cardFull">
             <div class="inner">
               <div class="imageUploader" id="productImage">
@@ -97,7 +96,6 @@ import { CustomValidators } from 'app/tools/custom.validators';
                 </button>
               </form>
             </mat-card>
-          </div>
           <div class="add">
             <p (click)="addUser()">+ Agregar aseguradora</p>
           </div>
@@ -197,7 +195,7 @@ export class ProductsNewComponent implements ProductsInterface {
   this.secondFormGroup.controls[controller].markAsTouched();
   this.secondFormGroup.updateValueAndValidity()
 }
-  addUser(){
-    alert('agrega usuario')
-  }
+addUser(){
+  alert('agrega ')
+}
  }
