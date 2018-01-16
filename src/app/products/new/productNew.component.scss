@@ -104,17 +104,18 @@
 }
 .add{
   margin-top: 30px;
-  border-top: 3px solid rgb(238,238,238);
+  border-top: 3px solid #AFAFAF;
 }
 .add p{
   margin: 0px;
   text-align: center;
-  margin-top: -10px;
-  background: rgba(255, 255, 255, 0);
+  margin-top: -12px;
+  background: #F1F1F1;
   width: 210px;
   margin-left: calc(50% - 105px);
   text-transform: uppercase;
-  color:rgb(238,238,238);
+  color: #AFAFAF;
+  font-size: 16px;
   cursor: pointer;
 }
 .actionButtons{
