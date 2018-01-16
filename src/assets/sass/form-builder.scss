@@ -9,7 +9,9 @@
   @import 'stage';
   @import 'kc-toggle';
   position: relative;
-
+  input{
+    outline: 0 !important;
+  }
   &::after {
     content: '';
     display: table;

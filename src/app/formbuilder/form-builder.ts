@@ -12,15 +12,9 @@ import { control } from './control';
 import "jquery";
 import controlCustom from "./controls/custom";
 import I18N from "./mi18n";
-
-
 let instanceTime = new Date().getTime();
 
-
-
 export class FormBuilderCreateor {
-
-
   getFormBuilder(opts: any, element: any) {
       return   FormBuilder(opts,element);
     }
@@ -41,13 +35,12 @@ const FormBuilder =  (opts, element) =>{
     if (!opts.layout) {
         opts.layout = layout;
     }
+    const layoutEngine = new opts.layout(opts.layoutTemplates, false);
 
-    const layoutEngine = new opts.layout(opts.layoutTemplates, true);
 
     // ability for controls to have their own configuration / options
     // of the format control identifier (type, or type.subtype): {options}
     control.controlConfig = opts.controlConfig || {};
-
     const h : any = new Helpers(formID, layoutEngine);
     const m = utils.markup;
 
@@ -56,7 +49,7 @@ const FormBuilder =  (opts, element) =>{
     // load in any custom specified controls, or preloaded plugin controls
     //control.loadCustoms(opts.controls);
 
-  opts = h.processOptions(opts);
+    opts = h.processOptions(opts);
 
     // register any passed custom templates & fields
     if (Object.keys(opts.fields).length) {
@@ -66,7 +59,7 @@ const FormBuilder =  (opts, element) =>{
     const subtypes = (<any>config).subtypes = h.processSubtypes(opts.subtypes);
     h.editorUI(formID);
 
-  let $stage = (<any>$(d.stage));
+    let $stage = (<any>$(d.stage));
 
     data.layout = h.editorLayout(opts.controlPosition);
     data.formID = formID;
@@ -113,14 +106,43 @@ const FormBuilder =  (opts, element) =>{
         let iconClassName = !icon ? custom.iconClassName || `icon-${type.replace(/-[\d]{4}$/, '')}` : '';
 
         // if the class has specified a custom icon, inject it into the label
-        if (icon) {
-            label = `<span class="control-icon">${icon}</span>${label}`;
+        //if (icon) {
+        switch(label){
+          case 'checkboxGroup':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">check_box</i>Opciòn multiple</span>`
+          break;
+          case 'textArea':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">format_align_left</i>Área de texto</span>`
+          break;
+          case 'number':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">looks_one</i>Número</span>`
+          break;
+          case 'dateField':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">event_note</i>Campo fecha</span>`
+          break;
+          case 'fileUpload':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">file_upload</i>Carga de archivo</span>`
+          break;
+          case 'text':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">text_format</i>Campo de texto</span>`
+          break;
+          case 'select':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">arrow_drop_down</i>Lista desplegable</span>`
+          break;
+          case 'radioGroup':
+          label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">list</i>Lista de selección</span>`
+          break;
+          default:
+          label =   label = `<i class="material-icons mdl-list__item-icon">close</i><span>${label}</span>`;
+          break;
         }
+
+        //}
 
         // build & insert the new list item to represent this control
         let newFieldControl = m('li',
             m('span', label),
-            {className: `${iconClassName} input-control input-control-${i}`}
+            {className: `input-control input-control-${i} mdl-list__item`}
         );
         newFieldControl.dataset.type = type;
         controlList.push(type);
@@ -372,9 +394,10 @@ const FormBuilder =  (opts, element) =>{
         }
 
         stageWrap.classList.remove('empty');
+        d.domWindow.componentHandler.upgradeDom()
     };
 
-    // Parse saved XML template data
+    // Parse saved XML template data Dicarted
     let loadFields = function (formData = null) {
         formData = h.getData(formData);
         if (formData && formData.length) {
@@ -734,6 +757,7 @@ const FormBuilder =  (opts, element) =>{
      * @return {String}       input markup
      */
     function inputUserAttrs(name, attrs) {
+      console.log('here ass------>')
         let textAttrs: any = {
             id: name + '-' + data.lastID,
             title: attrs.description || attrs.label || name.toUpperCase(),
@@ -741,6 +765,8 @@ const FormBuilder =  (opts, element) =>{
             type: attrs.type || 'text',
             className: [`fld-${name}`]
         };
+        console.log('//---->text example')
+        console.log(textAttrs.className)
         let label = `<label for="${textAttrs.id}">${i18n[name]}</label>`;
 
         let optionInputs = [
@@ -793,39 +819,27 @@ const FormBuilder =  (opts, element) =>{
     }
 
     const boolAttribute = (name, values, labels) => {
-        let label = txt => m('label', txt, {
-            for: `${name}-${data.lastID}`
-        }).outerHTML;
-        let cbAttrs: any = {
-            type: 'checkbox',
-            className: `fld-${name}`,
-            name,
-            id: `${name}-${data.lastID}`
-        };
-        if (values[name]) {
-            cbAttrs.checked = true;
-        }
-        let left = [];
-        let right = [
-            m('input', null, cbAttrs).outerHTML
-        ];
+      let cbAttrs: any = {
+          type: 'checkbox',
+          className: `fld-${name} mdl-checkbox__input`,
+          name,
+          id: `${name}-${data.lastID}`
+      };
+      if (values[name]) {
+          cbAttrs.checked = true;
+      }
+      let input= m('input', null, cbAttrs).outerHTML
+      let label =  m('label',`${input} <span class="mdl-checkbox__label">${name}</span>` , {
+          for: `${name}-${data.lastID}`,
+          className: `mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect`
+      }).outerHTML;
 
-        if (labels.first) {
-            left.push(label(labels.first));
-        }
 
-        if (labels.second) {
-            right.push(' ', label(labels.second));
-        }
-        if (labels.content) {
-            right.push(labels.content);
-        }
+ let holder = m('div', label, {
+    className: `form-group ${name}-wrap`
+}).outerHTML;
+        return holder
 
-        right = m('div', right, {className: 'input-wrap'}).outerHTML;
-
-        return m('div', left.concat(right), {
-            className: `form-group ${name}-wrap`
-        }).outerHTML;
     };
 
     const btnStyles = style => {
@@ -883,14 +897,15 @@ const FormBuilder =  (opts, element) =>{
             name: attribute,
             min: '0',
             placeholder: placeholder,
-            className: `fld-${attribute} form-control`,
+            className: `fld-${attribute} form-control mdl-textfield__input`,
             id: `${attribute}-${data.lastID}`
         };
         let numberAttribute = h.input(utils.trimObj(inputConfig)).outerHTML;
-        let inputWrap = `<div class="input-wrap">${numberAttribute}</div>`;
-        let inputLabel = `<label for="${inputConfig.id}">${attrLabel}</label>`;
-
-        return m('div', [inputLabel, inputWrap], {
+        let inputWrap = `<div class="input-wrap mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        ${numberAttribute}
+        <label for="${inputConfig.id}" class="mdl-textfield__label">${attrLabel}</label>
+        </div>`;
+        return  m('div', inputWrap, {
             className: `form-group ${attribute}-wrap`
         }).outerHTML;
     };
@@ -937,6 +952,7 @@ const FormBuilder =  (opts, element) =>{
      * @return {String}
      */
     const textAttribute = (attribute, values) => {
+
         let textArea = ['paragraph'];
 
         let attrVal = values[attribute] || '';
@@ -962,26 +978,28 @@ const FormBuilder =  (opts, element) =>{
                 id: `${attribute}-${data.lastID}`
             };
             let attributeLabel = m('label', attrLabel, {
-                for: inputConfig.id
+                for: inputConfig.id,
+                className:`mdl-textfield__label`
             }).outerHTML;
-
+            let inputWrap = null
             if (attribute === 'label') {
                 inputConfig.contenteditable = true;
-                attributefield += m('div', attrVal, inputConfig).outerHTML;
+                inputConfig.className = `fld-${attribute} form-control mdl-textfield__input`
+                inputWrap = `<div class="input-wrap mdl-textfield mdl-js-textfield mdl-textfield--floating-label"><input type="text" ${utils.attrString(inputConfig)}/>${attributeLabel}</div>`;
             } else {
                 inputConfig.value = attrVal;
                 inputConfig.type = 'text';
-                attributefield += `<input ${utils.attrString(inputConfig)}>`;
+                inputConfig.className = `fld-${attribute} form-control mdl-textfield__input`
+                inputWrap = `<div class="input-wrap mdl-textfield mdl-js-textfield mdl-textfield--floating-label"><input ${utils.attrString(inputConfig)}>${attributeLabel}</div>`;
             }
 
-            let inputWrap = `<div class="input-wrap">${attributefield}</div>`;
 
             let visibility = 'block';
             if (attribute === 'value') {
                 visibility = values.subtype && values.subtype === 'quill' && 'none';
             }
 
-            attributefield = m('div', [attributeLabel, inputWrap], {
+            attributefield = m('div', inputWrap, {
                 className: `form-group ${attribute}-wrap`,
                 style: `display: ${visibility}`
             });
@@ -1014,11 +1032,13 @@ const FormBuilder =  (opts, element) =>{
 
     // Append the new field to the editor
     let appendNewField = function (values, isNew = true) {
+      console.log(values)
       let type = values.type || 'text';
       let label = values.label || i18n[ type ] || i18n.label;
       if ( opts.disabledFieldButtons === undefined )
         opts.disabledFieldButtons = [];
       let disabledFieldButtons = opts.disabledFieldButtons[ type ] || values.disabledFieldButtons;
+      //aqui se va desmadrar para sacar los tabs
       let fieldButtons = [
         m('a', null, {
           type: 'remove',
@@ -1046,6 +1066,72 @@ const FormBuilder =  (opts, element) =>{
 
       let liContents = [ m('div', fieldButtons, {className: 'field-actions'}) ];
 
+
+
+//NOTE: aqui construye de forma dinamica el pedo que necesitamos editar
+      // add the help icon
+      //checar este pedo
+
+
+      liContents.push(m('div', '', {className: 'prev-holder'}));
+      switch(type){
+        case 'text':
+          liContents.push(`<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text">
+          <label class="mdl-textfield__label" for="sample1">${utils.parsedHtml(label)}<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span><span style="${values.description ? 'display:inline-block' : 'display:none'}" class="tooltip-element" tooltip="tooltip-element">?</span></label>
+          </div>`)
+        break;
+        case 'number':
+          liContents.push(`<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text">
+          <label class="mdl-textfield__label" for="sample1">${utils.parsedHtml(label)}<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span><span style="${values.description ? 'display:inline-block' : 'display:none'}" class="tooltip-element" tooltip="tooltip-element">?</span></label>
+          </div>`)
+        break;
+        case 'textarea':
+          liContents.push(`<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ></textarea>
+          <label class="mdl-textfield__label" for="sample1">${utils.parsedHtml(label)}<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span><span style="${values.description ? 'display:inline-block' : 'display:none'}" class="tooltip-element" tooltip="tooltip-element">?</span></label>
+          </div>`)
+        break;
+        case 'date':
+          liContents.push(`
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored calendar-btn">Calendar <input type="date" class="datePickerHidden"/> </button>
+          `)
+        break;
+        case 'radio-group':
+          liContents.push(`<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+            <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1">
+            <span class="mdl-radio__label">First</span>
+          </label>`)
+        break;
+        case 'radio-group':
+          liContents.push(`<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+            <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1">
+            <span class="mdl-radio__label">First</span>
+          </label>`)
+        break;
+        case 'select':
+        liContents.push(`<div class="mdlext-selectfield mdlext-js-selectfield">
+            <select id="some-id" class="mdlext-selectfield__select">
+              <option value=""></option>
+              <option value="option1">option 1</option>
+              <option value="option2">option 2</option>
+              <option value="option3">option 3</option>
+            </select>
+            <label for="some-id" class="mdlext-selectfield__label">Options</label>
+          </div>`)
+        break;
+        case 'file':
+          liContents.push(`<div class="fileUpload"><input type="file"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Cargar archivo</button><span><i class="material-icons mdl-list__item-icon">file_upload</i>cargar archivo</span></input></div>`)
+        break;
+      }
+    /*
+    let descAttrs = {
+      className: 'tooltip-element',
+      tooltip: values.description,
+      style: values.description ? 'display:inline-block' : 'display:none',
+    };
+    liContents.push(m('span', '?', descAttrs));
       liContents.push(
         m('label', utils.parsedHtml(label), {
           className: 'field-label',
@@ -1058,20 +1144,15 @@ const FormBuilder =  (opts, element) =>{
           style: values.required ? 'display:inline' : '',
         })
       );
-
-      // add the help icon
-      let descAttrs = {
-        className: 'tooltip-element',
-        tooltip: values.description,
-        style: values.description ? 'display:inline-block' : 'display:none',
-      };
-      liContents.push(m('span', '?', descAttrs));
-
-      liContents.push(m('div', '', {className: 'prev-holder'}));
+*/
+      //->Seccion relativa al editor interno
+      console.log(advFields(values))
       const formElements = m('div', [ advFields(values), m('a', i18n.close, {className: 'close-field'}) ], {
         className: 'form-elements',
-      });
+        });
+
       liContents.push(m('div', formElements, {id: `${data.lastID}-holder`, className: 'frm-holder'}));
+
 
       let field = m('li', liContents, {
         class: type + '-field form-field',
@@ -1079,17 +1160,16 @@ const FormBuilder =  (opts, element) =>{
         id: data.lastID,
       });
       let $li = $(field);
-
+      console.log($li.data)
       $li.data('fieldData', {attrs: values});
-
       if ( typeof h.stopIndex !== 'undefined' ) {
         $('> li', d.stage)
-          .eq(h.stopIndex)
-          .before($li)
+        .eq(h.stopIndex)
+        .before($li)
       } else {
         $stage.append($li)
       }
-
+//NOTE: aqui termina el pedo de la construccion
       (<any>jQuery('.sortable-options', $li)).sortable({update: () => h.updatePreview($li)});
 
       // generate the control, insert it into the list item & add it to the stage
@@ -1110,6 +1190,7 @@ const FormBuilder =  (opts, element) =>{
 
     // Select field html, since there may be multiple
     let selectFieldOptions = function (name, optionData, multipleSelect) {
+      console.log('AQUI FUCKER')
         let optionInputType = {
             selected: (multipleSelect ? 'checkbox' : 'radio')
         };
@@ -1490,6 +1571,5 @@ const FormBuilder =  (opts, element) =>{
             $(element).data('formBuilder', formBuilder);
         }
     };
-
     return formBuilder;
 };

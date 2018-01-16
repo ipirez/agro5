@@ -55,6 +55,7 @@ export const optionFields = [
     ];
 
 export const optionFieldsRegEx = new RegExp(`(${optionFields.join('|')})`);
+export const domWindow = window
 /**
  * Dom class.
  */
@@ -64,6 +65,7 @@ export default class Dom {
     private optionFieldsRegEx: RegExp;
     private subtypes: any;
     private empty: (element) => any;
+    private domWindow : any;
    /**
    * Set defaults
    * @param  {String} formID [description]
@@ -74,6 +76,7 @@ export default class Dom {
     this.optionFieldsRegEx = optionFieldsRegEx;
 
     this.subtypes = defaultSubtypes;
+    this.domWindow = domWindow;
 
     /**
      * Util to remove contents of DOM Object
@@ -92,6 +95,7 @@ export default class Dom {
     this.filter = filter;
 
     instanceDom[formID] = this;
+
     return instanceDom[formID];
   }
 }

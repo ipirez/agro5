@@ -44,60 +44,62 @@ import { CustomValidators } from 'app/tools/custom.validators';
           <h1 class="mat-display-3">Aseguradoras participantes</h1>
           <p class="mat-subheading-2">Nombre e imagen de tu nuevo producto.</p>
         </div>
-        <mat-card class="cardFull">
-          <form [formGroup]="secondFormGroup" novalidate>
-            <div class="inner full">
-              <div class="imageUploader" id="userImage">
-                <input type="file" id="newUploadUser-1" controledBy="secondFormGroup" (change)="setImage($event,this)" accept=".png, .jpg, .jpeg" />
-                <input type="hidden" formControlName="upload" id="newUploadUser-1-text"/>
-              </div>
-              <div class="table">
-                <div class="formRow">
-                  <div class="formHolder inputHalf">
-                    <mat-form-field>
-                      <input type="text" matInput placeholder="Aseguradora" id="newUserName-1" formControlName="name">
-                    </mat-form-field>
-                    <show-errors [control]="secondFormGroup.controls.name"></show-errors>
+          <div id="cards" *ngFor="let i of Arr(users).fill(1); let idx = index">
+          <mat-card class="cardFull" id="mainBuilder">
+              <form [formGroup]="secondFormGroup" novalidate>
+                <div class="inner full">
+                  <div class="imageUploader" id="userImage-{{idx}}">
+                    <input type="file" id="newUploadUser-{{idx}}" controledBy="secondFormGroup" (change)="setImage($event,this)" accept=".png, .jpg, .jpeg" />
+                    <input type="hidden" formControlName="upload" id="newUploadUser-{{idx}}-text"/>
                   </div>
-                  <div class="formHolder inputHalf">
-                    <mat-form-field>
-                      <input type="text" matInput placeholder="Correo eléctronico" id="newUserEmail-1" formControlName="email">
-                    </mat-form-field>
-                    <show-errors [control]="secondFormGroup.controls.email"></show-errors>
-                  </div>
-                </div>
-                <div class="formRow">
-                  <div class="formHolder input-2Special">
-                    <div class="color" [style.background]="color"></div>
-                      <mat-form-field>
-                        <input type="text" (colorPickerChange)="onChangeColor($event,'color1')" [(colorPicker)]="color" matInput placeholder="Color primario" id="newUserPrimaryColor-1" value="{{color}}" formControlName="color1">
-                      </mat-form-field>
-                      <show-errors [control]="secondFormGroup.controls.color1"></show-errors>
+                  <div class="table">
+                    <div class="formRow">
+                      <div class="formHolder inputHalf">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Aseguradora" id="newUserName-{{idx}}" formControlName="name">
+                        </mat-form-field>
+                        <show-errors [control]="secondFormGroup.controls.name"></show-errors>
+                      </div>
+                      <div class="formHolder inputHalf">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Correo eléctronico" id="newUserEmail-{{idx}}" formControlName="email">
+                        </mat-form-field>
+                        <show-errors [control]="secondFormGroup.controls.email"></show-errors>
+                      </div>
                     </div>
-                    <div class="formHolder input-2Special">
-                    <div class="color" [style.background]="color2"></div>
-                      <mat-form-field>
-                        <input type="text" (colorPickerChange)="onChangeColor($event,'color2')" [(colorPicker)]="color2"  matInput placeholder="Color secundario" id="newUserSecondaryColor-1" value="{{color2}}" formControlName="color2">
-                      </mat-form-field>
-                      <show-errors [control]="secondFormGroup.controls.color2"></show-errors>
+                    <div class="formRow">
+                      <div class="formHolder input-2Special">
+                        <div class="color" [style.background]="color"></div>
+                          <mat-form-field>
+                            <input type="text" (colorPickerChange)="onChangeColor($event,'color1')" [(colorPicker)]="color" matInput placeholder="Color primario" id="newUserPrimaryColor-{{idx}}" value="{{color}}" formControlName="color1">
+                          </mat-form-field>
+                          <show-errors [control]="secondFormGroup.controls.color1"></show-errors>
+                        </div>
+                        <div class="formHolder input-2Special">
+                        <div class="color" [style.background]="color2"></div>
+                          <mat-form-field>
+                            <input type="text" (colorPickerChange)="onChangeColor($event,'color2')" [(colorPicker)]="color2"  matInput placeholder="Color secundario" id="newUserSecondaryColor-{{idx}}" value="{{color2}}" formControlName="color2">
+                          </mat-form-field>
+                          <show-errors [control]="secondFormGroup.controls.color2"></show-errors>
+                        </div>
+                        <show-errors [control]="secondFormGroup.controls.upload"></show-errors>
+                        </div>
+                      </div>
                     </div>
-                    <show-errors [control]="secondFormGroup.controls.upload"></show-errors>
-                    </div>
-                  </div>
-                </div>
-                <mat-menu #options="matMenu">
-                  <button mat-menu-item> <mat-icon >edit</mat-icon> Editar </button>
-                  <button mat-menu-item> <mat-icon >content_copy</mat-icon> Duplicar </button>
-                  <button mat-menu-item class="border"> <mat-icon >delete</mat-icon> Eliminar </button>
-                </mat-menu>
+                    <mat-menu #options="matMenu">
+                      <button mat-menu-item> <mat-icon >edit</mat-icon> Editar </button>
+                      <button mat-menu-item> <mat-icon >content_copy</mat-icon> Duplicar </button>
+                      <button mat-menu-item class="border"> <mat-icon >delete</mat-icon> Eliminar </button>
+                    </mat-menu>
 
-                <button mat-icon-button [matMenuTriggerFor]="options" class="options">
-                  <mat-icon >more_vert</mat-icon>
-                </button>
-              </form>
-            </mat-card>
+                    <button mat-icon-button [matMenuTriggerFor]="options" class="options">
+                      <mat-icon >more_vert</mat-icon>
+                    </button>
+                  </form>
+                </mat-card>
+          </div>
           <div class="add">
-            <p>+ Agregar aseguradora</p>
+            <p (click)="addUser()">+ Agregar aseguradora</p>
           </div>
           <div class="actionButtons">
             <button mat-button matStepperPrevious>Cancelar</button>
@@ -113,7 +115,8 @@ export class ProductsNewComponent implements ProductsInterface {
   @Input() data: any;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-
+  public users : number = 1;
+  public Arr = Array;
   constructor(public http: HttpClient, private router: Router, private _formBuilder: FormBuilder, public snackBar: MatSnackBar){
 
   }
@@ -150,9 +153,10 @@ export class ProductsNewComponent implements ProductsInterface {
       }
       //aqui va el post
        let headers = new HttpHeaders().set('Content-Type','application/json')
-       return this.http.post('http://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product', JSON.stringify(payload), {headers: headers})
+       return this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product', JSON.stringify(payload), {headers: headers})
     }
     else{
+      this.snackBar.open('Por favor llena todos los campos.','',{duration: 3000})
       this.secondFormGroup.updateValueAndValidity()
     }
   }
@@ -196,5 +200,9 @@ export class ProductsNewComponent implements ProductsInterface {
   this.secondFormGroup.controls[controller].markAsTouched();
   this.secondFormGroup.updateValueAndValidity()
 }
-
+  addUser(){
+    let number = this.users
+    number++;
+    this.users = number;
+  }
  }

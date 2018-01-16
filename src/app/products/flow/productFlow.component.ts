@@ -8,7 +8,7 @@ import I18N from "./../../formbuilder/mi18n";
 const options = {
   controlPosition: 'left',
   dataType: 'json',
-  disableFields: ['autocomplete'],
+  disableFields: ['autocomplete','hidden','header','paragraph','button'],
   //disabledAttrs: ['label'],
   showActionButtons: false,
   stickyControls: {
@@ -65,7 +65,8 @@ function initJq() {
 }
 @Component({
   templateUrl:'./productFlow.component.html',
-  styleUrls: ['./productFlow.component.scss']
+  styleUrls: ['./productFlow.component.scss'],
+  providers: []
 })
 export class ProductsNewFlowComponent implements ProductsInterface{
   constructor(private router: Router){
@@ -81,6 +82,12 @@ formBuilder: any;
 ngOnInit(): void {
   initJq();
   this.formBuilder = (<any>jQuery('.build-wrap')).formBuilder(options);
+  setTimeout(()=>{
+    this.fuckOff()
+  },200)
+}
+fuckOff(){
+  jQuery('.cb-wrap ul').addClass('mdl-list')
 }
   fruits = [
     { name: 'Flujo 1',color:'primary' },
@@ -95,7 +102,7 @@ ngOnInit(): void {
       public min = new Date(2017, 7, 9);
       public max = new Date(2017, 8, 10);
       public disabledDates = [new Date(2017, 7, 9),
-          new Date(2017, 7, 12), new Date(2017, 7, 15), new Date(2017, 7, 20)];
+      new Date(2017, 7, 12), new Date(2017, 7, 15), new Date(2017, 7, 20)];
 
       public pickerColor: string = '#0070ba';
 }
