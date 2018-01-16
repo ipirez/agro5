@@ -1094,9 +1094,9 @@ const FormBuilder =  (opts, element) =>{
           </div>`)
         break;
         case 'date':
-          liContents.push(`<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored calendar-btn" onClick="dialog.toggle()">
-                            Calendario
-                          </button>`)
+          liContents.push(`
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored calendar-btn">Calendar <input type="date" class="datePickerHidden"/> </button>
+          `)
         break;
         case 'radio-group':
           liContents.push(`<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
@@ -1122,7 +1122,7 @@ const FormBuilder =  (opts, element) =>{
           </div>`)
         break;
         case 'file':
-          liContents.push(`<p>file upload</p>`)
+          liContents.push(`<div class="fileUpload"><input type="file"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Cargar archivo</button><span><i class="material-icons mdl-list__item-icon">file_upload</i>cargar archivo</span></input></div>`)
         break;
       }
     /*
