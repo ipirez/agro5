@@ -156,6 +156,7 @@ export class ProductsNewComponent implements ProductsInterface {
        return this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product', JSON.stringify(payload), {headers: headers})
     }
     else{
+      this.snackBar.open('Por favor llena todos los campos.','',{duration: 3000})
       this.secondFormGroup.updateValueAndValidity()
     }
   }
@@ -200,14 +201,8 @@ export class ProductsNewComponent implements ProductsInterface {
   this.secondFormGroup.updateValueAndValidity()
 }
   addUser(){
-
     let number = this.users
     number++;
     this.users = number;
-    /*let template = document.getElementById('mainBuilder')
-    let clone = template.cloneNode(true)
-    console.log(clone)
-    let host = document.getElementById('cards');
-    host.appendChild(clone);*/
   }
  }
