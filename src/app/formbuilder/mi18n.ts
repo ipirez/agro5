@@ -184,7 +184,7 @@ export default class I18N {
    * @param {String}   locale
    * @return {Promise} language
    */
-  static async setCurrent(locale = 'en-US') {
+  static async setCurrent(locale = 'es-MX') {
     await I18N.loadLang(locale);
 
     I18N.locale = locale;
@@ -194,4 +194,3 @@ export default class I18N {
   }
 
 }
-

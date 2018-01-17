@@ -1,7 +1,7 @@
 
 export const instanceDom = {};
 export const defaultSubtypes = {
-      text: ['text', 'password', 'email', 'color', 'tel'],
+      text: ['text', 'password', 'email', 'color', 'tel', 'personalizada'],
       header: ['h1', 'h2', 'h3'],
       button: ['button', 'submit', 'reset'],
       paragraph: ['p', 'address', 'blockquote', 'canvas', 'output'],
@@ -55,6 +55,7 @@ export const optionFields = [
     ];
 
 export const optionFieldsRegEx = new RegExp(`(${optionFields.join('|')})`);
+export const domWindow = window
 /**
  * Dom class.
  */
@@ -64,6 +65,7 @@ export default class Dom {
     private optionFieldsRegEx: RegExp;
     private subtypes: any;
     private empty: (element) => any;
+    private domWindow : any;
    /**
    * Set defaults
    * @param  {String} formID [description]
@@ -74,6 +76,7 @@ export default class Dom {
     this.optionFieldsRegEx = optionFieldsRegEx;
 
     this.subtypes = defaultSubtypes;
+    this.domWindow = domWindow;
 
     /**
      * Util to remove contents of DOM Object

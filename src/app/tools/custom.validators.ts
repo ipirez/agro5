@@ -1,41 +1,43 @@
-import { FormArray, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import {FormArray, FormControl, FormGroup, ValidationErrors} from '@angular/forms';
 
 export class CustomValidators {
-  static image(c): Promise<ValidationErrors>{
-    var message = null
-    if(c.value === ""){
-      console.log('valor invalido')
-    message =  {
-       'years': {
-         'message': 'el campo es obligatoria perro'
-       }
-     }
-    }
-    else{
-      if( (encodeURI(c.value).split(/%..|./).length - 1) > 97540){
-        message =  {
-           'years': {
-             'message': 'la imagen es demasiado grande, se recomienda 200 x 200'
-           }
-         }
+  static image(c): Promise<ValidationErrors> {
+    var message = null;
+
+    if (c.value === "") {
+      //console.log('valor invalido')
+      message = {
+        'years': {
+          'message': 'el campo es obligatoria'
+        }
       }
-      else{
+    }
+    else {
+      if ((encodeURI(c.value).split(/%..|./).length - 1) > 97540) {
+        message = {
+          'years': {
+            'message': 'la imagen es demasiado grande, se recomienda 200 x 200'
+          }
+        }
+      }
+      else {
         message = null
       }
     }
     return message
   }
+
   static birthYear(c: FormControl): ValidationErrors {
-  /*  const currentYear = new Date().getFullYear();
-    const minYear = currentYear - 85;
-    const maxYear = currentYear - 18;
-    const isValid = !isNaN(numValue) && numValue >= minYear && numValue <= maxYear;
-    const message = {
-      'years': {
-        'message': 'The year must be a valid number between ' + minYear + ' and ' + maxYear
-      }
-    };
-    return isValid ? null : message;*/
+    /*  const currentYear = new Date().getFullYear();
+      const minYear = currentYear - 85;
+      const maxYear = currentYear - 18;
+      const isValid = !isNaN(numValue) && numValue >= minYear && numValue <= maxYear;
+      const message = {
+        'years': {
+          'message': 'The year must be a valid number between ' + minYear + ' and ' + maxYear
+        }
+      };
+      return isValid ? null : message;*/
     return null
   }
 
