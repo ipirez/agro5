@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 //extra modules
 import { ColorPickerModule } from 'ngx-color-picker';
-import { DateTimePickerModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 //form errors & validations
 import { ShowErrorsComponent } from './tools/errors.validators';
 //Pages
@@ -54,7 +54,8 @@ import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
     HttpClientModule,
     BrowserAnimationsModule,
     ColorPickerModule,
-    DateTimePickerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     FormsModule,
     ReactiveFormsModule
   ],
