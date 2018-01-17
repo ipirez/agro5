@@ -83,7 +83,7 @@ const URL = "http://localhost:4200/api/upload";
                       <div class="formHolder input-2Special">
                         <div class="color" [style.background]="color"></div>
                         <mat-form-field>
-                          <input type="text" (colorPickerChange)="onChangeColor($event,'newUserPrimaryColor-' + idx)"
+                          <input type="text" (colorPickerChange)="onChangeColor($event,'color1')"
                                  [(colorPicker)]="color" matInput placeholder="Color primario"
                                  id="newUserPrimaryColor-{{idx}}" value="{{color1}}" formControlName="color1">
                         </mat-form-field>
