@@ -24,6 +24,7 @@ export class FormBuilderCreateor {
 
 
 const FormBuilder =  (opts, element) =>{
+  console.log(I18N)
     const formBuilder = this;
     const $ = jQuery;
     var conf: any;
@@ -478,6 +479,8 @@ const FormBuilder =  (opts, element) =>{
     };
 
     const defaultFieldAttrs = type => {
+      console.log('ok --->')
+      console.log(type)
         const defaultAttrs = [
             'required',
             'label',
@@ -522,10 +525,21 @@ const FormBuilder =  (opts, element) =>{
                 'other',
                 'options',
             ],
-            text: defaultAttrs.concat([
+            text: [
+                'contenidoTxt',
+                'required',
+                'label',
+                'description',
+                'lineBreak',
+                'validacionTxt',
                 'subtype',
-                'maxlength',
-            ]),
+                'lenghtValidation',
+                //customValidations,
+                'customError',
+                'lineBreak',
+                'dependenciaTxt',
+                'modelDependencia'
+            ],
             date: defaultAttrs,
             file: defaultAttrs.concat([
                 'subtype',
@@ -585,17 +599,48 @@ const FormBuilder =  (opts, element) =>{
 
         return typeAttrs || defaultAttrs;
     };
-
+/**
+*
+* Model for create inter dependencies in te main content
+*
+*/
+  let dependenciesModel = () =>{
+    return `<br/><br/><span>en proceso de creación</p>`
+  }
+  let validationLenght = (values) =>{
+    let arr = []
+    arr.push(`<strong>Número de caracteres</strong><br/>`)
+    let max = numberAttribute('Maxima', values)
+    let min = numberAttribute('Minima', values)
+    let div = m('div', [min,max], {className:"half"}).outerHTML
+    arr.push(div)
+    return arr.join('');
+  }
+  let errorValidation = (values) =>{
+    console.log(values)
+    let arr = []
+    arr.push(`<strong>Mensaje de error personalizado</strong><br/>`)
+    let input = textAttribute('Escribe un mensaje de error que ayude al usuario a corregir su respuesta',values)
+    arr.push(input)
+    return arr.join('')
+  }
     /**
-     * Build the editable properties for the field
      * @param  {object} values configuration object for advanced fields
      * @return {String}        markup for advanced fields
      */
     let advFields = values => {
+        console.log(values)
         let {type} = values;
         let advFields = [];
         let fieldAttrs = defaultFieldAttrs(type);
         const advFieldMap = {
+            contenidoTxt:()=> `<h3>Contenido</h3><strong>Editar el campo de texto</strong><br/><p>En esta pequeña pestaña puedes editar el contenido de tu elemento, decidir si sea una pregunta obligatoria y agregar un texto de ayuda para asistir o dar más detalles a los usuarios.</p>`,
+            validacionTxt:()=>`<h3>Validación</h3> <strong>Configurar validación de respuesta</strong><p>Puedes elegir un perfil de validación precargado (E-mail, Tel, Etc.) o crear tu propia validación personalizada, solo debes seleccionar el tipo y cantidad de caracteres obligatorios</p>`,
+            dependenciaTxt:()=>`<h3>Dependencia</h3><strong>Formulario dinamico</strong><p>Aqui puedes configurar este elemento para que aparezca dependiendo la respuesta de alguna otra pregunta, solo elije si quieres mostrar u ocultar este elemento, la pregunta que quieres crear dependencia y las respuestas que debería el usuario elejir para que se cumpla.</p><strong>Mostrar u ocultar elemento</strong>`,
+            lineBreak: () => `<div class="lineBreak"></div>`,
+            lenghtValidation:()=> validationLenght(values),
+            customError:() =>errorValidation(values),
+            modelDependencia:()=> dependenciesModel(),
             required: () => requiredField(values),
             toggle: () => boolAttribute('toggle', values, {first: i18n.toggle}),
             inline: () => {
@@ -615,7 +660,7 @@ const FormBuilder =  (opts, element) =>{
             className: () => textAttribute('className', values),
             name: () => textAttribute('name', values),
             value: () => textAttribute('value', values),
-            maxlength: () => numberAttribute('maxlength', values),
+            maxlength: () => numberAttribute('Minima', values),
             access: () => {
                 let rolesDisplay = values.role ? 'style="display:block"' : '';
                 let availableRoles = [
@@ -683,7 +728,7 @@ const FormBuilder =  (opts, element) =>{
                 });
             };
         }
-
+        console.log(fieldAttrs)
         Object.keys(fieldAttrs).forEach(index => {
             let attr = fieldAttrs[index];
             let useDefaultAttr = [true];
@@ -712,7 +757,6 @@ const FormBuilder =  (opts, element) =>{
             let customAttr = processTypeUserAttrs(opts.typeUserAttrs[type], values);
             advFields.push(customAttr);
         }
-
         return advFields.join('');
     };
 
@@ -757,7 +801,6 @@ const FormBuilder =  (opts, element) =>{
      * @return {String}       input markup
      */
     function inputUserAttrs(name, attrs) {
-      console.log('here ass------>')
         let textAttrs: any = {
             id: name + '-' + data.lastID,
             title: attrs.description || attrs.label || name.toUpperCase(),
@@ -765,8 +808,6 @@ const FormBuilder =  (opts, element) =>{
             type: attrs.type || 'text',
             className: [`fld-${name}`]
         };
-        console.log('//---->text example')
-        console.log(textAttrs.className)
         let label = `<label for="${textAttrs.id}">${i18n[name]}</label>`;
 
         let optionInputs = [
@@ -803,9 +844,9 @@ const FormBuilder =  (opts, element) =>{
             id: name + '-' + data.lastID,
             title: fieldData.description || fieldData.label || name.toUpperCase(),
             name: name,
-            className: `fld-${name} form-control`
+            className: `fld-${name} form-control mdlext-selectfield__select`
         };
-        let label = `<label for="${selectAttrs.id}">${i18n[name]}</label>`;
+        let label = `<label for="${selectAttrs.id}" class="mdlext-selectfield__label">${i18n[name]}</label>`;
 
         Object.keys(fieldData).filter(prop => {
             return !utils.inArray(prop, ['value', 'options', 'label']);
@@ -814,8 +855,8 @@ const FormBuilder =  (opts, element) =>{
         });
 
         let select = m('select', optis, selectAttrs).outerHTML;
-        let inputWrap = `<div class="input-wrap">${select}</div>`;
-        return `<div class="form-group ${name}-wrap">${label}${inputWrap}</div>`;
+        let inputWrap = `<div class="input-wrap mdlext-selectfield mdlext-js-selectfield">${select}${label}  <span class="mdlext-selectfield__error">Someting is wrong</span></div>`;
+        return `<div class="form-group ${name}-wrap">${inputWrap}</div>`;
     }
 
     const boolAttribute = (name, values, labels) => {
@@ -889,7 +930,7 @@ const FormBuilder =  (opts, element) =>{
      */
     const numberAttribute = (attribute, values) => {
         let attrVal = values[attribute];
-        let attrLabel = i18n[attribute] || attribute;
+        let attrLabel = attribute;
         let placeholder = i18n[`placeholder.${attribute}`];
         let inputConfig = {
             type: 'number',
@@ -932,13 +973,13 @@ const FormBuilder =  (opts, element) =>{
         let selectAttrs = {
             id: attribute + '-' + data.lastID,
             name: attribute,
-            className: `fld-${attribute} form-control`
+            className: `fld-${attribute} form-control mdlext-selectfield__select`
         };
         let labelText = i18n[attribute] || utils.capitalize(attribute);
-        let label = m('label', labelText, {for: selectAttrs.id});
+        let label = m('label', labelText, {for: selectAttrs.id, className:'mdlext-selectfield__label'});
         let select = m('select', selectOptions, selectAttrs);
-        let inputWrap = m('div', select, {className: 'input-wrap'});
-        let attrWrap = m('div', [label, inputWrap], {
+        let inputWrap = m('div', [select,label], {className: 'input-wrap mdlext-selectfield mdlext-js-selectfield mdlext-selectfield--floating-label'});
+        let attrWrap = m('div', inputWrap, {
             className: `form-group ${selectAttrs.name}-wrap`
         });
 
@@ -952,7 +993,7 @@ const FormBuilder =  (opts, element) =>{
      * @return {String}
      */
     const textAttribute = (attribute, values) => {
-
+        console.log('aqui fucker')
         let textArea = ['paragraph'];
 
         let attrVal = values[attribute] || '';
@@ -1032,7 +1073,6 @@ const FormBuilder =  (opts, element) =>{
 
     // Append the new field to the editor
     let appendNewField = function (values, isNew = true) {
-      console.log(values)
       let type = values.type || 'text';
       let label = values.label || i18n[ type ] || i18n.label;
       if ( opts.disabledFieldButtons === undefined )
@@ -1072,26 +1112,45 @@ const FormBuilder =  (opts, element) =>{
       // add the help icon
       //checar este pedo
 
-
       liContents.push(m('div', '', {className: 'prev-holder'}));
+      let descAttrs = {
+          className: 'tooltip-element',
+          tooltip: values.description,
+          style: values.description ? 'display:inline-block' : 'display:none',
+        };
+        let text = []
+        let eventsInput = []
       switch(type){
         case 'text':
-          liContents.push(`<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="text">
-          <label class="mdl-textfield__label" for="sample1">${utils.parsedHtml(label)}<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span><span style="${values.description ? 'display:inline-block' : 'display:none'}" class="tooltip-element" tooltip="tooltip-element">?</span></label>
-          </div>`)
+          console.log(values)
+          text.push(m('input','',{className:"mdl-textfield__input",type:"${values.type}"}))
+          text.push(m('label', utils.parsedHtml(label), {
+            className: 'field-label mdl-textfield__label',
+          }))
+          eventsInput.push(m('span', '?', descAttrs))
+          eventsInput.push(`<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span>`)
+          text.push(m('div',eventsInput,{className:'seccionLoader'}))
+          liContents.push(m('div',text, {className:"mdl-textfield mdl-js-textfield mdl-textfield--floating-label"}))
         break;
         case 'number':
-          liContents.push(`<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="text">
-          <label class="mdl-textfield__label" for="sample1">${utils.parsedHtml(label)}<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span><span style="${values.description ? 'display:inline-block' : 'display:none'}" class="tooltip-element" tooltip="tooltip-element">?</span></label>
-          </div>`)
+          text.push(m('input','',{className:"mdl-textfield__input",type:"number"}))
+          text.push(m('label', utils.parsedHtml(label), {
+            className: 'field-label mdl-textfield__label',
+          }))
+          eventsInput.push(m('span', '?', descAttrs))
+          eventsInput.push(`<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span>`)
+          text.push(m('div',eventsInput,{className:'seccionLoader'}))
+          liContents.push(m('div',text, {className:"mdl-textfield mdl-js-textfield mdl-textfield--floating-label"}))
         break;
         case 'textarea':
-          liContents.push(`<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ></textarea>
-          <label class="mdl-textfield__label" for="sample1">${utils.parsedHtml(label)}<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span><span style="${values.description ? 'display:inline-block' : 'display:none'}" class="tooltip-element" tooltip="tooltip-element">?</span></label>
-          </div>`)
+          text.push(m('textarea','',{className:"mdl-textfield__input",type:"text", row: "3"}))
+          text.push(m('label', utils.parsedHtml(label), {
+            className: 'field-label mdl-textfield__label',
+          }))
+          eventsInput.push(m('span', '?', descAttrs))
+          eventsInput.push(`<span class="required-asterisk" style="${values.required ? 'display:inline' : ''}">*</span>`)
+          text.push(m('div',eventsInput,{className:'seccionLoader'}))
+          liContents.push(m('div',text, {className:"mdl-textfield mdl-js-textfield mdl-textfield--floating-label"}))
         break;
         case 'date':
           liContents.push(`
@@ -1111,6 +1170,7 @@ const FormBuilder =  (opts, element) =>{
           </label>`)
         break;
         case 'select':
+        console.log(values)
         liContents.push(`<div class="mdlext-selectfield mdlext-js-selectfield">
             <select id="some-id" class="mdlext-selectfield__select">
               <option value=""></option>
@@ -1125,8 +1185,8 @@ const FormBuilder =  (opts, element) =>{
           liContents.push(`<div class="fileUpload"><input type="file"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Cargar archivo</button><span><i class="material-icons mdl-list__item-icon">file_upload</i>cargar archivo</span></input></div>`)
         break;
       }
-    /*
-    let descAttrs = {
+
+  /*  let descAttrs = {
       className: 'tooltip-element',
       tooltip: values.description,
       style: values.description ? 'display:inline-block' : 'display:none',
@@ -1143,10 +1203,8 @@ const FormBuilder =  (opts, element) =>{
           className: 'required-asterisk',
           style: values.required ? 'display:inline' : '',
         })
-      );
-*/
+      );*/
       //->Seccion relativa al editor interno
-      console.log(advFields(values))
       const formElements = m('div', [ advFields(values), m('a', i18n.close, {className: 'close-field'}) ], {
         className: 'form-elements',
         });
@@ -1160,7 +1218,6 @@ const FormBuilder =  (opts, element) =>{
         id: data.lastID,
       });
       let $li = $(field);
-      console.log($li.data)
       $li.data('fieldData', {attrs: values});
       if ( typeof h.stopIndex !== 'undefined' ) {
         $('> li', d.stage)
@@ -1190,7 +1247,6 @@ const FormBuilder =  (opts, element) =>{
 
     // Select field html, since there may be multiple
     let selectFieldOptions = function (name, optionData, multipleSelect) {
-      console.log('AQUI FUCKER')
         let optionInputType = {
             selected: (multipleSelect ? 'checkbox' : 'radio')
         };

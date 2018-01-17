@@ -1,7 +1,7 @@
 
 export const instanceDom = {};
 export const defaultSubtypes = {
-      text: ['text', 'password', 'email', 'color', 'tel'],
+      text: ['text', 'password', 'email', 'color', 'tel', 'personalizada'],
       header: ['h1', 'h2', 'h3'],
       button: ['button', 'submit', 'reset'],
       paragraph: ['p', 'address', 'blockquote', 'canvas', 'output'],

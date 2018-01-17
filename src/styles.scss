@@ -83,3 +83,37 @@
     margin-left: 5px;
   }
 }
+.form-wrap.form-builder .frmb .field-actions{
+    position: absolute;
+    //top: 0;
+    //right: 0;
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    margin-top: 33px;
+}
+.mdlext-selectfield__label{
+  color: rgb(244,67,54) !important;
+}
+.input-wrap .mdlext-selectfield .mdlext-js-selectfield .mdlext-selectfield--floating-label .is-dirty .is-focused{
+  border-bottom: rgb(244,67,54) !important;
+}
+.lineBreak{
+  width: 102%;
+  background: #E2E2E2;
+  height: 2px;
+  margin-top: 35px;
+  margin-left: -1%;
+}
+.editing .half .form-group{
+  width: 49.5% !important;
+  display: inline-block;
+}
+.form-wrap.form-builder .frmb .form-elements{
+  border: none !important;
+  background: #fff !important;
+  box-shadow: 0px 0px 3px grey;
+}
+.form-elements p{
+  color: #808080 !important;
+}
