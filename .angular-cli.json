@@ -22,15 +22,21 @@
         "styles.scss",
         "theming.scss",
          "../node_modules/material-design-icons/iconfont/material-icons.css",
+         "../node_modules/material-design-lite/dist/material.red-deep_orange.min.css",
+         "../node_modules/mdl-ext/lib/mdl-ext.min.css",
          "assets/font/stylesheet.css",
         "assets/sass/form-builder.scss",
-        "assets/sass/form-render.scss"
+        "assets/sass/form-render.scss",
+        "../node_modules/md-date-time-picker/dist/css/mdDateTimePicker.css"
       ],
       "scripts": [
         "../node_modules/hammerjs/hammer.min.js",
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/jquery-ui-sortable/jquery-ui.min.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+        "../node_modules/material-design-lite/material.min.js",
+        "../node_modules/mdl-ext/lib/mdl-ext.min.js",
+        "../node_modules/md-date-time-picker/dist/js/mdDateTimePicker.min.js",
+        "../node_modules/moment/min/moment.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
