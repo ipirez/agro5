@@ -78,7 +78,7 @@ const URL = "http://localhost:4200/api/upload";
                             <input type="text" matInput placeholder="Aseguradora"
                                    formControlName="name">
                           </mat-form-field>
-                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.name.valid">
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.name.valid" class="text-danger">
                             El nombre de aseguradora es requerido.
                           </small>
                         </div>
@@ -87,8 +87,8 @@ const URL = "http://localhost:4200/api/upload";
                             <input type="text" matInput placeholder="Correo eléctronico"
                                    formControlName="email">
                           </mat-form-field>
-                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.email.valid">
-                            El email de aseguradora es requerido.
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.email.valid" class="text-danger">
+                            Ingrese un email correcto.
                           </small>
                         </div>
                       </div>
@@ -105,6 +105,9 @@ const URL = "http://localhost:4200/api/upload";
                                    value="{{ productForm.value.insuranceCarriers[idx].primaryColor }}"
                                    id="color1-{{idx}}">
                           </mat-form-field>
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.primaryColor.valid" class="text-danger">
+                            Eliga un color primario.
+                          </small>
                         </div>
                         <div class="formHolder input-2Special">
                           <div class="color"
@@ -183,7 +186,7 @@ export class ProductsNewComponent implements ProductsInterface {
 
   saveProduct() {
     console.log(this.productForm.status);
-    if (this.productForm.status === 'INVALID') {
+    if (this.productForm.status === 'VALID') {
       let p: Product = new Product(this.productForm.controls["name"].value, "");
 
       this.productForm.controls["insuranceCarriers"].value.forEach(item => {
@@ -201,9 +204,11 @@ export class ProductsNewComponent implements ProductsInterface {
           console.log("Ocurrio un error" + err);
         });
 
+      this.snackBar.open('Producto guardado.', '', {duration: 1500})
+
       setTimeout(() => {
         this.router.navigate(['/products/flow'])
-      }, 1000)
+      }, 2000)
     }
     else {
       this.snackBar.open('Por favor llena todos los campos.', '', {duration: 3000})
@@ -293,10 +298,10 @@ export class ProductsNewComponent implements ProductsInterface {
   initInsuranceCarrier() {
     return this.fb.group({
       name: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.email],
       logo: [''],
-      primaryColor: ['', Validators.required],
-      secondaryColor: ['', Validators.required]
+      primaryColor: [''],
+      secondaryColor: ['']
     });
   }
 
