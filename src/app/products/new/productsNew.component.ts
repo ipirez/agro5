@@ -26,22 +26,23 @@ const URL = "http://localhost:4200/api/upload";
             </div>
             <mat-card class="cardFull">
               <div class="inner">
-                <div class="imageUploader" id="productImage">
-                  <input type="file" id="fuLogo"
+                <div class="imageUploader" id="product-logo">
+                  <input type="file" id="fuLogo" (change)="setImage($event,'product-logo', 0)"
                          accept="image/png, image/jpg, image/jpeg"/>
-                  <input type="hidden" formControlName="logo" id="newUpload-1-text"/>
+                  <input type="hidden" formControlName="image"/>
                 </div>
                 <div class="formHolder textInput">
                   <mat-form-field>
-                    <input type="text" matInput placeholder="Nombre del producto" id="txtProductName"
-                           formControlName="name" required>
+                    <input type="text" matInput placeholder="Nombre del producto" id="product-name"
+
+                           formControlName="name">
                   </mat-form-field>
                   <small *ngIf="!productForm.controls.name.valid" class="text-danger">
                     El nombre es requerido.
                   </small>
-                  <!--<small *ngIf="!productForm.controls.logo.valid" class="text-danger">
+                  <small *ngIf="!productForm.controls.image.valid" class="text-danger">
                     El logo es requerido.
-                  </small>-->
+                  </small>
                 </div>
 
                 <mat-card-actions>
@@ -66,28 +67,30 @@ const URL = "http://localhost:4200/api/upload";
                   <div class="inner full">
 
 
-                    <div class="imageUploader">
-                      <input type="file"
-                             (change)="setImage($event,this)" accept=".png, .jpg, .jpeg"/>
+                    <div class="imageUploader" id="user-logo-{{idx}}">
+                      <input type="file" id="fulogo-{{idx}}"
+                             (change)="setImage($event, 'user-logo-' + idx, idx)" accept=".png, .jpg, .jpeg"/>
                       <input type="hidden" formControlName="logo"/>
                     </div>
                     <div class="table">
                       <div class="formRow">
                         <div class="formHolder inputHalf">
                           <mat-form-field>
-                            <input type="text" matInput placeholder="Aseguradora"
+                            <input id="user-name-{{idx}}" type="text" matInput placeholder="Aseguradora"
                                    formControlName="name">
                           </mat-form-field>
-                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.name.valid" class="text-danger">
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.name.valid"
+                                 class="text-danger">
                             El nombre de aseguradora es requerido.
                           </small>
                         </div>
                         <div class="formHolder inputHalf">
                           <mat-form-field>
-                            <input type="text" matInput placeholder="Correo eléctronico"
+                            <input id="user-email-{{idx}}" type="text" matInput placeholder="Correo eléctronico"
                                    formControlName="email">
                           </mat-form-field>
-                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.email.valid" class="text-danger">
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.email.valid"
+                                 class="text-danger">
                             Ingrese un email correcto.
                           </small>
                         </div>
@@ -103,9 +106,11 @@ const URL = "http://localhost:4200/api/upload";
                                    placeholder="Color primario"
                                    formControlName="primaryColor"
                                    value="{{ productForm.value.insuranceCarriers[idx].primaryColor }}"
-                                   id="color1-{{idx}}">
+                                   id="user-color1-{{idx}}">
                           </mat-form-field>
-                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.primaryColor.valid" class="text-danger">
+                          <small
+                            [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.primaryColor.valid"
+                            class="text-danger">
                             Eliga un color primario.
                           </small>
                         </div>
@@ -116,7 +121,7 @@ const URL = "http://localhost:4200/api/upload";
                             <input type="text" (colorPickerChange)="onChangeColor($event,'color2', idx)"
                                    [(colorPicker)]="productForm.value.insuranceCarriers[idx].secondaryColor" matInput
                                    placeholder="Color secundario"
-                                   id="color2-{{idx}}"
+                                   id="user-color2-{{idx}}"
                                    formControlName="secondaryColor"
                                    value="{{ productForm.value.insuranceCarriers[idx].secondaryColor }}">
                           </mat-form-field>
@@ -165,7 +170,7 @@ const URL = "http://localhost:4200/api/upload";
 })
 export class ProductsNewComponent implements ProductsInterface {
   @Input() data: any;
-  //objeto FormGroup que contiene la informacion dle producto y tener validaciones
+  //objeto FormGroup que contiene la informacion del producto y tener validaciones
   productForm: FormGroup;
 
   constructor(public http: HttpClient, private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
@@ -177,23 +182,22 @@ export class ProductsNewComponent implements ProductsInterface {
     //creamos el form del producto
     this.productForm = this.fb.group({
       name: ['', Validators.required],
-      logo: [''],
+      image: [''],
       insuranceCarriers: this.fb.array([])
     });
-
-    //console.log(this.productForm.controls['insuranceCarriers']);
   }
 
   saveProduct() {
-    console.log(this.productForm.status);
+    console.log(this.productForm);
     if (this.productForm.status === 'VALID') {
-      let p: Product = new Product(this.productForm.controls["name"].value, "");
-
+      let p: Product = new Product(this.productForm.value.name, this.productForm.value.image);
+      console.log(this.productForm.value);
       this.productForm.controls["insuranceCarriers"].value.forEach(item => {
+        //console.log(item);
         let ic = new InsuranceCarrier(item.name,
           item.email,
           item.primaryColor,
-          item.secondaryColor, "");
+          item.secondaryColor, item.logo);
 
         p.addInsuranceCarrier(ic);
       });
@@ -212,80 +216,43 @@ export class ProductsNewComponent implements ProductsInterface {
     }
     else {
       this.snackBar.open('Por favor llena todos los campos.', '', {duration: 3000})
-      this.productForm.updateValueAndValidity()
-    }
-    /*
-    this.addProduct().subscribe(
-      data => {
-        this.snackBar.open('LISTO!', '', {duration: 3000})
-        setTimeout(() => {
-          this.router.navigate(['/products/flow'])
-        }, 1000)
-      },
-      err => {
-        this.snackBar.open(err.message, '', {duration: 3000})
-      },
-      () => console.log('done')
-    );*/
-  }
-
-  addProduct() {
-    //console.log(this.insuranceCarriers);
-    if (this.productForm.status === 'VALID') {
-      let p: Product = new Product(this.productForm.controls["name"].value, "");
-
-      this.productForm.controls["insuranceCarriers"].value.forEach(item => {
-        let ic = new InsuranceCarrier(item.name,
-          item.email,
-          item.primaryColor,
-          item.secondaryColor, "");
-
-        p.addInsuranceCarrier(ic);
-      });
-
-      console.log(p);
-      //aqui va el post
-      return this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product',
-        JSON.stringify(p), {headers: new HttpHeaders().set('Content-Type', 'application/json')})
-    }
-    else {
-      this.snackBar.open('Por favor llena todos los campos.', '', {duration: 3000})
-      this.productForm.updateValueAndValidity()
+      //this.productForm.updateValueAndValidity()
     }
   }
 
+  setImage(c, node, idx) {
+    var imgBase64: string;
+    let file = c.srcElement.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
 
-  setImage(c, node) {
-    /*
-        let file = c.srcElement.files[0]
-        var _URL = window.URL;
-        let img = new Image();
-        img.onload = function () {
-          let reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = function () {
-            let parent = document.getElementById(c.srcElement.id).parentElement.id //tslint:disable-line
-            let controlName = document.getElementById(c.srcElement.id + '-text').getAttribute('formcontrolname')
-            let controledBy = document.getElementById(c.srcElement.id).getAttribute('controledBy')
-            document.getElementById(parent).style.backgroundImage = "url('" + reader.result + "')"
-            node[controledBy].controls[controlName].setValue(reader.result, {onlySelf: true})
-            node[controledBy].controls[controlName].markAsTouched();
-            node[controledBy].updateValueAndValidity()
-          };
-          reader.onerror = function (error) {
-            console.log('Error: ', error);
-          };
-        }
-        img.src = _URL.createObjectURL(file);*/
+    reader.onloadend = function () {
+      document.getElementById(node).style.backgroundImage = "url('" + reader.result + "')";
+      imgBase64 = reader.result.toString();
+    };
+
+    //se pone el set time para que asigne correctamente el valor de la imagen
+    setTimeout(() => {
+      if (node === "product-logo") {
+        //se asigna en la propiedad
+        this.productForm.patchValue({image: imgBase64});
+      } else {
+        this.insuranceCarriersFormArray.at(idx).patchValue({logo: imgBase64});
+        console.log(this.productForm.value.insuranceCarriers[idx]);
+      }
+    }, 500);
+
   }
 
-
+  //Asigna los valores correspondientes al asegurador.
   onChangeColor(o: Object, controller: string, id: number) {
     if (controller === "color1") {
-      this.productForm.value.insuranceCarriers[id].primaryColor = o.toString();
+      this.insuranceCarriersFormArray.at(id).patchValue({primaryColor: o.toString()});
+      //this.productForm.value.insuranceCarriers[id].primaryColor = o.toString();
     }
     else {
-      this.productForm.value.insuranceCarriers[id].secondaryColor = o.toString();
+      this.insuranceCarriersFormArray.at(id).patchValue({secondaryColor: o.toString()});
+      //this.productForm.value.insuranceCarriers[id].secondaryColor = o.toString();
     }
   }
 
@@ -297,9 +264,9 @@ export class ProductsNewComponent implements ProductsInterface {
   //Inicializa
   initInsuranceCarrier() {
     return this.fb.group({
+      logo: [''],
       name: ['', Validators.required],
       email: ['', Validators.email],
-      logo: [''],
       primaryColor: [''],
       secondaryColor: ['']
     });
