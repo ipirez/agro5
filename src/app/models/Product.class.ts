@@ -11,12 +11,17 @@ export class Product{
     this.insuranceCarriers = [];
   }
 
+  addInsuranceCarrier(item:InsuranceCarrier){
+    this.insuranceCarriers.push(item);
+  }
+
   getInsuranceCarrierNames(){
     let names:string = "";
 
     this.insuranceCarriers.forEach(i => {
-      names += i.name + " ";
+      names += i.name + " - ";
     });
+    names = names.substr(0, names.length - 3)
     return names;
   }
 }

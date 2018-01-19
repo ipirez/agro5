@@ -20,8 +20,9 @@ import {InsuranceCarrier} from "../../models/insuranceCarrier.class";
       </div>
       <mat-card *ngFor="let p of products" class="cardFull">
         <mat-card-header>
+          <img mat-card-avatar src="{{ p.image }}" class="image" />
           <mat-card-title>{{ p.name }}</mat-card-title>
-          <div mat-card-avatar class="image"></div>
+
           <mat-card-subtitle>{{ p.getInsuranceCarrierNames() }}</mat-card-subtitle>
           <mat-menu #options="matMenu">
             <button mat-menu-item>
@@ -65,7 +66,7 @@ export class ProductsListComponent implements ProductsInterface, OnInit {
   getProducts() {
     //let products: Product = new Product();
 
-    this.http.get<Product[]>('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/products',
+    this.http.get<Product[]>('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/products',
       {headers: new HttpHeaders().set('Content-Type', 'application/json')})
       .subscribe(data => {
 

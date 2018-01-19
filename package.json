@@ -1,6 +1,6 @@
 {
   "name": "agro-compara",
-  "version": "0.0.5-release",
+  "version": "0.0.6-release",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/core": "0.0.28",
     "@angular/animations": "^5.1.0",
     "@angular/cdk": "^5.0.0",
     "@angular/common": "^5.0.0",
