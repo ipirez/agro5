@@ -1,6 +1,8 @@
 import { Component, Input, OnInit  }  from '@angular/core';
 import { ProductsInterface } from './../productsInterface.component';
 import {Router} from '@angular/router';
+import { NgClass } from '@angular/common';
+import {NgModel} from '@angular/forms'
 //formBuilder component n stuff
 import { config, defaultI18n, defaultOptions } from "./../../formbuilder/config";
 import { FormBuilderCreateor } from "./../../formbuilder/form-builder";
@@ -9,8 +11,7 @@ const options = {
   controlPosition: 'left',
   dataType: 'json',
   disableFields: ['autocomplete','hidden','header','paragraph','button'],
-  //disabledAttrs: ['label'],
-  showActionButtons: false,
+  //showActionButtons: false,
   stickyControls: {
     enable: true,
     offset: {
@@ -78,7 +79,12 @@ removable: boolean = true;
 addOnBlur: boolean = true;
 public input3Moment: any;
 formBuilder: any;
-
+public flux : number = 1;
+public fluxArr = Array;
+public steepsArr = Array;
+public steep  = [1];
+public selected : number = 0;
+//public fluxName0 = 'huevos';
 ngOnInit(): void {
   initJq();
   this.formBuilder = (<any>jQuery('.build-wrap')).formBuilder(options);
@@ -86,8 +92,36 @@ ngOnInit(): void {
     this.fuckOff()
   },200)
 }
+customTrackBy(index: number, obj: any): any {
+  console.log(index)
+  return index;
+}
+chipClick(index){
+  this.selected = index;
+}
+addSteep(){
+  let number = this.flux
+  number++
+  this.flux = number;
+}
+addCard(index){
+  if(!this.steep[index]){
+    this.steep[index] = 1
+  }
+  let steep = this.steep[index]
+  steep++
+  this.steep[index] = steep
+}
 fuckOff(){
   jQuery('.cb-wrap ul').addClass('mdl-list')
+}
+remove(index){
+  console.log(index)
+  console.log(this.fluxArr[index])
+  //this.fluxArr = this.fluxArr.filter(obj => obj !== this.fluxArr[index]);
+}
+trackByIndex(index: number, obj: any): any {
+  return index;
 }
   fruits = [
     { name: 'Flujo 1',color:'primary' },
