@@ -66,7 +66,7 @@ export class ProductsListComponent implements ProductsInterface, OnInit {
   getProducts() {
     //let products: Product = new Product();
 
-    this.http.get<Product[]>('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/products',
+    this.http.get<Product[]>('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/products',
       {headers: new HttpHeaders().set('Content-Type', 'application/json')})
       .subscribe(data => {
 
