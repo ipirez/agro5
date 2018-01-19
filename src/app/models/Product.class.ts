@@ -11,6 +11,10 @@ export class Product{
     this.insuranceCarriers = [];
   }
 
+  addInsuranceCarrier(item:InsuranceCarrier){
+    this.insuranceCarriers.push(item);
+  }
+
   getInsuranceCarrierNames(){
     let names:string = "";
 

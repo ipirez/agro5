@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {FormGroup, FormControl, FormArray, Validators, NgForm, FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -8,16 +8,18 @@ import {Observable} from 'rxjs/Observable';
 //Custom Validators
 //NOTE: ->some validations in are NOT native in in @angular/forms like input file and few others important validate operators se this articule for more explication https://www.toptal.com/angular-js/angular-4-forms-validation
 import {CustomValidators} from './../../../app/tools/custom.validators';
-//import {fileUpload} from 'ng-file-upload';
+import {Product} from "../../models/Product.class";
+import {InsuranceCarrier} from "../../models/insuranceCarrier.class";
 
 const URL = "http://localhost:4200/api/upload";
 
 @Component({
   template: `
     <div class="product">
-      <mat-horizontal-stepper [linear]="true">
-        <mat-step [stepControl]="firstFormGroup">
-          <form [formGroup]="firstFormGroup" novalidate>
+      <form [formGroup]="productForm">
+        <mat-horizontal-stepper [linear]="true">
+          <mat-step [stepControl]="productForm">
+
             <div class="header">
               <h1 class="mat-display-3">Nuevo Producto</h1>
               <p class="mat-subheading-2">Nombre e imagen de tu nuevo producto.</p>
@@ -25,132 +27,194 @@ const URL = "http://localhost:4200/api/upload";
             <mat-card class="cardFull">
               <div class="inner">
                 <div class="imageUploader" id="productImage">
-                  <input type="file" id="newUpload-1" controledBy="firstFormGroup" (change)="setImage($event,this)"
+                  <input type="file" id="fuLogo"
                          accept="image/png, image/jpg, image/jpeg"/>
-                  <input type="hidden" formControlName="upload" id="newUpload-1-text"/>
+                  <input type="hidden" formControlName="logo" id="newUpload-1-text"/>
                 </div>
                 <div class="formHolder textInput">
                   <mat-form-field>
-                    <input type="text" matInput placeholder="Nombre del producto" id="newProductName-1"
+                    <input type="text" matInput placeholder="Nombre del producto" id="txtProductName"
                            formControlName="name" required>
                   </mat-form-field>
-                  <show-errors [control]="firstFormGroup.controls.upload"></show-errors>
-                  <show-errors [control]="firstFormGroup.controls.name"></show-errors>
+                  <small *ngIf="!productForm.controls.name.valid" class="text-danger">
+                    El nombre es requerido.
+                  </small>
+                  <!--<small *ngIf="!productForm.controls.logo.valid" class="text-danger">
+                    El logo es requerido.
+                  </small>-->
                 </div>
 
                 <mat-card-actions>
-                  <button mat-button routerLink="/products">Cancelar</button>
-                  <button mat-raised-button color="primary" matStepperNext>Continuar</button>
+                  <button mat-button routerLink="/products">CANCELAR</button>
+                  <button mat-raised-button color="primary" matStepperNext>CONTINUAR</button>
                 </mat-card-actions>
               </div>
             </mat-card>
-          </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-          <div class="header">
-            <h1 class="mat-display-3">Aseguradoras participantes</h1>
-            <p class="mat-subheading-2">Nombre e imagen de tu nuevo producto.</p>
-          </div>
-          <div id="cards" *ngFor="let i of Arr(users).fill(1); let idx = index">
-            <mat-card class="cardFull" id="mainBuilder">
-              <form [formGroup]="secondFormGroup" novalidate>
-                <div class="inner full">
+
+          </mat-step>
 
 
-                  <div class="imageUploader" id="userImage-{{idx}}">
-                    <input type="file" id="newUploadUser-{{idx}}" controledBy="secondFormGroup"
-                           (change)="setImage($event,this)" accept=".png, .jpg, .jpeg"/>
-                    <input type="hidden" formControlName="upload" id="newUploadUser-{{idx}}-text"/>
-                  </div>
-                  <div class="table">
-                    <div class="formRow">
-                      <div class="formHolder inputHalf">
-                        <mat-form-field>
-                          <input type="text" matInput placeholder="Aseguradora" id="newUserName-{{idx}}"
-                                 formControlName="name">
-                        </mat-form-field>
-                        <show-errors [control]="secondFormGroup.controls.name"></show-errors>
+          <mat-step>
+            <div class="header">
+              <h1 class="mat-display-3">Aseguradoras participantes</h1>
+              <p class="mat-subheading-2">Nombre e imagen de tu nuevo producto.</p>
+            </div>
+            <div formArrayName="insuranceCarriers">
+              <div id="cards" *ngFor="let ic of insuranceCarriersFormArray.controls; let idx = index">
+                <mat-card [formGroupName]="idx" class="cardFull">
+
+                  <div class="inner full">
+
+
+                    <div class="imageUploader">
+                      <input type="file"
+                             (change)="setImage($event,this)" accept=".png, .jpg, .jpeg"/>
+                      <input type="hidden" formControlName="logo"/>
+                    </div>
+                    <div class="table">
+                      <div class="formRow">
+                        <div class="formHolder inputHalf">
+                          <mat-form-field>
+                            <input type="text" matInput placeholder="Aseguradora"
+                                   formControlName="name">
+                          </mat-form-field>
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.name.valid" class="text-danger">
+                            El nombre de aseguradora es requerido.
+                          </small>
+                        </div>
+                        <div class="formHolder inputHalf">
+                          <mat-form-field>
+                            <input type="text" matInput placeholder="Correo eléctronico"
+                                   formControlName="email">
+                          </mat-form-field>
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.email.valid" class="text-danger">
+                            Ingrese un email correcto.
+                          </small>
+                        </div>
                       </div>
-                      <div class="formHolder inputHalf">
-                        <mat-form-field>
-                          <input type="text" matInput placeholder="Correo eléctronico" id="newUserEmail-{{idx}}"
-                                 formControlName="email">
-                        </mat-form-field>
-                        <show-errors [control]="secondFormGroup.controls.email"></show-errors>
+
+                      <div class="formRow">
+                        <div class="formHolder input-2Special">
+                          <div class="color"
+                               [style.background]="productForm.value.insuranceCarriers[idx].primaryColor"></div>
+                          <mat-form-field>
+                            <input type="text" (colorPickerChange)="onChangeColor($event, 'color1', idx)"
+                                   [(colorPicker)]="productForm.value.insuranceCarriers[idx].primaryColor" matInput
+                                   placeholder="Color primario"
+                                   formControlName="primaryColor"
+                                   value="{{ productForm.value.insuranceCarriers[idx].primaryColor }}"
+                                   id="color1-{{idx}}">
+                          </mat-form-field>
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.primaryColor.valid" class="text-danger">
+                            Eliga un color primario.
+                          </small>
+                        </div>
+                        <div class="formHolder input-2Special">
+                          <div class="color"
+                               [style.background]="productForm.value.insuranceCarriers[idx].secondaryColor"></div>
+                          <mat-form-field>
+                            <input type="text" (colorPickerChange)="onChangeColor($event,'color2', idx)"
+                                   [(colorPicker)]="productForm.value.insuranceCarriers[idx].secondaryColor" matInput
+                                   placeholder="Color secundario"
+                                   id="color2-{{idx}}"
+                                   formControlName="secondaryColor"
+                                   value="{{ productForm.value.insuranceCarriers[idx].secondaryColor }}">
+                          </mat-form-field>
+                          <!--<show-errors [control]="secondFormGroup.controls.color2"></show-errors>-->
+                        </div>
                       </div>
                     </div>
-                    <div class="formRow">
-                      <div class="formHolder input-2Special">
-                        <div class="color" [style.background]="color"></div>
-                        <mat-form-field>
-                          <input type="text" (colorPickerChange)="onChangeColor($event,'newUserPrimaryColor-' + idx)"
-                                 [(colorPicker)]="color" matInput placeholder="Color primario"
-                                 id="newUserPrimaryColor-{{idx}}" value="{{color1}}" formControlName="color1">
-                        </mat-form-field>
-                        <show-errors [control]="secondFormGroup.controls.color1"></show-errors>
-                      </div>
-                      <div class="formHolder input-2Special">
-                        <div class="color" [style.background]="color2"></div>
-                        <mat-form-field>
-                          <input type="text" (colorPickerChange)="onChangeColor($event,'color2')"
-                                 [(colorPicker)]="color2" matInput placeholder="Color secundario"
-                                 id="newUserSecondaryColor-{{idx}}" value="{{color2}}" formControlName="color2">
-                        </mat-form-field>
-                        <show-errors [control]="secondFormGroup.controls.color2"></show-errors>
-                      </div>
-                      <show-errors [control]="secondFormGroup.controls.upload"></show-errors>
-                    </div>
                   </div>
-                </div>
-                <mat-menu #options="matMenu">
-                  <button mat-menu-item>
-                    <mat-icon>edit</mat-icon>
-                    Editar
-                  </button>
-                  <button mat-menu-item>
-                    <mat-icon>content_copy</mat-icon>
-                    Duplicar
-                  </button>
-                  <button mat-menu-item class="border">
-                    <mat-icon>delete</mat-icon>
-                    Eliminar
-                  </button>
-                </mat-menu>
 
-                <button mat-icon-button [matMenuTriggerFor]="options" class="options">
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-              </form>
-            </mat-card>
-          </div>
-          <div class="add">
-            <p (click)="addUser()">+ Agregar aseguradora</p>
-          </div>
-          <div class="actionButtons">
-            <button mat-button matStepperPrevious>Cancelar</button>
-            <button mat-raised-button color="primary" (click)="saveProduct()">Continuar</button>
-          </div>
-        </mat-step>
-      </mat-horizontal-stepper>
+                  <mat-menu #options="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      Editar
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon>content_copy</mat-icon>
+                      Duplicar
+                    </button>
+                    <button mat-menu-item class="border" (click)="deleteUser(idx)">
+                      <mat-icon>delete</mat-icon>
+                      Eliminar
+                    </button>
+                  </mat-menu>
+
+                  <button mat-icon-button [matMenuTriggerFor]="options" class="options">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+
+                </mat-card>
+              </div>
+            </div>
+            <div class="add">
+              <p (click)="addUser()">+ AGREGAR ASEGURADORA</p>
+            </div>
+            <div class="actionButtons">
+              <button mat-button matStepperPrevious (click)="deleteAllUsers()">CANCELAR</button>
+              <button mat-raised-button color="primary" (click)="saveProduct()">CONTINUAR</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+
+      </form>
     </div>
   `,
   styleUrls: ['/productNew.component.scss']
 })
 export class ProductsNewComponent implements ProductsInterface {
   @Input() data: any;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  public users: number = 1;
-  public Arr = Array;
-  public valid: boolean = true;
-  //public uploader: fileUpload;// = new fileUpload({url:URL, data: {username: 'usertest', file}});
+  //objeto FormGroup que contiene la informacion dle producto y tener validaciones
+  productForm: FormGroup;
 
-  constructor(public http: HttpClient, private router: Router, private _formBuilder: FormBuilder, public snackBar: MatSnackBar) {
+  constructor(public http: HttpClient, private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
 
   }
 
-  saveProduct() {
+  ngOnInit() {
 
+    //creamos el form del producto
+    this.productForm = this.fb.group({
+      name: ['', Validators.required],
+      logo: [''],
+      insuranceCarriers: this.fb.array([])
+    });
+
+    //console.log(this.productForm.controls['insuranceCarriers']);
+  }
+
+  saveProduct() {
+    console.log(this.productForm.status);
+    if (this.productForm.status === 'VALID') {
+      let p: Product = new Product(this.productForm.controls["name"].value, "");
+
+      this.productForm.controls["insuranceCarriers"].value.forEach(item => {
+        let ic = new InsuranceCarrier(item.name,
+          item.email,
+          item.primaryColor,
+          item.secondaryColor, "");
+
+        p.addInsuranceCarrier(ic);
+      });
+
+      this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/product',
+        JSON.stringify(p), {headers: new HttpHeaders().set('Content-Type', 'application/json')})
+        .subscribe(err => {
+          console.log("Ocurrio un error" + err);
+        });
+
+      this.snackBar.open('Producto guardado.', '', {duration: 1500})
+
+      setTimeout(() => {
+        this.router.navigate(['/products/flow'])
+      }, 2000)
+    }
+    else {
+      this.snackBar.open('Por favor llena todos los campos.', '', {duration: 3000})
+      this.productForm.updateValueAndValidity()
+    }
+    /*
     this.addProduct().subscribe(
       data => {
         this.snackBar.open('LISTO!', '', {duration: 3000})
@@ -162,95 +226,102 @@ export class ProductsNewComponent implements ProductsInterface {
         this.snackBar.open(err.message, '', {duration: 3000})
       },
       () => console.log('done')
-    );
+    );*/
   }
 
   addProduct() {
-    this.valid = true;
-    console.log("hola sss");
+    //console.log(this.insuranceCarriers);
+    if (this.productForm.status === 'VALID') {
+      let p: Product = new Product(this.productForm.controls["name"].value, "");
 
-    if (this.secondFormGroup.status === 'VALID') {
-      var payload = {
-        name: this.firstFormGroup.value.name,
-        image: this.firstFormGroup.value.upload,
-        insuranceCarriers: [
-          {
-            email: this.secondFormGroup.value.email,
-            logo: this.secondFormGroup.value.upload,
-            name: this.secondFormGroup.value.name,
-            primaryColor: this.secondFormGroup.value.color1,
-            secondaryColor: this.secondFormGroup.value.color2
-          }
-        ],
-        "stages": []
-      }
+      this.productForm.controls["insuranceCarriers"].value.forEach(item => {
+        let ic = new InsuranceCarrier(item.name,
+          item.email,
+          item.primaryColor,
+          item.secondaryColor, "");
+
+        p.addInsuranceCarrier(ic);
+      });
+
+      console.log(p);
       //aqui va el post
-      let headers = new HttpHeaders().set('Content-Type', 'application/json')
-      return this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product', JSON.stringify(payload), {headers: headers})
+      return this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp:443/product',
+        JSON.stringify(p), {headers: new HttpHeaders().set('Content-Type', 'application/json')})
     }
     else {
       this.snackBar.open('Por favor llena todos los campos.', '', {duration: 3000})
-      this.secondFormGroup.updateValueAndValidity()
+      this.productForm.updateValueAndValidity()
     }
   }
 
-  ngOnInit() {
-    this.valid = false;
-    //this.uploader = new fileUpload();
-    //console.log(this.uploader);
-
-
-    this.firstFormGroup = new FormGroup({
-      name: new FormControl('', Validators.required, CustomValidators.uniqueName),
-      upload: new FormControl('', CustomValidators.image)
-    });
-    this.secondFormGroup = new FormGroup({
-      upload: new FormControl('', CustomValidators.image),
-      name: new FormControl('', Validators.required, CustomValidators.uniqueName),
-      email: new FormControl('', Validators.required),
-      color1: new FormControl('', Validators.required),
-      color2: new FormControl('', Validators.required)
-    });
-  }
 
   setImage(c, node) {
+    /*
+        let file = c.srcElement.files[0]
+        var _URL = window.URL;
+        let img = new Image();
+        img.onload = function () {
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = function () {
+            let parent = document.getElementById(c.srcElement.id).parentElement.id //tslint:disable-line
+            let controlName = document.getElementById(c.srcElement.id + '-text').getAttribute('formcontrolname')
+            let controledBy = document.getElementById(c.srcElement.id).getAttribute('controledBy')
+            document.getElementById(parent).style.backgroundImage = "url('" + reader.result + "')"
+            node[controledBy].controls[controlName].setValue(reader.result, {onlySelf: true})
+            node[controledBy].controls[controlName].markAsTouched();
+            node[controledBy].updateValueAndValidity()
+          };
+          reader.onerror = function (error) {
+            console.log('Error: ', error);
+          };
+        }
+        img.src = _URL.createObjectURL(file);*/
+  }
 
-    let file = c.srcElement.files[0]
-    var _URL = window.URL;
-    let img = new Image();
-    img.onload = function () {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        let parent = document.getElementById(c.srcElement.id).parentElement.id //tslint:disable-line
-        let controlName = document.getElementById(c.srcElement.id + '-text').getAttribute('formcontrolname')
-        let controledBy = document.getElementById(c.srcElement.id).getAttribute('controledBy')
-        document.getElementById(parent).style.backgroundImage = "url('" + reader.result + "')"
-        node[controledBy].controls[controlName].setValue(reader.result, {onlySelf: true})
-        node[controledBy].controls[controlName].markAsTouched();
-        node[controledBy].updateValueAndValidity()
-      };
-      reader.onerror = function (error) {
-        console.log('Error: ', error);
-      };
+
+  onChangeColor(o: Object, controller: string, id: number) {
+    if (controller === "color1") {
+      this.productForm.value.insuranceCarriers[id].primaryColor = o.toString();
     }
-    img.src = _URL.createObjectURL(file);
+    else {
+      this.productForm.value.insuranceCarriers[id].secondaryColor = o.toString();
+    }
   }
 
-  onChangeColor(o: Object, controller: string) {
-    console.log(this.secondFormGroup.controls);
-    this.secondFormGroup.controls[controller].setValue(o, {onlySelf: true})
-    this.secondFormGroup.controls[controller].markAsTouched();
-    this.secondFormGroup.updateValueAndValidity()
+  //Obtiene el arreglo de aseguradoras
+  get insuranceCarriersFormArray(): FormArray {
+    return this.productForm.get('insuranceCarriers') as FormArray;
   }
 
+  //Inicializa
+  initInsuranceCarrier() {
+    return this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.email],
+      logo: [''],
+      primaryColor: [''],
+      secondaryColor: ['']
+    });
+  }
+
+  //Agrega un formGroup de tipo Aseguradora al array
   addUser() {
-    let number = this.users
-    number++;
-    this.users = number;
+    let icf = this.initInsuranceCarrier();
+    this.insuranceCarriersFormArray.push(icf);
   }
 
-  uploadPic(file) {
-
+  //Elimina todos los FormGroup del arreglo
+  deleteAllUsers() {
+    for (let i = 0; i <= this.insuranceCarriersFormArray.length; i++) {
+      this.deleteUser(i);
+    }
   }
+
+  //Elimina una aseguradora en el indice indicado
+  deleteUser(idx: number) {
+    this.insuranceCarriersFormArray.removeAt(idx);
+    //console.log(idx);
+  }
+
 }
