@@ -13,7 +13,6 @@ import "jquery";
 import controlCustom from "./controls/custom";
 import I18N from "./mi18n";
 let instanceTime = new Date().getTime();
-
 export class FormBuilderCreateor {
   getFormBuilder(opts: any, element: any) {
       return   FormBuilder(opts,element);
@@ -289,7 +288,8 @@ const FormBuilder =  (opts, element) =>{
             let $field = $(evt.target).closest('.form-field');
             h.updatePreview($field);
             h.save.call(h);
-            window.setJSON = h.save.call(h)
+            localStorage.setItem('preview', JSON.stringify(h.save.call(h)))
+            //window.setJSON = ;
         }
     });
 
@@ -420,7 +420,7 @@ const FormBuilder =  (opts, element) =>{
             stageWrap.classList.remove('empty');
         }
         h.save();
-        window.setJSON = h.save()
+        localStorage.setItem('preview', JSON.stringify(h.save()))
     };
 
     /**

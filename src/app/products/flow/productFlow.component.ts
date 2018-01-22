@@ -8,7 +8,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { config, defaultI18n, defaultOptions } from "./../../formbuilder/config";
 import { FormBuilderCreateor } from "./../../formbuilder/form-builder";
 import I18N from "./../../formbuilder/mi18n";
-var instanceJson = null
 const options = {
   controlPosition: 'left',
   dataType: 'json',
@@ -212,7 +211,7 @@ export class ProductsNewFlowComponent implements ProductsInterface{
   }
   showPreview(){
     var data = []
-    JSON.parse(window.setJSON).map((v,i)=>{
+    JSON.parse(JSON.parse(localStorage.getItem('preview'))).map((v,i)=>{
       data.push(this.getComponent(v))
     })
     this.formElements = this.sanitizer.bypassSecurityTrustHtml(data.join().replace(/,/g , " "))
