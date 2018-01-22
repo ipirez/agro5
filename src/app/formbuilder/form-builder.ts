@@ -524,7 +524,7 @@ const FormBuilder =  (opts, element) =>{
                 'modelDependencia'
             ],
             text: [
-              'contenidoTxt',
+                'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
@@ -532,7 +532,6 @@ const FormBuilder =  (opts, element) =>{
                 'validacionTxt',
                 'subtype',
                 'lenghtValidation',
-                //customValidations,
                 'customError'
             ],
             date: defaultAttrs,
@@ -571,7 +570,7 @@ const FormBuilder =  (opts, element) =>{
               'lenghtValidation'
             ],
             select: [
-              'contenidoTxt',
+              /*'contenidoTxt',
               'required',
               'placeholder',
               'description',
@@ -580,7 +579,7 @@ const FormBuilder =  (opts, element) =>{
               'other',
               'options',
               'dependenciaTxt',
-              'modelDependencia'
+              'modelDependencia'*/
             ],
             textarea:[
                 'contenidoTxt',
