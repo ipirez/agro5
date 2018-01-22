@@ -289,7 +289,6 @@ const FormBuilder =  (opts, element) =>{
             h.updatePreview($field);
             h.save.call(h);
             localStorage.setItem('preview', JSON.stringify(h.save.call(h)))
-            //window.setJSON = ;
         }
     });
 
@@ -570,7 +569,7 @@ const FormBuilder =  (opts, element) =>{
               'lenghtValidation'
             ],
             select: [
-              /*'contenidoTxt',
+              'contenidoTxt',
               'required',
               'placeholder',
               'description',
@@ -579,7 +578,7 @@ const FormBuilder =  (opts, element) =>{
               'other',
               'options',
               'dependenciaTxt',
-              'modelDependencia'*/
+              'modelDependencia'
             ],
             textarea:[
                 'contenidoTxt',

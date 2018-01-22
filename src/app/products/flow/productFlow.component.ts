@@ -89,6 +89,8 @@ export class ProductsNewFlowComponent implements ProductsInterface{
   public selected : number = 0;
   public formElements: any;
   public preview : boolean = false;
+  public sla : boolean = false
+  public timeStandar : number = 0;
   ngOnInit(): void {
     initJq();
     setTimeout(()=>{
@@ -125,6 +127,10 @@ export class ProductsNewFlowComponent implements ProductsInterface{
     console.log(index)
     console.log(this.fluxArr[index])
     //this.fluxArr = this.fluxArr.filter(obj => obj !== this.fluxArr[index]);
+  }
+  testChange(e){
+    this.sla = e.checked
+    this.timeStandar = 0
   }
   trackByIndex(index: number, obj: any): any {
     return index;
