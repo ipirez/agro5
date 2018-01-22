@@ -20,7 +20,9 @@ export class ShowErrorsComponent {
     'countryCity': (params) => params.message,
     'uniqueName': (params) => params.message,
     'telephoneNumbers': (params) => params.message,
-    'telephoneNumber': (params) => params.message
+    'telephoneNumber': (params) => params.message,
+    'imageWeight': (params) => params.message,
+    'imageSize': (params) => params.message
   };
 
   @Input()
