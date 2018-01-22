@@ -26,7 +26,7 @@
                 </div>
                 <div>
 					<small *ngIf="!productForm.controls.image.valid" class="text-danger">
-	                    La imagen debe de ser de 200KB como máximo. Se recomienda una imagen de 200 x 200 px.
+	                    La imagen debe de ser de 250KB como máximo. Se recomienda una imagen de 200 x 200 px.
 	                </small>
                 </div>
                 <mat-card-actions>
@@ -42,7 +42,7 @@
           <mat-step>
             <div class="header">
               <h1 class="mat-display-3">Aseguradoras participantes</h1>
-              <p class="mat-subheading-2">Nombre e imagen de tu nuevo producto.</p>
+              <p class="mat-subheading-2">Crea los perfiles de las aseguradoras para invitarlas al producto.</p>
             </div>
             <div formArrayName="insuranceCarriers">
               <div id="cards" *ngFor="let ic of insuranceCarriersFormArray.controls; let idx = index">
@@ -115,7 +115,7 @@
                     </div>
                     <small *ngIf="!productForm.controls.insuranceCarriers.controls[idx].controls.logo.valid"
                                  class="text-danger">
-                            La imagen debe de ser de 200KB como máximo.<br> Se recomienda una imagen de 200 x 200 px.
+                            La imagen debe de ser de 250KB como máximo.<br> Se recomienda una imagen de 200 x 200 px.
                     </small>
                   </div>
 

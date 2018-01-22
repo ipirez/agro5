@@ -29,6 +29,8 @@ import {ProductsNewComponent} from './products/new/productsNew.component'
 import {ProductsDirective} from './products/products.directive'
 import {ProductsListComponent} from './products/list/productsList.component'
 import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
+
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +59,9 @@ import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InfiniteScrollModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],
