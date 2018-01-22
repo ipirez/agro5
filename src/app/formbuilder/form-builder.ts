@@ -524,7 +524,7 @@ const FormBuilder =  (opts, element) =>{
                 'modelDependencia'
             ],
             text: [
-                'contenidoTxt',
+              'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
@@ -542,7 +542,7 @@ const FormBuilder =  (opts, element) =>{
               'placeholder',
               'description',
               'lineBreak',
-              'subtype',
+              'subtype'
             ],
             header: [
                 'label',
@@ -589,7 +589,7 @@ const FormBuilder =  (opts, element) =>{
                 'description',
                 'lineBreak',
                 'validacionTxt',
-                'maxlength',
+                'maxlength'
             ],
 
         };
