@@ -54,7 +54,7 @@ export class ProductsNewComponent implements ProductsInterface {
             this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/product',
                 JSON.stringify(p), { headers: new HttpHeaders().set('Content-Type', 'application/json') })
                 .subscribe(err => {
-                    console.log("Ocurrio un error" + err);
+                    //console.log("Ocurrio un error" + err);
                 });
 
             this.snackBar.open('Producto guardado.', '', { duration: 1500 })
