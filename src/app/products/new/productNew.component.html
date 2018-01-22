@@ -1,0 +1,155 @@
+    <div class="product">
+      <form [formGroup]="productForm">
+        <mat-horizontal-stepper [linear]="true">
+          <mat-step [stepControl]="productForm">
+
+            <div class="header">
+              <h1 class="mat-display-3">Nuevo Producto</h1>
+              <p class="mat-subheading-2">Nombre e imagen de tu nuevo producto.</p>
+            </div>
+            <mat-card class="cardFull">
+              <div class="inner">
+                <div class="imageUploader" id="product-logo">
+                  <input type="file" id="fuLogo" (change)="setImage($event,'product-logo', 0)"
+                         accept="image/png, image/jpg, image/jpeg" imageWeight imageSize/>
+                  <input type="hidden" formControlName="image"/>
+                </div>
+                <div class="formHolder textInput">
+                  <mat-form-field>
+                    <input type="text" matInput placeholder="Nombre del producto" id="product-name"
+
+                           formControlName="name">
+                  </mat-form-field>
+                  <small *ngIf="!productForm.controls.name.valid" class="text-danger">
+                    El nombre del producto es requerido.
+                  </small>
+                </div>
+                <div>
+					<small *ngIf="!productForm.controls.image.valid" class="text-danger">
+	                    La imagen debe de ser de 250KB como máximo. Se recomienda una imagen de 200 x 200 px.
+	                </small>
+                </div>
+                <mat-card-actions>
+                  <button mat-button routerLink="/products">CANCELAR</button>
+                  <button mat-raised-button color="primary" matStepperNext>CONTINUAR</button>
+                </mat-card-actions>
+              </div>
+            </mat-card>
+
+          </mat-step>
+
+
+          <mat-step>
+            <div class="header">
+              <h1 class="mat-display-3">Aseguradoras participantes</h1>
+              <p class="mat-subheading-2">Crea los perfiles de las aseguradoras para invitarlas al producto.</p>
+            </div>
+            <div formArrayName="insuranceCarriers">
+              <div id="cards" *ngFor="let ic of insuranceCarriersFormArray.controls; let idx = index">
+                <mat-card [formGroupName]="idx" class="cardFull">
+
+                  <div class="inner full">
+
+
+                    <div class="imageUploader" id="user-logo-{{idx}}">
+                      <input type="file" id="fulogo-{{idx}}"
+                             (change)="setImage($event, 'user-logo-' + idx, idx)" accept=".png, .jpg, .jpeg" imageWeight imageSize/>
+                      <input type="hidden" formControlName="logo"/>
+                    </div>
+                    <div class="table">
+                      <div class="formRow">
+                        <div class="formHolder inputHalf">
+                          <mat-form-field>
+                            <input id="user-name-{{idx}}" type="text" matInput placeholder="Aseguradora"
+                                   formControlName="name">
+                          </mat-form-field>
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.name.valid"
+                                 class="text-danger">
+                            El nombre de aseguradora es requerido.
+                          </small>
+                        </div>
+                        <div class="formHolder inputHalf">
+                          <mat-form-field>
+                            <input id="user-email-{{idx}}" type="text" matInput placeholder="Correo eléctronico"
+                                   formControlName="email">
+                          </mat-form-field>
+                          <small [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.email.valid"
+                                 class="text-danger">
+                            Ingrese un email correcto.
+                          </small>
+                        </div>
+                      </div>
+
+                      <div class="formRow">
+                        <div class="formHolder input-2Special">
+                          <div class="color"
+                               [style.background]="productForm.value.insuranceCarriers[idx].primaryColor"></div>
+                          <mat-form-field>
+                            <input type="text" (colorPickerChange)="onChangeColor($event, 'color1', idx)"
+                                   [(colorPicker)]="productForm.value.insuranceCarriers[idx].primaryColor" matInput
+                                   placeholder="Color primario"
+                                   formControlName="primaryColor"
+                                   value="{{ productForm.value.insuranceCarriers[idx].primaryColor }}"
+                                   id="user-color1-{{idx}}">
+                          </mat-form-field>
+                          <small
+                            [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.primaryColor.valid"
+                            class="text-danger">
+                            Elija un color primario.
+                          </small>
+                        </div>
+                        <div class="formHolder input-2Special">
+                          <div class="color"
+                               [style.background]="productForm.value.insuranceCarriers[idx].secondaryColor"></div>
+                          <mat-form-field>
+                            <input type="text" (colorPickerChange)="onChangeColor($event,'color2', idx)"
+                                   [(colorPicker)]="productForm.value.insuranceCarriers[idx].secondaryColor" matInput
+                                   placeholder="Color secundario"
+                                   id="user-color2-{{idx}}"
+                                   formControlName="secondaryColor"
+                                   value="{{ productForm.value.insuranceCarriers[idx].secondaryColor }}">
+                          </mat-form-field>
+                          <!--<show-errors [control]="secondFormGroup.controls.color2"></show-errors>-->
+                        </div>
+                      </div>
+                    </div>
+                    <small *ngIf="!productForm.controls.insuranceCarriers.controls[idx].controls.logo.valid"
+                                 class="text-danger">
+                            La imagen debe de ser de 250KB como máximo.<br> Se recomienda una imagen de 200 x 200 px.
+                    </small>
+                  </div>
+
+                  <mat-menu #options="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      Editar
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon>content_copy</mat-icon>
+                      Duplicar
+                    </button>
+                    <button mat-menu-item class="border" (click)="deleteUser(idx)">
+                      <mat-icon>delete</mat-icon>
+                      Eliminar
+                    </button>
+                  </mat-menu>
+
+                  <button mat-icon-button [matMenuTriggerFor]="options" class="options">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+
+                </mat-card>
+              </div>
+            </div>
+            <div class="add">
+              <p (click)="addUser()">+ AGREGAR ASEGURADORA</p>
+            </div>
+            <div class="actionButtons">
+              <button mat-button matStepperPrevious (click)="deleteAllUsers()">CANCELAR</button>
+              <button mat-raised-button color="primary" (click)="saveProduct()">CONTINUAR</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+
+      </form>
+    </div>

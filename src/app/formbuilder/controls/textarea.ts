@@ -14,7 +14,7 @@ export default class controlTextarea extends control {
 
       // mi18n custom mappings (defaults to camelCase type)
       mi18n: {
-        textarea: 'textArea'
+        textarea: 'Área de texto'
       }
     };
   }

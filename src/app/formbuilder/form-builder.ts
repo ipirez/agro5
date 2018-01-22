@@ -13,7 +13,6 @@ import "jquery";
 import controlCustom from "./controls/custom";
 import I18N from "./mi18n";
 let instanceTime = new Date().getTime();
-
 export class FormBuilderCreateor {
   getFormBuilder(opts: any, element: any) {
       return   FormBuilder(opts,element);
@@ -24,7 +23,6 @@ export class FormBuilderCreateor {
 
 
 const FormBuilder =  (opts, element) =>{
-  console.log(I18N)
     const formBuilder = this;
     const $ = jQuery;
     var conf: any;
@@ -112,7 +110,7 @@ const FormBuilder =  (opts, element) =>{
           case 'checkboxGroup':
           label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">check_box</i>Opciòn multiple</span>`
           break;
-          case 'textArea':
+          case 'Área de texto':
           label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">format_align_left</i>Área de texto</span>`
           break;
           case 'number':
@@ -124,7 +122,7 @@ const FormBuilder =  (opts, element) =>{
           case 'fileUpload':
           label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">file_upload</i>Carga de archivo</span>`
           break;
-          case 'text':
+          case 'Campo de texto':
           label = `<span class="mdl-list__item-primary-content"><i class="material-icons mdl-list__item-icon">text_format</i>Campo de texto</span>`
           break;
           case 'select':
@@ -290,6 +288,7 @@ const FormBuilder =  (opts, element) =>{
             let $field = $(evt.target).closest('.form-field');
             h.updatePreview($field);
             h.save.call(h);
+            localStorage.setItem('preview', JSON.stringify(h.save.call(h)))
         }
     });
 
@@ -420,6 +419,7 @@ const FormBuilder =  (opts, element) =>{
             stageWrap.classList.remove('empty');
         }
         h.save();
+        localStorage.setItem('preview', JSON.stringify(h.save()))
     };
 
     /**
@@ -479,11 +479,8 @@ const FormBuilder =  (opts, element) =>{
     };
 
     const defaultFieldAttrs = type => {
-      console.log('ok --->')
-      console.log(type)
         const defaultAttrs = [
             'required',
-            'label',
             'description',
             'placeholder',
             'className',
@@ -514,37 +511,37 @@ const FormBuilder =  (opts, element) =>{
                 'access',
             ],
             checkbox: [
+                'contenidoTxt',
                 'required',
-                'label',
+                'placeholder',
                 'description',
-                'toggle',
-                'inline',
-                'className',
-                'name',
-                'access',
+                'lineBreak',
+                'loadFile',
                 'other',
                 'options',
+                'dependenciaTxt',
+                'modelDependencia'
             ],
             text: [
                 'contenidoTxt',
                 'required',
-                'label',
+                'placeholder',
                 'description',
                 'lineBreak',
                 'validacionTxt',
                 'subtype',
                 'lenghtValidation',
-                //customValidations,
-                'customError',
-                'lineBreak',
-                'dependenciaTxt',
-                'modelDependencia'
+                'customError'
             ],
             date: defaultAttrs,
-            file: defaultAttrs.concat([
-                'subtype',
-                'multiple'
-            ]),
+            file: [
+              'contenidoTxt',
+              'required',
+              'placeholder',
+              'description',
+              'lineBreak',
+              'subtype'
+            ],
             header: [
                 'label',
                 'subtype',
@@ -562,20 +559,36 @@ const FormBuilder =  (opts, element) =>{
                 'className',
                 'access',
             ],
-            number: defaultAttrs.concat([
-                'min',
-                'max',
-                'step',
-            ]),
-            select: defaultAttrs.concat([
-                'multiple',
-                'options',
-            ]),
-            textarea: defaultAttrs.concat([
-                'subtype',
-                'maxlength',
-                'rows',
-            ]),
+            number: [
+              'contenidoTxt',
+              'required',
+              'placeholder',
+              'description',
+              'lineBreak',
+              'validacionTxt',
+              'lenghtValidation'
+            ],
+            select: [
+              'contenidoTxt',
+              'required',
+              'placeholder',
+              'description',
+              'lineBreak',
+              'loadFile',
+              'other',
+              'options',
+              'dependenciaTxt',
+              'modelDependencia'
+            ],
+            textarea:[
+                'contenidoTxt',
+                'required',
+                'placeholder',
+                'description',
+                'lineBreak',
+                'validacionTxt',
+                'maxlength'
+            ],
 
         };
 
@@ -617,7 +630,6 @@ const FormBuilder =  (opts, element) =>{
     return arr.join('');
   }
   let errorValidation = (values) =>{
-    console.log(values)
     let arr = []
     arr.push(`<strong>Mensaje de error personalizado</strong><br/>`)
     let input = textAttribute('Escribe un mensaje de error que ayude al usuario a corregir su respuesta',values)
@@ -629,7 +641,6 @@ const FormBuilder =  (opts, element) =>{
      * @return {String}        markup for advanced fields
      */
     let advFields = values => {
-        console.log(values)
         let {type} = values;
         let advFields = [];
         let fieldAttrs = defaultFieldAttrs(type);
@@ -638,6 +649,7 @@ const FormBuilder =  (opts, element) =>{
             validacionTxt:()=>`<h3>Validación</h3> <strong>Configurar validación de respuesta</strong><p>Puedes elegir un perfil de validación precargado (E-mail, Tel, Etc.) o crear tu propia validación personalizada, solo debes seleccionar el tipo y cantidad de caracteres obligatorios</p>`,
             dependenciaTxt:()=>`<h3>Dependencia</h3><strong>Formulario dinamico</strong><p>Aqui puedes configurar este elemento para que aparezca dependiendo la respuesta de alguna otra pregunta, solo elije si quieres mostrar u ocultar este elemento, la pregunta que quieres crear dependencia y las respuestas que debería el usuario elejir para que se cumpla.</p><strong>Mostrar u ocultar elemento</strong>`,
             lineBreak: () => `<div class="lineBreak"></div>`,
+            loadFile: () => `<h3>Subir archivo</h3><strong>Aqui puedes seleccionar un archivo para cargar de forma mas rapida los elementos deseados ó subirlos de forma manual.</strong> <br/><br/> <div class="fileUpload"><input type="file"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Cargar archivo</button><span><i class="material-icons mdl-list__item-icon">file_upload</i>cargar archivo</span></input></div><br/><br/>`,
             lenghtValidation:()=> validationLenght(values),
             customError:() =>errorValidation(values),
             modelDependencia:()=> dependenciesModel(),
@@ -728,7 +740,6 @@ const FormBuilder =  (opts, element) =>{
                 });
             };
         }
-        console.log(fieldAttrs)
         Object.keys(fieldAttrs).forEach(index => {
             let attr = fieldAttrs[index];
             let useDefaultAttr = [true];
@@ -993,7 +1004,6 @@ const FormBuilder =  (opts, element) =>{
      * @return {String}
      */
     const textAttribute = (attribute, values) => {
-        console.log('aqui fucker')
         let textArea = ['paragraph'];
 
         let attrVal = values[attribute] || '';
@@ -1024,6 +1034,7 @@ const FormBuilder =  (opts, element) =>{
             }).outerHTML;
             let inputWrap = null
             if (attribute === 'label') {
+                console.log('esto es un valor ')
                 inputConfig.contenteditable = true;
                 inputConfig.className = `fld-${attribute} form-control mdl-textfield__input`
                 inputWrap = `<div class="input-wrap mdl-textfield mdl-js-textfield mdl-textfield--floating-label"><input type="text" ${utils.attrString(inputConfig)}/>${attributeLabel}</div>`;
@@ -1105,13 +1116,7 @@ const FormBuilder =  (opts, element) =>{
       }
 
       let liContents = [ m('div', fieldButtons, {className: 'field-actions'}) ];
-
-
-
 //NOTE: aqui construye de forma dinamica el pedo que necesitamos editar
-      // add the help icon
-      //checar este pedo
-
       liContents.push(m('div', '', {className: 'prev-holder'}));
       let descAttrs = {
           className: 'tooltip-element',
@@ -1122,7 +1127,6 @@ const FormBuilder =  (opts, element) =>{
         let eventsInput = []
       switch(type){
         case 'text':
-          console.log(values)
           text.push(m('input','',{className:"mdl-textfield__input",type:"${values.type}"}))
           text.push(m('label', utils.parsedHtml(label), {
             className: 'field-label mdl-textfield__label',
@@ -1154,57 +1158,33 @@ const FormBuilder =  (opts, element) =>{
         break;
         case 'date':
           liContents.push(`
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored calendar-btn">Calendar <input type="date" class="datePickerHidden"/> </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored calendar-btn">Calendario<input type="date" class="datePickerHidden"/> </button>
           `)
         break;
         case 'radio-group':
           liContents.push(`<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
             <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1">
-            <span class="mdl-radio__label">First</span>
+            <span class="mdl-radio__label">Lista de seleción</span>
           </label>`)
         break;
-        case 'radio-group':
-          liContents.push(`<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-            <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1">
-            <span class="mdl-radio__label">First</span>
+        case 'checkbox-group':
+          liContents.push(`<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
+            <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input">
+            <span class="mdl-checkbox__label">Opcion multiple</span>
           </label>`)
         break;
         case 'select':
-        console.log(values)
         liContents.push(`<div class="mdlext-selectfield mdlext-js-selectfield">
             <select id="some-id" class="mdlext-selectfield__select">
               <option value=""></option>
-              <option value="option1">option 1</option>
-              <option value="option2">option 2</option>
-              <option value="option3">option 3</option>
             </select>
-            <label for="some-id" class="mdlext-selectfield__label">Options</label>
+            <label for="some-id" class="mdlext-selectfield__label">Lista desplegable</label>
           </div>`)
         break;
         case 'file':
           liContents.push(`<div class="fileUpload"><input type="file"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Cargar archivo</button><span><i class="material-icons mdl-list__item-icon">file_upload</i>cargar archivo</span></input></div>`)
         break;
       }
-
-  /*  let descAttrs = {
-      className: 'tooltip-element',
-      tooltip: values.description,
-      style: values.description ? 'display:inline-block' : 'display:none',
-    };
-    liContents.push(m('span', '?', descAttrs));
-      liContents.push(
-        m('label', utils.parsedHtml(label), {
-          className: 'field-label',
-        })
-      );
-
-      liContents.push(
-        m('span', ' *', {
-          className: 'required-asterisk',
-          style: values.required ? 'display:inline' : '',
-        })
-      );*/
-      //->Seccion relativa al editor interno
       const formElements = m('div', [ advFields(values), m('a', i18n.close, {className: 'close-field'}) ], {
         className: 'form-elements',
         });
@@ -1226,7 +1206,7 @@ const FormBuilder =  (opts, element) =>{
       } else {
         $stage.append($li)
       }
-//NOTE: aqui termina el pedo de la construccion
+      //NOTE: aqui termina el pedo de la construccion
       (<any>jQuery('.sortable-options', $li)).sortable({update: () => h.updatePreview($li)});
 
       // generate the control, insert it into the list item & add it to the stage
@@ -1243,6 +1223,7 @@ const FormBuilder =  (opts, element) =>{
       }
 
       data.lastID = h.incrementId(data.lastID)
+      loadFields()
     };
 
     // Select field html, since there may be multiple
@@ -1627,5 +1608,6 @@ const FormBuilder =  (opts, element) =>{
             $(element).data('formBuilder', formBuilder);
         }
     };
+
     return formBuilder;
 };

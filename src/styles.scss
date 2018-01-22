@@ -113,10 +113,19 @@
   border: none !important;
   background: #fff !important;
   box-shadow: 0px 0px 3px grey;
+  padding: 35px !important;
 }
 .form-elements p{
   color: #808080 !important;
 }
 .hiddeComp{
   display: none;
+}
+.holderPreview{
+  width: 50%;
+  margin-left: 25%;
+  .mdl-textfield, .mdlext-selectfield, section {
+    display: block !important;
+    width: 100% !important;
+  }
 }

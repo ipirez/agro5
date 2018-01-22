@@ -15,7 +15,7 @@ export default class controlSelect extends control {
     return {
       inactive: ['checkbox'],
       mi18n: {
-        minSelectionRequired: 'minSelectionRequired'
+        minSelectionRequired: 'minSelectionRequired',
       }
     };
   }

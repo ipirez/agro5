@@ -237,7 +237,7 @@ export default class Helpers {
                     }
 
                     fieldData = utils.trimObj(fieldData);
-
+                    console.log(fieldData)
                     let multipleField = fieldData.type.match(d.optionFieldsRegEx);
 
                     if (multipleField) {
@@ -258,6 +258,7 @@ export default class Helpers {
      * @return {Object} formData
      */
     getData(formData) {
+      console.log(formData)
         let data = this.data;
         if (!formData) {
             formData = (<any>config).opts.formData;
@@ -342,6 +343,7 @@ export default class Helpers {
      * @param  {Object} $field jQuery DOM element
      */
     updatePreview($field) {
+        console.log($field)
         let _this = this;
         let d = this.d;
         const fieldClass = $field.attr('class');
