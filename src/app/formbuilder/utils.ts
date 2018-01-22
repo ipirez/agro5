@@ -333,7 +333,6 @@ const utils = {
      * @return {String}      parsed HTML
      */
     parsedHtml(html) : any {
-      console.log(html)
         const escapeElement = document.createElement('textarea');
         escapeElement.innerHTML = html;
         return escapeElement.textContent;

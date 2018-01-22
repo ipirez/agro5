@@ -15,7 +15,8 @@ export default class controlText extends control {
       // mi18n custom mappings (defaults to camelCase type)
       mi18n: {
         date: 'dateField',
-        file: 'fileUpload'
+        file: 'fileUpload',
+        text: 'Campo de texto',
       },
     };
   }

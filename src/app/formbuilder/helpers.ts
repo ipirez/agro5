@@ -258,6 +258,7 @@ export default class Helpers {
      * @return {Object} formData
      */
     getData(formData) {
+      console.log(formData)
         let data = this.data;
         if (!formData) {
             formData = (<any>config).opts.formData;

@@ -22,7 +22,6 @@ class FormRender {
    * @param {Object} options - an object hash of supported options
    */
   constructor(options : any = {}) {
-    console.log('huevisimos! 2222222')
     // initialise defaults & options
     let defaults = {
       layout: layout, // by default use the layout class, but support a child class being defined & passed as an option
