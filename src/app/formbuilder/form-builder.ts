@@ -533,7 +533,7 @@ const FormBuilder =  (opts, element) =>{
                 'lenghtValidation',
                 'customError'
             ],
-            date: defaultAttrs,
+            date: [],
             file: [
               'contenidoTxt',
               'required',
@@ -672,7 +672,7 @@ const FormBuilder =  (opts, element) =>{
             className: () => textAttribute('className', values),
             name: () => textAttribute('name', values),
             value: () => textAttribute('value', values),
-            maxlength: () => numberAttribute('Minima', values),
+            maxlength: () => numberAttribute('maxlength', values),
             access: () => {
                 let rolesDisplay = values.role ? 'style="display:block"' : '';
                 let availableRoles = [
@@ -941,7 +941,7 @@ const FormBuilder =  (opts, element) =>{
      */
     const numberAttribute = (attribute, values) => {
         let attrVal = values[attribute];
-        let attrLabel = attribute;
+        let attrLabel = i18n[attribute] || attribute;
         let placeholder = i18n[`placeholder.${attribute}`];
         let inputConfig = {
             type: 'number',
@@ -1223,7 +1223,6 @@ const FormBuilder =  (opts, element) =>{
       }
 
       data.lastID = h.incrementId(data.lastID)
-      loadFields()
     };
 
     // Select field html, since there may be multiple
