@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ProductsInterface} from './../productsInterface.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Product} from './../../models/Product.class';
+import {ProductsService} from './../../services/products.service';
 
 
 @Component({
@@ -73,6 +74,7 @@ export class ProductsListComponent implements ProductsInterface, OnInit {
   ngOnInit() {
     this.userName = "ADMIN"
     this.getProducts()
+    //this.products = this.productService.getProducts();
   }
 
   //Obtiene todos los productos para listar

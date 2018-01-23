@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 //HttpClient
 import {HttpClientModule} from '@angular/common/http';
 //extra modules
-import { ColorPickerModule } from 'ngx-color-picker';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 //form errors & validations
 import { ShowErrorsComponent } from './tools/errors.validators';
@@ -31,6 +30,8 @@ import {ProductsListComponent} from './products/list/productsList.component'
 import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {ColorPickerModule} from 'narik-angular-color-picker';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,12 +56,12 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MaterialModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ColorPickerModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     FormsModule,
     ReactiveFormsModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    ColorPickerModule
 
   ],
   providers: [],
