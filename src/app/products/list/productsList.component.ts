@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ProductsInterface} from './../productsInterface.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Product} from './../../models/Product.class';
+import {ProductsService} from './../../services/products.service';
 
 
 @Component({
@@ -25,13 +26,13 @@ import {Product} from './../../models/Product.class';
            [infiniteScrollThrottle]="300"
            (scrolled)="onScroll()"
            (scrolledUp)="onScrollUp()">
-      <mat-card *ngFor="let p of products" class="cardFull">
+        <mat-card *ngFor="let p of products" class="cardFull">
 
-        
+
           <mat-card-header>
-            <img mat-card-avatar src="{{ p.image }}" class="image" />
+            <img mat-card-avatar src="{{ p.image }}" class="image"/>
             <mat-card-title>{{ p.name }}</mat-card-title>
-  
+
             <mat-card-subtitle>{{ p.getInsuranceCarrierNames() }}</mat-card-subtitle>
             <mat-menu #options="matMenu">
               <button mat-menu-item>
@@ -47,14 +48,14 @@ import {Product} from './../../models/Product.class';
                 Eliminar
               </button>
             </mat-menu>
-  
+
             <button mat-icon-button [matMenuTriggerFor]="options" class="options">
               <mat-icon>more_vert</mat-icon>
             </button>
           </mat-card-header>
 
-        
-      </mat-card>
+
+        </mat-card>
 
       </div>
     </div>
@@ -66,38 +67,21 @@ export class ProductsListComponent implements ProductsInterface, OnInit {
   public userName: string;
   public products: Product[] = [];
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private service: ProductsService) {
 
   }
 
   ngOnInit() {
-    this.userName = "ADMIN"
-    this.getProducts()
+    this.userName = "ADMIN";
+    //Se obtienen todos los productos
+    this.products = this.service.getProducts();
   }
 
-  //Obtiene todos los productos para listar
-  getProducts() {
-    this.http.get<Product[]>('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/products',
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')})
-      .subscribe(data => {
-
-        data.forEach(item => {
-          let p: Product = new Product(item.name, item.image);
-          p.insuranceCarriers = item.insuranceCarriers;
-          this.products.push(p);
-        });
-
-
-      }, err => {
-        console.log("Ocurrio un error");
-      });
-  }
-
-  onScroll(){
+  onScroll() {
     console.log("onscroll");
   }
 
-  onScrollUp(){
+  onScrollUp() {
     console.log("onscrollup");
   }
 }

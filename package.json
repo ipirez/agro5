@@ -1,6 +1,6 @@
 {
   "name": "agro-compara",
-  "version": "0.0.7-release",
+  "version": "0.0.8-release",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -40,9 +40,9 @@
     "md-form-builder": "^0.14.1",
     "mdl-ext": "^0.17.1",
     "moment": "^2.20.1",
+    "narik-angular-color-picker": "^2.0.2",
     "ng-file-upload": "^12.2.13",
     "ng-pick-datetime": "^5.1.0",
-    "ngx-color-picker": "^5.2.0",
     "ngx-infinite-scroll": "^0.8.2",
     "node-sass": "^4.7.2",
     "normalize.css": "^7.0.0",
@@ -70,9 +70,5 @@
     "tslint": "~5.7.0",
     "typescript": "~2.4.2",
     "mi18n": "^0.3.4"
-  },
-  "engines": {
-    "node": "^6.10.0",
-    "npm": "^5.6"
   }
 }
