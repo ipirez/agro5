@@ -85,12 +85,17 @@
                           <div class="color"
                                [style.background]="productForm.value.insuranceCarriers[idx].primaryColor"></div>
                           <mat-form-field>
-                            <input type="text" (colorPickerChange)="onChangeColor($event, 'color1', idx)"
+
+                            <input (colorPickerChange)="onChangeColor($event,'color1', idx)"
                                    [(colorPicker)]="productForm.value.insuranceCarriers[idx].primaryColor" matInput
+                                   value="{{ productForm.value.insuranceCarriers[idx].primaryColor }}"
+                                   [cpOutputFormat]="'hex'"
+                                   [cpAlphaChannel]="'disabled'"
+                                   [cpHeight]="'auto'"
                                    placeholder="Color primario"
                                    formControlName="primaryColor"
-                                   value="{{ productForm.value.insuranceCarriers[idx].primaryColor }}"
-                                   id="user-color1-{{idx}}">
+                                   id="user-color1-{{idx}}" />
+
                           </mat-form-field>
                           <small
                             [hidden]="productForm.controls.insuranceCarriers.controls[idx].controls.primaryColor.valid"
@@ -102,12 +107,15 @@
                           <div class="color"
                                [style.background]="productForm.value.insuranceCarriers[idx].secondaryColor"></div>
                           <mat-form-field>
-                            <input type="text" (colorPickerChange)="onChangeColor($event,'color2', idx)"
+                            <input (colorPickerChange)="onChangeColor($event,'color2', idx)"
                                    [(colorPicker)]="productForm.value.insuranceCarriers[idx].secondaryColor" matInput
+                                   value="{{ productForm.value.insuranceCarriers[idx].secondaryColor }}"
+                                   [cpOutputFormat]="'hex'"
+                                   [cpAlphaChannel]="'disabled'"
+                                   [cpHeight]="'auto'"
                                    placeholder="Color secundario"
-                                   id="user-color2-{{idx}}"
                                    formControlName="secondaryColor"
-                                   value="{{ productForm.value.insuranceCarriers[idx].secondaryColor }}">
+                                   id="user-color2-{{idx}}" />
                           </mat-form-field>
                           <!--<show-errors [control]="secondFormGroup.controls.color2"></show-errors>-->
                         </div>
