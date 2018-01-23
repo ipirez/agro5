@@ -11,6 +11,7 @@ import {Observable} from 'rxjs/Observable';
 import {CustomValidators} from './../../../app/tools/custom.validators';
 import {Product} from "../../models/Product.class";
 import {InsuranceCarrier} from "../../models/insuranceCarrier.class";
+import {ProductsService} from './../../services/products.service';
 
 const URL = "http://localhost:4200/api/upload";
 
@@ -24,7 +25,8 @@ export class ProductsNewComponent implements ProductsInterface {
     productForm: FormGroup;
     private color:string ="#127bdc";
 
-    constructor(public http: HttpClient, private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
+    constructor(public http: HttpClient, private router: Router, private fb: FormBuilder,
+                public snackBar: MatSnackBar, private service: ProductsService) {
 
     }
 
@@ -53,11 +55,7 @@ export class ProductsNewComponent implements ProductsInterface {
                 p.addInsuranceCarrier(ic);
             });
 
-            this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/product',
-                JSON.stringify(p), { headers: new HttpHeaders().set('Content-Type', 'application/json') })
-                .subscribe(err => {
-                    //console.log("Ocurrio un error" + err);
-                });
+            this.service.saveProduct(p);
 
             this.snackBar.open('Producto guardado.', '', { duration: 1500 })
 
