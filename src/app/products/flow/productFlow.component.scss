@@ -65,9 +65,16 @@
   vertical-align: middle;
   width: 49.5%;
   text-align: right;
+  small{
+    display: block;
+    color: red;
+  }
 }
 .timerHolder{
   display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  width: 80px;
 }
 .cardFull{
   margin-top: 25px;

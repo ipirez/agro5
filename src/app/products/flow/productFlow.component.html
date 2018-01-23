@@ -44,13 +44,14 @@
       </mat-form-field>
     </div>
     <div class="right">
-      <mat-icon style="margin-top: 5px; color: rgba(117,117,117,1); vertical-align:top;">access_time</mat-icon>
-      <mat-slide-toggle class="clockIcon" id="flowToggleSLA-1">SLA</mat-slide-toggle>
+      <mat-slide-toggle class="clockIcon" id="flowToggleSLA-1" (change)="testChange($event)">SLA</mat-slide-toggle>
       <div class="timerHolder">
-        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
-        <owl-date-time #dt1></owl-date-time>
-        <!--<owl-date-time styleClass="inputPicker" [type]="'timer'" [dateFormat]="'hh:mm'" [placeHolder]="'hrs.'" id="flowTimePicker-1"></owl-date-time>-->
+        <mat-form-field>
+          <mat-icon  matPrefix style="margin-right: 10px;">access_time</mat-icon>
+          <input type="number" matInput placeholder="Hrs." [(ngModel)]="timeStandar" [disabled]="!sla"/>
+        </mat-form-field>
       </div>
+      <small>{{this.sla === true && this.timeStandar == 0  ?  'Este campo es obligatorio.' : ''}}</small>
     </div>
       <mat-card class="cardFull" *ngFor="let c of fluxArr(steep[idx]).fill(1); let idx2 = index;">
         <mat-card-header>
