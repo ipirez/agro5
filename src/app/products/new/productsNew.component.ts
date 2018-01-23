@@ -22,7 +22,7 @@ export class ProductsNewComponent implements ProductsInterface {
     @Input() data: any;
     //objeto FormGroup que contiene la informacion del producto y tener validaciones
     productForm: FormGroup;
-    private color:string ="#127bdc";
+    private color: string = "#127bdc";
 
     constructor(public http: HttpClient, private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
 
@@ -33,7 +33,7 @@ export class ProductsNewComponent implements ProductsInterface {
         //creamos el form del producto
         this.productForm = this.fb.group({
             name: ['', Validators.required],
-            image: ['', Validators.required, CustomValidators.imageWeight, CustomValidators.imageSize],
+            image: ['', Validators.required],
             insuranceCarriers: this.fb.array([])
         });
     }
@@ -71,27 +71,58 @@ export class ProductsNewComponent implements ProductsInterface {
         }
     }
 
-    setImage(c, node, idx) {
+    setImage(c, node, idx, maxWeightKB, maxWidthPX, maxHeightPX) {
         var imgBase64: string;
         let file = c.srcElement.files[0];
         let reader = new FileReader();
         reader.readAsDataURL(file);
+        var extension = file.name.split(".").pop();
+        var extensiones = c.srcElement.accept;
+        var dataurl = reader.result.toString();
 
-        reader.onloadend = function() {
-            document.getElementById(node).style.backgroundImage = "url('" + reader.result + "')";
-            imgBase64 = reader.result.toString();
-        };
-
-        //se pone el set time para que asigne correctamente el valor de la imagen
-        setTimeout(() => {
-            if (node === "product-logo") {
-                //se asigna en la propiedad
-                this.productForm.patchValue({ image: imgBase64 });
+        var _URL = window.URL;
+        var img = new Image();
+        let rightSize = false;
+        let rightWeight = false;
+        let rightType = false;
+        img.onload = function() {
+            rightSize = img.width <= maxWidthPX && img.height <= maxHeightPX;
+            rightWeight = file.size / 1024 <= maxWeightKB;
+            rightType = extensiones.includes(extension);
+            if (rightSize) {
+                document.getElementById("error-size-" + node).hidden = true;
             } else {
-                this.insuranceCarriersFormArray.at(idx).patchValue({ logo: imgBase64 });
-                console.log(this.productForm.value.insuranceCarriers[idx]);
+                document.getElementById("error-size-" + node).hidden = false;
             }
-        }, 500);
+
+            if (rightWeight) {
+                document.getElementById("error-weight-" + node).hidden = true;
+            } else {
+                document.getElementById("error-weight-" + node).hidden = true;
+            }
+            
+            if(rightType){
+                document.getElementById("error-extension-" + node).hidden = true;
+            } else {
+                document.getElementById("error-extension-" + node).hidden = false;
+            }
+
+            if(rightType && rightWeight &&rightSize){
+                document.getElementById(node).style.backgroundImage = "url('" + reader.result + "')";
+                imgBase64 = reader.result.toString();
+            }
+            
+        }
+        img.src = window.URL.createObjectURL(file);
+        setTimeout(() => {
+                if (node === "product-logo") {
+                    //se asigna en la propiedad
+                    this.productForm.patchValue({ image: imgBase64 });
+                } else {
+                    this.insuranceCarriersFormArray.at(idx).patchValue({ logo: imgBase64 });
+                    console.log(this.productForm.value.insuranceCarriers[idx]);
+                }
+            }, 500);
     }
 
     //Asigna los valores correspondientes al asegurador.
@@ -114,7 +145,7 @@ export class ProductsNewComponent implements ProductsInterface {
     //Inicializa
     initInsuranceCarrier() {
         return this.fb.group({
-            logo: ['',Validators.required, CustomValidators.imageWeight, CustomValidators.imageSize],
+            logo: ['', Validators.required],
             name: ['', Validators.required],
             email: ['', Validators.email],
             primaryColor: [''],

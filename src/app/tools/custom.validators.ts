@@ -34,6 +34,7 @@ export class CustomValidators {
         const maxHeightPX = 200;
 
         var dataurl = c.value;
+        
         if (dataurl!=null && dataurl.length>0) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);

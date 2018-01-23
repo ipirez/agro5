@@ -10,8 +10,8 @@
             <mat-card class="cardFull">
               <div class="inner">
                 <div class="imageUploader" id="product-logo">
-                  <input type="file" id="fuLogo" (change)="setImage($event,'product-logo', 0)"
-                         accept="image/png, image/jpg, image/jpeg" imageWeight imageSize/>
+                  <input type="file" id="fuLogo" (change)="setImage($event,'product-logo', 0,400,400,400 )"
+                         accept=".png, .jpg, .jpeg"/>
                   <input type="hidden" formControlName="image"/>
                 </div>
                 <div class="formHolder textInput">
@@ -25,9 +25,17 @@
                   </small>
                 </div>
                 <div>
-					<small *ngIf="!productForm.controls.image.valid" class="text-danger">
-	                    La imagen debe de ser de 250KB como máximo. Se recomienda una imagen de 200 x 200 px.
+                	<small class="text-danger" id="error-extension-product-logo">
+	                    La imagen solo admite extensiones PNG, JPG, y JPEG 
 	                </small>
+	                 <small id="error-size-product-logo"
+                                 class="text-danger">
+                            Se recomienda una imagen de 400 x 400 px.
+                    </small>
+                    <small id="error-weight-product-logo"
+                                 class="text-danger">
+                            La imagen debe de ser de 400KB como máximo.
+                    </small>
                 </div>
                 <mat-card-actions>
                   <button mat-button routerLink="/products">CANCELAR</button>
@@ -53,7 +61,7 @@
 
                     <div class="imageUploader" id="user-logo-{{idx}}">
                       <input type="file" id="fulogo-{{idx}}"
-                             (change)="setImage($event, 'user-logo-' + idx, idx)" accept=".png, .jpg, .jpeg" imageWeight imageSize/>
+                             (change)="setImage($event, 'user-logo-' + idx, idx, 200,420,120)" accept=".png, .jpg, .jpeg"/>
                       <input type="hidden" formControlName="logo"/>
                     </div>
                     <div class="table">
@@ -121,9 +129,16 @@
                         </div>
                       </div>
                     </div>
-                    <small *ngIf="!productForm.controls.insuranceCarriers.controls[idx].controls.logo.valid"
+                    <small class="text-danger" id="error-extension-user-logo-{{idx}}">
+	                    La imagen solo admite extensiones PNG, JPG, y JPEG 
+	                </small>
+                    <small id="error-size-user-logo-{{idx}}"
                                  class="text-danger">
-                            La imagen debe de ser de 250KB como máximo.<br> Se recomienda una imagen de 200 x 200 px.
+                            Se recomienda una imagen de 420 x 120 px.
+                    </small>
+                    <small id="error-weight-user-logo-{{idx}}"
+                                 class="text-danger">
+                            La imagen debe de ser de 200KB como máximo.
                     </small>
                   </div>
 
