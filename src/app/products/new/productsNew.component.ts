@@ -4,6 +4,7 @@ import {FormGroup, FormControl, FormArray, Validators, NgForm, FormBuilder} from
 import {Router} from '@angular/router';
 import {ProductsInterface} from './../productsInterface.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+
 import {Observable} from 'rxjs/Observable';
 //Custom Validators
 //NOTE: ->some validations in are NOT native in in @angular/forms like input file and few others important validate operators se this articule for more explication https://www.toptal.com/angular-js/angular-4-forms-validation
@@ -21,6 +22,7 @@ export class ProductsNewComponent implements ProductsInterface {
     @Input() data: any;
     //objeto FormGroup que contiene la informacion del producto y tener validaciones
     productForm: FormGroup;
+    private color:string ="#127bdc";
 
     constructor(public http: HttpClient, private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
 
