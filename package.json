@@ -1,6 +1,6 @@
 {
   "name": "agro-compara",
-  "version": "0.0.8-snapshot",
+  "version": "0.0.8-release",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -71,5 +71,4 @@
     "typescript": "~2.4.2",
     "mi18n": "^0.3.4"
   }
-  
 }
