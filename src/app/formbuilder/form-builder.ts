@@ -511,7 +511,7 @@ const FormBuilder =  (opts, element) =>{
                 'access',
             ],
             checkbox: [
-                'contenidoTxt',
+                /*'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
@@ -520,10 +520,10 @@ const FormBuilder =  (opts, element) =>{
                 'other',
                 'options',
                 'dependenciaTxt',
-                'modelDependencia'
+                'modelDependencia'*/
             ],
             text: [
-                'contenidoTxt',
+                /*'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
@@ -531,16 +531,16 @@ const FormBuilder =  (opts, element) =>{
                 'validacionTxt',
                 'subtype',
                 'lenghtValidation',
-                'customError'
+                'customError'*/
             ],
-            date: defaultAttrs,
+            date: [],
             file: [
-              'contenidoTxt',
+              /*'contenidoTxt',
               'required',
               'placeholder',
               'description',
               'lineBreak',
-              'subtype'
+              'subtype'*/
             ],
             header: [
                 'label',
@@ -560,16 +560,16 @@ const FormBuilder =  (opts, element) =>{
                 'access',
             ],
             number: [
-              'contenidoTxt',
+              /*'contenidoTxt',
               'required',
               'placeholder',
               'description',
               'lineBreak',
               'validacionTxt',
-              'lenghtValidation'
+              'lenghtValidation'*/
             ],
             select: [
-              'contenidoTxt',
+              /*'contenidoTxt',
               'required',
               'placeholder',
               'description',
@@ -578,16 +578,16 @@ const FormBuilder =  (opts, element) =>{
               'other',
               'options',
               'dependenciaTxt',
-              'modelDependencia'
+              'modelDependencia'*/
             ],
             textarea:[
-                'contenidoTxt',
+                /*'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
                 'lineBreak',
                 'validacionTxt',
-                'maxlength'
+                'maxlength'*/
             ],
 
         };
