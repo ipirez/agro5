@@ -511,7 +511,7 @@ const FormBuilder =  (opts, element) =>{
                 'access',
             ],
             checkbox: [
-                /*'contenidoTxt',
+                'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
@@ -520,10 +520,10 @@ const FormBuilder =  (opts, element) =>{
                 'other',
                 'options',
                 'dependenciaTxt',
-                'modelDependencia'*/
+                'modelDependencia'
             ],
             text: [
-                /*'contenidoTxt',
+                'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
@@ -531,16 +531,16 @@ const FormBuilder =  (opts, element) =>{
                 'validacionTxt',
                 'subtype',
                 'lenghtValidation',
-                'customError'*/
+                'customError'
             ],
             date: [],
             file: [
-              /*'contenidoTxt',
+              'contenidoTxt',
               'required',
               'placeholder',
               'description',
               'lineBreak',
-              'subtype'*/
+              'subtype'
             ],
             header: [
                 'label',
@@ -560,16 +560,16 @@ const FormBuilder =  (opts, element) =>{
                 'access',
             ],
             number: [
-              /*'contenidoTxt',
+              'contenidoTxt',
               'required',
               'placeholder',
               'description',
               'lineBreak',
               'validacionTxt',
-              'lenghtValidation'*/
+              'lenghtValidation'
             ],
             select: [
-              /*'contenidoTxt',
+              'contenidoTxt',
               'required',
               'placeholder',
               'description',
@@ -578,16 +578,16 @@ const FormBuilder =  (opts, element) =>{
               'other',
               'options',
               'dependenciaTxt',
-              'modelDependencia'*/
+              'modelDependencia'
             ],
             textarea:[
-                /*'contenidoTxt',
+                'contenidoTxt',
                 'required',
                 'placeholder',
                 'description',
                 'lineBreak',
                 'validacionTxt',
-                'maxlength'*/
+                'maxlength'
             ],
 
         };
@@ -672,7 +672,7 @@ const FormBuilder =  (opts, element) =>{
             className: () => textAttribute('className', values),
             name: () => textAttribute('name', values),
             value: () => textAttribute('value', values),
-            maxlength: () => numberAttribute('Minima', values),
+            maxlength: () => numberAttribute('maxlength', values),
             access: () => {
                 let rolesDisplay = values.role ? 'style="display:block"' : '';
                 let availableRoles = [
@@ -941,7 +941,7 @@ const FormBuilder =  (opts, element) =>{
      */
     const numberAttribute = (attribute, values) => {
         let attrVal = values[attribute];
-        let attrLabel = attribute;
+        let attrLabel = i18n[attribute] || attribute;
         let placeholder = i18n[`placeholder.${attribute}`];
         let inputConfig = {
             type: 'number',
@@ -1223,7 +1223,6 @@ const FormBuilder =  (opts, element) =>{
       }
 
       data.lastID = h.incrementId(data.lastID)
-      loadFields()
     };
 
     // Select field html, since there may be multiple
