@@ -40,7 +40,7 @@
             </div>
             <mat-card-actions>
               <button mat-button routerLink="/products">CANCELAR</button>
-              <button mat-raised-button color="primary" matStepperNext>CONTINUAR</button>
+              <button mat-raised-button color="primary" id="btnNext" matStepperNext>CONTINUAR</button>
             </mat-card-actions>
           </div>
         </mat-card>
@@ -166,11 +166,11 @@
           </div>
         </div>
         <div class="add">
-          <p (click)="addUser()">+ AGREGAR ASEGURADORA</p>
+          <p (click)="addUser()" id="btnAddUser">+ AGREGAR ASEGURADORA</p>
         </div>
         <div class="actionButtons">
           <button mat-button matStepperPrevious (click)="deleteAllUsers()">CANCELAR</button>
-          <button mat-raised-button color="primary" (click)="saveProduct()">CONTINUAR</button>
+          <button mat-raised-button color="primary" id="btnSaveProduct" (click)="saveProduct()">CONTINUAR</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>
