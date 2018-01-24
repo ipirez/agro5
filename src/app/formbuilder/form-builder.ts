@@ -533,7 +533,12 @@ const FormBuilder =  (opts, element) =>{
                 'lenghtValidation',
                 'customError'
             ],
-            date: [],
+            date: [
+              'contenidoTxt',
+              'required',
+              'placeholder',
+              'description'
+            ],
             file: [
               'contenidoTxt',
               'required',
@@ -1223,6 +1228,8 @@ const FormBuilder =  (opts, element) =>{
       }
 
       data.lastID = h.incrementId(data.lastID)
+      saveAndUpdate()
+      //localStorage.setItem('preview', JSON.stringify(h.save()))
     };
 
     // Select field html, since there may be multiple

@@ -55,15 +55,12 @@ export class ProductsNewComponent implements ProductsInterface {
 
             this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/product',
                 JSON.stringify(p), { headers: new HttpHeaders().set('Content-Type', 'application/json') })
-                .subscribe(err => {
-                    //console.log("Ocurrio un error" + err);
+                .subscribe(data => {
+                    this.snackBar.open('Producto guardado.', '', { duration: 1500 })
+                    setTimeout(() => {
+                        this.router.navigate(['/products/flow/'],{queryParams: { id: data.id }})
+                    }, 1500)
                 });
-
-            this.snackBar.open('Producto guardado.', '', { duration: 1500 })
-
-            setTimeout(() => {
-                this.router.navigate(['/products/flow'])
-            }, 2000)
         }
         else {
             this.snackBar.open('Por favor llena todos los campos.', '', { duration: 3000 })

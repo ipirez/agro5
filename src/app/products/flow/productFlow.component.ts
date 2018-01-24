@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Pipe, PipeTransform   }  from '@angular/core';
 import { ProductsInterface } from './../productsInterface.component';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 import { NgClass } from '@angular/common';
 import {NgModel} from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser';
@@ -73,7 +73,7 @@ function initJq() {
 })
 @Pipe({name: 'safeHtml'})
 export class ProductsNewFlowComponent implements ProductsInterface{
-  constructor(private router: Router, private sanitizer:DomSanitizer){
+  constructor(private router: Router, private sanitizer:DomSanitizer, private activatedRoute: ActivatedRoute){
   }
   @Input() data: any;
   visible: boolean = true;
@@ -92,6 +92,9 @@ export class ProductsNewFlowComponent implements ProductsInterface{
   public sla : boolean = false
   public timeStandar : number = 0;
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params)=>{
+      console.log(params)
+    }
     initJq();
     setTimeout(()=>{
       this.formBuilder = (<any>jQuery('.shittyStuff-0')).formBuilder(options);
@@ -136,15 +139,18 @@ export class ProductsNewFlowComponent implements ProductsInterface{
     return index;
   }
   getComponent(v){
+    console.log(v.description)
     let type = v.type
+    let tooltip = v.description !== undefined ? `<div class="tooltip"><i class="material-icons">help</i><span class="tooltiptext">${v.description}</span></div>` : ''
     let required = v.required === true ?`<span class="fb-required">*</span>` : ''
-    let tooltip = v.description !== null ? '' : `<span class="tooltip-element" tooltip="${v.description}">?</span>`
+    console.log(v)
     const component = {
       'text': ()=>{
         return `  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         ${required}${tooltip}
-          <input class="mdl-textfield__input ${v.className || ''}" type="${v.subtype}" name="${v.name || ''}" value="${v.value || ''}" maxlength="${v.maxlength || ''}" id="${v.name || ''}"  required="${v.required || false}" aria-required="${v.required || false}" id="${v.name}">
+          <input class="mdl-textfield__input ${v.className }" type="${v.subtype}" name="${v.name}" value="${v.value}" maxlength="${v.maxlength}" id="${v.name}"  required="${v.required || false}" aria-required="${v.required || false}" id="${v.name}"  onChange="setValue(${v.id})">
           <label class="mdl-textfield__label" for="${v.name}">${v.placeholder || 'sin titulo de campo'}</label>
+          <span class="mdl-textfield__error">error</span>
         </div>`
       },
       'textarea': ()=>{
@@ -158,14 +164,16 @@ export class ProductsNewFlowComponent implements ProductsInterface{
           return `<option value="${o.value || ''}" id="${v.name}-${i}">${o.label || ''}</option>`
         })
         return `
+        <section>
+        ${required}${tooltip}
         <div class="mdlext-selectfield mdlext-js-selectfield">
-            ${required}${tooltip}
                 <select class="mdlext-selectfield__select ${v.className || ''}"   name="${v.name || ''}" id="${v.name || ''}" required="${v.required || ''}" aria-required="${v.required || ''}">
                 <option value=""></option>
                 ${options}
                 </select>
                 <label for="some-id" class="mdlext-selectfield__label">${v.placeholder || ''}</label>
-              </div>`
+              </div>
+          <section>`
       },
       'radio-group': () =>{
         let options = v.values.map((o,i)=>{
