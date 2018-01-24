@@ -9,7 +9,7 @@ import {Observable} from 'rxjs/Observable';
 //Custom Validators
 //NOTE: ->some validations in are NOT native in in @angular/forms like input file and few others important validate operators se this articule for more explication https://www.toptal.com/angular-js/angular-4-forms-validation
 import {CustomValidators} from './../../../app/tools/custom.validators';
-import {Product} from "../../models/product.class";
+import {Product} from "../../models/Product.class";
 import {InsuranceCarrier} from "../../models/insuranceCarrier.class";
 import {ProductsService} from './../../services/products.service';
 
