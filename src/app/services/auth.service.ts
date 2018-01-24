@@ -12,6 +12,6 @@ export class AuthService {
     this.username = 'admin'
   }
   loginState(){
-    return this.userState
+    return this.userState;
   }
 }
