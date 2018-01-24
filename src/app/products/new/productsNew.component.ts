@@ -96,7 +96,7 @@ export class ProductsNewComponent implements ProductsInterface {
             if (rightWeight) {
                 document.getElementById("error-weight-" + node).hidden = true;
             } else {
-                document.getElementById("error-weight-" + node).hidden = true;
+                document.getElementById("error-weight-" + node).hidden = false;
             }
 
             if(rightType){
