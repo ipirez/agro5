@@ -9,7 +9,7 @@ import {Observable} from 'rxjs/Observable';
 //Custom Validators
 //NOTE: ->some validations in are NOT native in in @angular/forms like input file and few others important validate operators se this articule for more explication https://www.toptal.com/angular-js/angular-4-forms-validation
 import {CustomValidators} from './../../../app/tools/custom.validators';
-import {Product} from "../../models/Product.class";
+import {Product} from "../../models/product.class";
 import {InsuranceCarrier} from "../../models/insuranceCarrier.class";
 import {ProductsService} from './../../services/products.service';
 
@@ -98,7 +98,7 @@ export class ProductsNewComponent implements ProductsInterface {
             } else {
                 document.getElementById("error-weight-" + node).hidden = true;
             }
-            
+
             if(rightType){
                 document.getElementById("error-extension-" + node).hidden = true;
             } else {
@@ -107,9 +107,11 @@ export class ProductsNewComponent implements ProductsInterface {
 
             if(rightType && rightWeight &&rightSize){
                 document.getElementById(node).style.backgroundImage = "url('" + reader.result + "')";
+              document.getElementById(node).style.position = "center";
+              document.getElementById(node).style.backgroundSize = "contain";
                 imgBase64 = reader.result.toString();
             }
-            
+
         }
         img.src = window.URL.createObjectURL(file);
         setTimeout(() => {
@@ -118,7 +120,7 @@ export class ProductsNewComponent implements ProductsInterface {
                     this.productForm.patchValue({ image: imgBase64 });
                 } else {
                     this.insuranceCarriersFormArray.at(idx).patchValue({ logo: imgBase64 });
-                    console.log(this.productForm.value.insuranceCarriers[idx]);
+                    //console.log(this.productForm.value.insuranceCarriers[idx]);
                 }
             }, 500);
     }
