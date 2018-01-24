@@ -96,9 +96,9 @@ export class ProductsNewComponent implements ProductsInterface {
             if (rightWeight) {
                 document.getElementById("error-weight-" + node).hidden = true;
             } else {
-                document.getElementById("error-weight-" + node).hidden = true;
+                document.getElementById("error-weight-" + node).hidden = false;
             }
-            
+
             if(rightType){
                 document.getElementById("error-extension-" + node).hidden = true;
             } else {
@@ -107,9 +107,11 @@ export class ProductsNewComponent implements ProductsInterface {
 
             if(rightType && rightWeight &&rightSize){
                 document.getElementById(node).style.backgroundImage = "url('" + reader.result + "')";
+              document.getElementById(node).style.position = "center";
+              document.getElementById(node).style.backgroundSize = "contain";
                 imgBase64 = reader.result.toString();
             }
-            
+
         }
         img.src = window.URL.createObjectURL(file);
         setTimeout(() => {
@@ -118,7 +120,7 @@ export class ProductsNewComponent implements ProductsInterface {
                     this.productForm.patchValue({ image: imgBase64 });
                 } else {
                     this.insuranceCarriersFormArray.at(idx).patchValue({ logo: imgBase64 });
-                    console.log(this.productForm.value.insuranceCarriers[idx]);
+                    //console.log(this.productForm.value.insuranceCarriers[idx]);
                 }
             }, 500);
     }

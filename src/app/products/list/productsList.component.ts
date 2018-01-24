@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ProductsInterface} from './../productsInterface.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Product} from './../../models/Product.class';
+import {Product} from '../../models/Product.class';
 import {ProductsService} from './../../services/products.service';
 
 

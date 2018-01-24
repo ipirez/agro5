@@ -28,11 +28,11 @@
             <div>
               <small class="text-danger" id="error-extension-product-logo">
                 La imagen solo admite extensiones PNG, JPG, y JPEG
-              </small>
+              </small><br>
               <small id="error-size-product-logo"
                      class="text-danger">
                 Se recomienda una imagen de 400 x 400 px.
-              </small>
+              </small><br>
               <small id="error-weight-product-logo"
                      class="text-danger">
                 La imagen debe de ser de 400KB como máximo.
@@ -40,7 +40,7 @@
             </div>
             <mat-card-actions>
               <button mat-button routerLink="/products">CANCELAR</button>
-              <button mat-raised-button color="primary" matStepperNext>CONTINUAR</button>
+              <button mat-raised-button color="primary" id="btnNext" matStepperNext>CONTINUAR</button>
             </mat-card-actions>
           </div>
         </mat-card>
@@ -166,11 +166,11 @@
           </div>
         </div>
         <div class="add">
-          <p (click)="addUser()">+ AGREGAR ASEGURADORA</p>
+          <p (click)="addUser()" id="btnAddUser">+ AGREGAR ASEGURADORA</p>
         </div>
         <div class="actionButtons">
           <button mat-button matStepperPrevious (click)="deleteAllUsers()">CANCELAR</button>
-          <button mat-raised-button color="primary" (click)="saveProduct()">CONTINUAR</button>
+          <button mat-raised-button color="primary" id="btnSaveProduct" (click)="saveProduct()">CONTINUAR</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>
