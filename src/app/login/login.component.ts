@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {FormGroup, FormControl, FormArray, Validators, NgForm, FormBuilder} from '@angular/forms';
 
@@ -15,13 +15,15 @@ export class LoginComponent implements OnInit {
     Validators.email,
   ]);
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) {
+  }
 
   ngOnInit() {
 
   }
-adminPath(){
-  this.auth.toggleState()
-  this.router.navigate(['/dashboard'])
-}
+
+  adminPath() {
+    this.auth.toggleState()
+    this.router.navigate(['/dashboard'])
+  }
 }
