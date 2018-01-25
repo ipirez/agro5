@@ -1,0 +1,117 @@
+<div class="product" [ngClass]="{hiddeComp: preview === true}">
+  <div class="header">
+      <div class="row">
+        <div class="left">
+          <button mat-icon-button class="backTitle" routerLink="/products/new">
+            <mat-icon>arrow_back</mat-icon> PRODUCT NAME
+          </button>
+        </div>
+        <div class="right">
+          <button mat-icon-button class="iconButton">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <button mat-raised-button color="primary" (click)="showPreview()">
+            PREVISUALIZAR
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div *ngFor="let i of fluxArr(flux).fill(1); let idx = index"  class="chipSet">
+        <mat-chip-list #chipList class="inlineChipSet" >
+          <mat-chip color="primary" class="mat-subheading-2" (click)="chipClick(idx)" selected="{{selected == idx ? true : false}}">
+            <span class="type">E</span>
+              {{fluxArr[idx]}}
+            <mat-icon matChipRemove *ngIf="removable" color="red" (click)="remove(idx)">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <mat-icon class="inlineChipSet">arrow_forward</mat-icon>
+      </div>
+        <button mat-button color="accent" class="inlineChipSet" style="margin-top: -5px;" (click)="addSteep()">Agregar flujo</button>
+      </div>
+  </div>
+<div class="steepContainer" *ngFor="let i of fluxArr(flux).fill(1); let idx = index; trackBy:customTrackBy"  [ngClass]="{hiddeComp: selected != idx}">
+    <div class="inner">
+      <mat-form-field class="flowName">
+        <input type="text" matInput placeholder="Nombre del flujo" id="flowName-{{idx}}" [(ngModel)]="fluxArr[idx]" />
+      </mat-form-field>
+    <div class="left">
+      <mat-form-field>
+        <mat-select placeholder="Tipo de usuario">
+          <mat-option *ngFor="let food of foods" [value]="food.value">
+            {{ food.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="right">
+      <mat-slide-toggle class="clockIcon" id="flowToggleSLA-1" (change)="testChange($event)">SLA</mat-slide-toggle>
+      <div class="timerHolder">
+        <mat-form-field>
+          <mat-icon  matPrefix style="margin-right: 10px;">access_time</mat-icon>
+          <input type="number" matInput placeholder="Hrs." [(ngModel)]="timeStandar" [disabled]="!sla"/>
+        </mat-form-field>
+      </div>
+      <small>{{this.sla === true && this.timeStandar == 0  ?  'Este campo es obligatorio.' : ''}}</small>
+    </div>
+      <mat-card class="cardFull" *ngFor="let c of fluxArr(steep[idx]).fill(1); let idx2 = index;">
+        <mat-card-header>
+            <mat-form-field class="SteepName">
+              <input type="text" matInput placeholder="Nombre del paso" id="flowSteep-{{idx2}}" [(ngModel)]="steep[idx]">
+            </mat-form-field>
+            <mat-menu #options="matMenu">
+              <button mat-menu-item> <mat-icon >edit</mat-icon> Editar </button>
+              <button mat-menu-item> <mat-icon >content_copy</mat-icon> Duplicar </button>
+              <button mat-menu-item class="border"> <mat-icon >delete</mat-icon> Eliminar </button>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="options" class="options">
+            <mat-icon >more_vert</mat-icon>
+            </button>
+        </mat-card-header>
+        <div class="dragableBox">
+          <div class="build-wrap shittyStuff-{{idx2}}"></div>
+        </div>
+      </mat-card>
+      <div class="add">
+        <p (click)="addCard(idx) ">+ AGREGAR PASO</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="product" [ngClass]="{hiddeComp: preview === false}">
+  <div class="header">
+      <div class="row">
+        <div class="left">
+          <button mat-icon-button class="backTitle" (click)="toglePreview()">
+            <mat-icon>arrow_back</mat-icon> PRODUCT NAME
+          </button>
+        </div>
+        <div class="right">
+          <button  mat-button color="primary" (click)="toglePreview()">
+            VOLVER A EDICIÓN
+          </button>
+          <button mat-raised-button disabled>
+            PUBLICAR
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div *ngFor="let i of fluxArr(flux).fill(1); let idx = index"  class="chipSet">
+        <mat-chip-list #chipList class="inlineChipSet" >
+          <mat-chip color="primary" class="mat-subheading-2" (click)="chipClick(idx)" selected="{{selected == idx ? true : false}}">
+            <span class="type">E</span>
+              {{fluxArr[idx]}}
+            <mat-icon matChipRemove *ngIf="removable" color="red" (click)="remove(idx)">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      </div>
+  </div>
+  <div class="steepHolder">
+    <div *ngFor="let c of fluxArr(steep[idx]).fill(1); let idx = index;" class="steepContext">
+      <span>{{idx+1}}</span><strong>{{steep[idx]}}</strong>
+    </div>
+  </div>
+  <h4 class="descriptionSteep">{{steep[idx]}}</h4>
+  <div [innerHTML]="formElements" class="holderPreview">
+  </div>
+</div>

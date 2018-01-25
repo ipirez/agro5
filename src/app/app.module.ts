@@ -31,6 +31,7 @@ import {ProductsNewFlowComponent} from './productFlow/productFlow.component'
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {ColorPickerModule} from 'narik-angular-color-picker';
+import {ProductsService} from "./services/products.service";
 
 @NgModule({
   declarations: [
@@ -64,7 +65,9 @@ import {ColorPickerModule} from 'narik-angular-color-picker';
     ColorPickerModule
 
   ],
-  providers: [],
+  providers: [
+    ProductsService
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ProductsNewComponent,ProductsListComponent],
 })
