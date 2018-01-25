@@ -27,7 +27,7 @@ import { ProductsComponent } from './products/products.component';
 import {ProductsNewComponent} from './products/new/productsNew.component'
 import {ProductsDirective} from './products/products.directive'
 import {ProductsListComponent} from './products/list/productsList.component'
-import {ProductsNewFlowComponent} from './products/flow/productFlow.component'
+import {ProductsNewFlowComponent} from './productFlow/productFlow.component'
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {ColorPickerModule} from 'narik-angular-color-picker';
@@ -66,6 +66,6 @@ import {ColorPickerModule} from 'narik-angular-color-picker';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ProductsNewComponent,ProductsListComponent,ProductsNewFlowComponent],
+  entryComponents: [ProductsNewComponent,ProductsListComponent],
 })
 export class AppModule { }

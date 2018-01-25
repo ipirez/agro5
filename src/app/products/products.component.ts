@@ -2,7 +2,7 @@ import { Component, Input, AfterViewInit, ViewChild, ComponentFactoryResolver, O
 import {ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError} from "@angular/router"
 import {ProductsInterface} from './productsInterface.component'
 import {ProductsNewComponent} from './new/productsNew.component'
-import {ProductsNewFlowComponent} from './flow/productFlow.component'
+//import {ProductsNewFlowComponent} from './flow/productFlow.component'
 import {ProductsListComponent} from './list/productsList.component'
 import {ProductsDirective} from './products.directive'
 @Component({
@@ -23,7 +23,7 @@ export class ProductsComponent implements AfterViewInit{
     private route: ActivatedRoute
     ) {
     routerChange.events.subscribe( (event: Event) => {
-
+            console.log('fuck you')
             if (event instanceof NavigationStart) {
                 // Show loading indicator
             }
@@ -54,7 +54,7 @@ export class ProductsComponent implements AfterViewInit{
         componentContainer = ProductsNewComponent
       break;
       case 'flow':
-        componentContainer = ProductsNewFlowComponent
+        //componentContainer = ProductsNewFlowComponent
       break;
       default:
         componentContainer = ProductsListComponent

@@ -15,7 +15,8 @@ import {
   MatSlideToggleModule,
   MatSnackBarModule,
   MatNativeDateModule,
-  MatDatepickerModule
+  MatDatepickerModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -53,7 +55,8 @@ import {
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatProgressSpinnerModule
   ],
   declarations: []
 })

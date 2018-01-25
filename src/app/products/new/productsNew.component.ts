@@ -4,7 +4,6 @@ import {FormGroup, FormControl, FormArray, Validators, NgForm, FormBuilder} from
 import {Router} from '@angular/router';
 import {ProductsInterface} from './../productsInterface.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-
 import {Observable} from 'rxjs/Observable';
 //Custom Validators
 //NOTE: ->some validations in are NOT native in in @angular/forms like input file and few others important validate operators se this articule for more explication https://www.toptal.com/angular-js/angular-4-forms-validation
@@ -52,13 +51,13 @@ export class ProductsNewComponent implements ProductsInterface {
 
                 p.addInsuranceCarrier(ic);
             });
-
+console.log(JSON.stringify(p))
             this.http.post('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/product',
                 JSON.stringify(p), { headers: new HttpHeaders().set('Content-Type', 'application/json') })
                 .subscribe(data => {
                     this.snackBar.open('Producto guardado.', '', { duration: 1500 })
                     setTimeout(() => {
-                        this.router.navigate(['/products/flow/'],{queryParams: { id: data.id }})
+                        this.router.navigate(['/products/flow/'+data["id"]])
                     }, 1500)
                 });
         }

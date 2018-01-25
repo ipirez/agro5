@@ -288,7 +288,6 @@ const FormBuilder =  (opts, element) =>{
             let $field = $(evt.target).closest('.form-field');
             h.updatePreview($field);
             h.save.call(h);
-            localStorage.setItem('preview', JSON.stringify(h.save.call(h)))
         }
     });
 
@@ -419,7 +418,6 @@ const FormBuilder =  (opts, element) =>{
             stageWrap.classList.remove('empty');
         }
         h.save();
-        localStorage.setItem('preview', JSON.stringify(h.save()))
     };
 
     /**
@@ -1229,7 +1227,6 @@ const FormBuilder =  (opts, element) =>{
 
       data.lastID = h.incrementId(data.lastID)
       saveAndUpdate()
-      //localStorage.setItem('preview', JSON.stringify(h.save()))
     };
 
     // Select field html, since there may be multiple

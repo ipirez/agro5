@@ -11,6 +11,8 @@ import {DashboardComponent} from './dashboard/dashboard.component'
 import {AccountsComponent} from './accounts/accounts.component'
 import {ContactsComponent} from './contacts/contacts.component'
 import {FormsComponent} from './forms/forms.component'
+//Products Implementation
+import {ProductsNewFlowComponent} from './productFlow/productFlow.component'
 
 const routes: Routes = [
   {
@@ -26,6 +28,11 @@ const routes: Routes = [
     path: 'products',
     component: ProductsComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'products/flow/:id',
+    component: ProductsNewFlowComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'products/:steep',
