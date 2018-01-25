@@ -23,7 +23,6 @@ export class ProductsComponent implements AfterViewInit{
     private route: ActivatedRoute
     ) {
     routerChange.events.subscribe( (event: Event) => {
-            console.log('fuck you')
             if (event instanceof NavigationStart) {
                 // Show loading indicator
             }

@@ -23,7 +23,7 @@
           <div *ngFor="let i of fluxArr(flux).fill(1); let idx = index"  class="chipSet">
           <mat-chip-list #chipList class="inlineChipSet" >
             <mat-chip color="primary" class="mat-subheading-2" (click)="chipClick(idx)" selected="{{selected == idx ? true : false}}">
-              <span class="type">E</span>
+              <span class="type">{{fluxUser}}</span>
                 {{fluxArr[idx]}}
               <mat-icon matChipRemove color="red" (click)="remove(idx)">cancel</mat-icon>
             </mat-chip>
@@ -40,9 +40,10 @@
         </mat-form-field>
       <div class="left">
         <mat-form-field>
-          <mat-select placeholder="Tipo de usuario">
-            <mat-option *ngFor="let food of foods" [value]="food.value">
-              {{ food.viewValue }}
+          <mat-select placeholder="Tipo de usuario" (change)="fluxType($event)">
+            <mat-option value="" disabled>selecione un rol</mat-option>
+            <mat-option *ngFor="let user of usersType" [value]="user.value">
+              {{ user.viewValue }}
             </mat-option>
           </mat-select>
         </mat-form-field>

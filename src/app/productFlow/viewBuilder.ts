@@ -9,7 +9,6 @@ export class FormView {
     let type = v.type
     let tooltip = v.description !== undefined ? `<div class="tooltip"><i class="material-icons">help</i><span class="tooltiptext">${v.description}</span></div>` : ''
     let required = v.required === true ?`<span class="fb-required">*</span>` : ''
-    console.log(v)
     const component = {
       'text': ()=>{
         return `  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">

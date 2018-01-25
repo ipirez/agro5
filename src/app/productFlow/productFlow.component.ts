@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Pipe, PipeTransform }  from '@angular/core';
+import { Component, Input, OnInit }  from '@angular/core';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { NgClass } from '@angular/common';
@@ -29,6 +29,7 @@ const options = {
 function initJq() {
   (function ($) {
     (<any>$.fn).formBuilder = function (options) {
+      console.log(this)
       if (!options) {
         options = {};
       }
@@ -74,10 +75,10 @@ function initJq() {
   styleUrls: ['./productFlow.component.scss'],
   providers: []
 })
-@Pipe({name: 'safeHtml'})
 export class ProductsNewFlowComponent implements OnInit {
   constructor(private router: Router, private sanitizer:DomSanitizer, private activatedRoute: ActivatedRoute, public http: HttpClient, public snackBar: MatSnackBar){
   }
+  public fluxUser : string
   public productName : string = 'unknow'
   public formBuilder: any;
   public flux : number = 1;
@@ -91,9 +92,9 @@ export class ProductsNewFlowComponent implements OnInit {
   public timeStandar : number = 0;
   public dataModel : Object
   public loading : boolean = false
-  foods = [
-    {value: '01', viewValue: 'Ejecutivo'},
-    {value: '02', viewValue: 'Aseguradora'},
+  usersType = [
+    {value: '2', viewValue: 'Ejecutivo'},
+    {value: '3', viewValue: 'Aseguradora'},
   ];
   ngOnInit(): void {
     initJq();
@@ -111,6 +112,18 @@ export class ProductsNewFlowComponent implements OnInit {
           });
       });
     }
+    //setflux type member
+    fluxType(a){
+      console.log(a.value)
+      switch(a.value){
+        case '2':
+          this.fluxUser = 'E'
+        break;
+        case '3':
+          this.fluxUser = 'A'
+        break;
+      }
+    }
     //disable login spinner and start dinamic form builder
     toggleLoading(){
       //this.loading = this.loading ? false : true
@@ -119,6 +132,7 @@ export class ProductsNewFlowComponent implements OnInit {
         this.formBuilder = (<any>jQuery('.flux-0.dynamicForm-0')).formBuilder(options);
         setTimeout(()=>{
           jQuery('.cb-wrap ul').addClass('mdl-list')
+          this.formBuilder.actions.setData(this.dataModel['stages'][this.flux-1]['works'[0]]['templateForm'])
         },200)
       },250)
     }
@@ -170,8 +184,8 @@ export class ProductsNewFlowComponent implements OnInit {
     }
     //save complete form
     save(){
-      this.dataModel = {
-        ...this.dataModel,
+          var payload = {
+        id: this.dataModel['id'],
         stages: [
           {
             maximumHoursSLA: 0,
@@ -182,14 +196,14 @@ export class ProductsNewFlowComponent implements OnInit {
               {
                 name: 'string',
                 order: 0,
-                templateForm:  JSON.parse(this.formBuilder.formData)
+                templateForm: this.formBuilder.formData
               }
             ]
           }
         ]
       }
       this.http.patch('https://products-mxagrocompara1-dev.appls.cto1.paas.gsnetcloud.corp/product',
-          JSON.stringify(this.dataModel), { headers: new HttpHeaders().set('Content-Type', 'application/json') })
+          payload, { headers: new HttpHeaders().set('Content-Type', 'application/json') })
           .subscribe(data => {
               console.log(data)
               this.snackBar.open('Producto guardado.', '', { duration: 1500 })
