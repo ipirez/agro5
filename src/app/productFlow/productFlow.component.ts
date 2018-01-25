@@ -124,7 +124,7 @@ export class ProductsNewFlowComponent implements OnInit {
     }
     //remove flux
     remove(index){
-      console.log(this.fluxArr[])
+      console.log(this.fluxArr[this.flux ])
       console.log()
       //this.fluxArr = this.fluxArr.filter(obj => obj !== this.fluxArr[index]);
     }
