@@ -1,6 +1,6 @@
 {
   "name": "agro-compara",
-  "version": "0.0.11-SNAPSHOT",
+  "version": "0.0.11",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
