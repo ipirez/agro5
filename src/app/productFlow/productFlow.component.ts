@@ -29,7 +29,6 @@ const options = {
 function initJq() {
   (function ($) {
     (<any>$.fn).formBuilder = function (options) {
-      console.log(this)
       if (!options) {
         options = {};
       }
@@ -81,18 +80,28 @@ export class ProductsNewFlowComponent implements OnInit {
   public fluxUser : string
   public productName : string = 'unknow'
   public formBuilder: any;
-  public flux : number = 1;
-  public fluxArr = Array;
-  public steepsArr = Array;
-  public steep  = [1];
   public selected : number = 0;
-  public formElements: any;
+  public formElements: Array;
   public preview : boolean = false;
   public sla : boolean = false
-  public timeStandar : number = 0;
   public dataModel : Object
   public loading : boolean = false
-  usersType = [
+  public logicContent = [
+    {
+      'fluxName':'',
+      'sla': 0,
+      'userId': '',
+      'userType': '',
+      'steps':[
+          {
+          'name':'',
+          'instance':{},
+          'dinamicForm':''
+        }
+      ]
+    }
+  ]
+  publicusersType = [
     {value: '2', viewValue: 'Ejecutivo'},
     {value: '3', viewValue: 'Aseguradora'},
   ];
@@ -112,40 +121,49 @@ export class ProductsNewFlowComponent implements OnInit {
           });
       });
     }
-    //setflux type member
-    fluxType(a){
-      console.log(a.value)
-      switch(a.value){
-        case '2':
-          this.fluxUser = 'E'
-        break;
-        case '3':
-          this.fluxUser = 'A'
-        break;
-      }
-    }
     //disable login spinner and start dinamic form builder
     toggleLoading(){
       //this.loading = this.loading ? false : true
       initJq();
+      this.buildInstance(0,0)
       setTimeout(()=>{
-        this.formBuilder = (<any>jQuery('.flux-0.dynamicForm-0')).formBuilder(options);
-        setTimeout(()=>{
-          jQuery('.cb-wrap ul').addClass('mdl-list')
-          this.formBuilder.actions.setData(this.dataModel['stages'][this.flux-1]['works'[0]]['templateForm'])
+          //this.formBuilder.actions.setData(this.dataModel['stages'][this.flux-1]['works'[0]]['templateForm'])
         },200)
+    }
+    buildInstance(flux,step){
+      setTimeout(()=>{
+        this.logicContent[flux].steps[step].instance = (<any>jQuery('.flux-'+flux+'.dynamicForm-'+step)).formBuilder(options)
       },250)
+    }
+    //setflux type member
+    fluxType(a,i){
+      switch(a.value){
+        case '2':
+          this.logicContent[i].userType = 'E'
+        break;
+        case '3':
+          this.logicContent[i].userType = 'A'
+        break;
+      }
+      this.logicContent[i].userId = a.value
+    }
+    //change step name
+    stepName(value, i, ii){
+      this.logicContent[i].steps[ii].name
     }
     //remove flux
     remove(index){
-      console.log(this.fluxArr[this.flux ])
-      console.log()
+      //console.log(this.fluxArr[this.flux ])
+      //console.log()
       //this.fluxArr = this.fluxArr.filter(obj => obj !== this.fluxArr[index]);
     }
     //timepicker
-    timePicker(e){
+    timePicker(e,i){
       this.sla = e.checked
-      this.timeStandar = 0
+      this.logicContent[i].sla = 0
+    }
+    timeStandar(value,i){
+      this.logicContent[i].sla = value
     }
     //change flux page
     chipClick(index){
@@ -153,30 +171,55 @@ export class ProductsNewFlowComponent implements OnInit {
     }
     //add other Flux
     addFlux(){
-      let number = this.flux
-      number++
-      this.flux = number;
+      let flux = {
+            'fluxName':'',
+            'sla': 0,
+            'userId': '',
+            'userType': '',
+            'steps':[
+                {
+                'name':'',
+                'instance':{},
+                'dinamicForm':''
+              }
+            ]
+          }
+      this.logicContent.push(flux)
+      this.buildInstance(this.logicContent.length-1, 0)
     }
     //add step to the flux
-    addStep(index){
-      if(!this.steep[index]){
-        this.steep[index] = 1
+    addStep(i){
+      let step = {
+      'name':'',
+      'instance':{},
+      'dinamicForm':''
       }
-      let steep = this.steep[index]
-      steep++
-      this.steep[index] = steep
+      this.logicContent[i].steps.push(step)
+      this.buildInstance(i,this.logicContent[i].steps.length-1)
     }
     //showPreview stuff
     showPreview(){
-      var data = []
-      JSON.parse(this.formBuilder.formData).map((v,i)=>{
-        data.push(getComponent(v))
+      this.logicContent.map((v,i)=>{
+        v.steps.map((vv,ii)=>{
+          this.logicContent[i].steps[ii].dinamicForm = vv.instance.formData
+        })
       })
-      this.formElements = this.sanitizer.bypassSecurityTrustHtml(data.join().replace(/,/g , " "))
-      setTimeout(()=>{
-          window.componentHandler.upgradeDom()
-      },500)
-      this.toglePreview()
+      this.displayPreview()
+    }
+    displayPreview(){
+      let elemnts = []
+      this.logicContent[this.selected].steps.map((v,i)=>{
+         let data = []
+         JSON.parse(v.dinamicForm).map((vv,ii)=>{
+           data.push(getComponent(vv))
+        })
+        elemnts.push(this.sanitizer.bypassSecurityTrustHtml(data.join().replace(/,/g , " ")))
+      })
+      this.formElements = elemnts
+        setTimeout(()=>{
+            window.componentHandler.upgradeDom()
+        },500)
+        this.toglePreview()
     }
     //swtich between screens
     toglePreview(){
@@ -184,7 +227,9 @@ export class ProductsNewFlowComponent implements OnInit {
     }
     //save complete form
     save(){
-          var payload = {
+    /*  let allForms = fbInstances.map((fb)=>{
+      return fb.formData
+    })  var payload = {
         id: this.dataModel['id'],
         stages: [
           {
@@ -207,6 +252,6 @@ export class ProductsNewFlowComponent implements OnInit {
           .subscribe(data => {
               console.log(data)
               this.snackBar.open('Producto guardado.', '', { duration: 1500 })
-          });
+          });*/
     }
   }
