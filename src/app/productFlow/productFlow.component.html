@@ -1,0 +1,133 @@
+<div class="flowContent" *ngIf="!loading">
+  <div class="product" [ngClass]="{hiddeComp: preview === true}">
+    <div class="header">
+        <div class="row">
+          <div class="left">
+            <button mat-icon-button class="backTitle" routerLink="/products/new">
+              <mat-icon>arrow_back</mat-icon> {{productName}}
+            </button>
+          </div>
+          <div class="right">
+            <button mat-icon-button class="iconButton">
+              <mat-icon>settings</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" (click)="showPreview()">
+              PREVISUALIZAR
+            </button>
+            <button mat-raised-button color="primary" (click)="save()">
+              SALVAR
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div *ngFor="let i of logicContent; let idx = index"  class="chipSet">
+          <mat-chip-list #chipList class="inlineChipSet" >
+            <mat-chip color="primary" class="mat-subheading-2" (click)="chipClick(idx)" selected="{{selected == idx ? true : false}}">
+              <span class="type">{{fluxUser}}</span>
+                {{logicContent[idx].fluxName}}
+              <mat-icon matChipRemove color="red" (click)="remove(idx)">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+          <mat-icon class="inlineChipSet">arrow_forward</mat-icon>
+        </div>
+          <button mat-button color="accent" class="inlineChipSet" style="margin-top: -5px;" (click)="addFlux()">Agregar flujo</button>
+        </div>
+    </div>
+  <div class="steepContainer" *ngFor="let i of logicContent; let idx = index" [ngClass]="{hiddeComp: selected != idx}">
+      <div class="inner">
+        <mat-form-field class="flowName">
+          <input type="text" matInput placeholder="Nombre del flujo" id="flowName-{{idx}}" [(ngModel)]="logicContent[idx].fluxName" />
+        </mat-form-field>
+      <div class="left">
+        <mat-form-field>
+          <mat-select placeholder="Tipo de usuario" (change)="fluxType($event, idx)">
+            <mat-option value="" disabled>selecione un rol</mat-option>
+            <mat-option *ngFor="let user of usersType" [value]="user.value">
+              {{ user.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="right">
+        <mat-slide-toggle class="clockIcon" id="flowToggleSLA-1" (change)="timePicker($event,idx)">SLA</mat-slide-toggle>
+        <div class="timerHolder">
+          <mat-form-field>
+            <mat-icon  matPrefix style="margin-right: 10px;">access_time</mat-icon>
+            <input type="number" matInput placeholder="Hrs." (input)="timeStandar($event.target.value,idx)" [disabled]="!sla"/>
+          </mat-form-field>
+        </div>
+        <small>{{this.sla === true && this.timeStandar == 0  ?  'Este campo es obligatorio.' : ''}}</small>
+      </div>
+        <mat-card class="cardFull" *ngFor="let c of logicContent[idx].steps; let idx2 = index;">
+          <mat-card-header>
+              <mat-form-field class="SteepName">
+                <input type="text" matInput placeholder="Nombre del paso" id="flowSteep-{{idx2}}" (input)="stepName($event.target.value,idx,idx2)">
+              </mat-form-field>
+              <mat-menu #options="matMenu">
+                <button mat-menu-item> <mat-icon >edit</mat-icon> Editar </button>
+                <button mat-menu-item> <mat-icon >content_copy</mat-icon> Duplicar </button>
+                <button mat-menu-item class="border"> <mat-icon >delete</mat-icon> Eliminar </button>
+              </mat-menu>
+              <button mat-icon-button [matMenuTriggerFor]="options" class="options">
+              <mat-icon >more_vert</mat-icon>
+              </button>
+          </mat-card-header>
+          <div class="dragableBox">
+            <div class="build-wrap flux-{{idx}} dynamicForm-{{idx2}}"></div>
+          </div>
+        </mat-card>
+        <div class="add">
+          <p (click)="addStep(idx) ">+ AGREGAR PASO</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="product" [ngClass]="{hiddeComp: preview === false}">
+    <div class="header">
+        <div class="row">
+          <div class="left">
+            <button mat-icon-button class="backTitle" routerLink="/products/new">
+              <mat-icon>arrow_back</mat-icon> {{productName}}
+            </button>
+          </div>
+          <div class="right">
+            <button mat-icon-button class="iconButton">
+              <mat-icon>settings</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" (click)="showPreview()">
+              PREVISUALIZAR
+            </button>
+            <button mat-raised-button color="primary" (click)="save()">
+              SALVAR
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div *ngFor="let i of logicContent; let idx = index"  class="chipSet">
+          <mat-chip-list #chipList class="inlineChipSet" >
+            <mat-chip color="primary" class="mat-subheading-2" (click)="chipClick(idx)" selected="{{selected == idx ? true : false}}">
+              <span class="type">{{fluxUser}}</span>
+                {{logicContent[idx].fluxName}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        </div>
+    </div>
+      <div class="steepContainer steepHolder" *ngFor="let i of logicContent; let idx = index" [ngClass]="{hiddeComp: selected != idx}">
+          <div class="inner">
+            <span>{{idx+1}}</span><strong>{{logicContent[idx].fluxName}}</strong>
+            <mat-card class="cardFull" *ngFor="let c of logicContent[idx].steps; let idx2 = index;">
+              {{idx2}}
+              <div [innerHTML]="formElements[idx2]" class="holderPreview" *ngIf="formElements[idx2] !== 0">
+              </div>
+            </mat-card>
+          </div>
+        </div>
+    <!--<h4 class="descriptionSteep">{{logicContent[idx].name}}</h4>
+    <div [innerHTML]="formElements" class="holderPreview">
+    </div>-->
+  </div>
+</div>
+<div *ngIf="loading" class="loading">
+  <mat-spinner></mat-spinner>
+</div>

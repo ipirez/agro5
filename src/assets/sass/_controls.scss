@@ -1,0 +1,57 @@
+.cb-wrap {
+  float: right;
+  width: 26%;
+  transition: transform 250ms;
+
+  &.pull-left {
+    .form-actions {
+      float: left;
+    }
+  }
+
+  h4 {
+    margin-top: 0;
+    color: $grey;
+  }
+
+  @include breakpoint('phone-lrg') {
+    width: 64px;
+
+    h4 {
+      display: none;
+    }
+  }
+}
+.fb-mobile {
+  .form-actions {
+    width: 100%;
+
+    button {
+      width: 100%;
+      font-size: .85em !important;
+      display: block !important;
+      border-radius: 0 !important;
+      margin-top: -1px;
+      margin-left: 0 !important;
+
+      &:first-child {
+        border-radius: 5px 5px 0 0 !important;
+        margin-top: 0 !important;
+        border-bottom: 0 none;
+      }
+
+      &:last-child {
+        border-radius: 0 0 5px 5px !important;
+      }
+    }
+  }
+}
+
+.form-actions {
+  float: right;
+  margin-top: 5px;
+
+  button {
+    border: 0 none;
+  }
+}
