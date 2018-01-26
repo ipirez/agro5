@@ -81,7 +81,7 @@ export class ProductsNewFlowComponent implements OnInit {
   public productName : string = 'unknow'
   public formBuilder: any;
   public selected : number = 0;
-  public formElements: Array;
+  public formElements = [];
   public preview : boolean = false;
   public sla : boolean = false
   public dataModel : Object
@@ -201,7 +201,7 @@ export class ProductsNewFlowComponent implements OnInit {
     showPreview(){
       this.logicContent.map((v,i)=>{
         v.steps.map((vv,ii)=>{
-          this.logicContent[i].steps[ii].dinamicForm = vv.instance.formData
+          this.logicContent[i].steps[ii].dinamicForm = vv.instance['formData']
         })
       })
       this.displayPreview()
